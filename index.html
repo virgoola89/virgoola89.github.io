@@ -3,120 +3,296 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Viola Aldila | Indonesian QA & AI Language Specialist</title>
+    <title>Viola Aldila | QA & AI Language Specialist</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'], },
+                    colors: {
+                        darkBg: '#0b1121', cardBg: '#151e32', primary: '#3b82f6', accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        body { background-color: #0f172a; color: #e2e8f0; font-family: 'Inter', sans-serif; }
-        .glass-panel { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        body { background-color: #0b1121; color: #cbd5e1; }
         .text-gradient { background: linear-gradient(to right, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .glass-card { background: rgba(21, 30, 50, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.05); transition: transform 0.3s ease, border-color 0.3s ease; }
+        .glass-card:hover { transform: translateY(-5px); border-color: rgba(56, 189, 248, 0.3); }
+        .badge-box { background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.2); }
     </style>
 </head>
-<body class="antialiased">
+<body class="antialiased selection:bg-primary selection:text-white">
 
-    <!-- Header / Hero -->
-    <header class="py-20 px-6 max-w-5xl mx-auto text-center mt-10">
-        <h1 class="text-5xl font-extrabold text-white mb-4 tracking-tight">VIOLA ALDILA</h1>
-        <h2 class="text-2xl font-semibold text-gradient mb-6">Indonesian Quality Assurance & AI Language Specialist</h2>
-        <div class="flex flex-wrap justify-center gap-4 text-sm text-slate-400 mb-8">
-            <span><i class="fas fa-map-marker-alt mr-2"></i>Jakarta, Indonesia</span>
-            <span><i class="fas fa-phone mr-2"></i>+62 87748525874</span>
-            <span><i class="fas fa-envelope mr-2"></i>storecikar@gmail.com</span>
-            <span><i class="fab fa-linkedin mr-2"></i>viola-aldila-b859b63a3</span>
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-darkBg/90 backdrop-blur-md border-b border-white/10 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0 font-bold text-xl tracking-wider text-white">
+                    VIOLA<span class="text-accent">.AI</span>
+                </div>
+                <div class="hidden lg:block">
+                    <div class="flex items-baseline space-x-6">
+                        <a href="#home" class="hover:text-white transition-colors text-sm font-medium">Home</a>
+                        <a href="#badges" class="hover:text-white transition-colors text-sm font-medium">Verified Badges</a>
+                        <a href="#blueprint" class="hover:text-white transition-colors text-sm font-medium">QA Blueprint</a>
+                        <a href="#experience" class="hover:text-white transition-colors text-sm font-medium">Experience</a>
+                        <a href="#certifications" class="hover:text-white transition-colors text-sm font-medium">Certifications</a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <p class="text-lg leading-relaxed text-slate-300 max-w-3xl mx-auto glass-panel p-6 rounded-xl border-l-4 border-l-sky-400">
-            Indonesian QA and AI language specialist with 3+ years of high-volume annotation, transcription, and LLM/agent evaluation across RLHF, VLA, and multimodal programs. Raised an annotation team’s data quality from 62% to 95% through root-cause analysis, localized guidelines, and targeted coaching.
-        </p>
-    </header>
+    </nav>
 
-    <!-- Key Accomplishments -->
-    <section class="py-12 px-6 max-w-5xl mx-auto">
-        <h3 class="text-2xl font-bold text-white mb-6 border-b border-slate-700 pb-2">Key Accomplishments</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="glass-panel p-6 rounded-xl">
-                <i class="fas fa-chart-line text-sky-400 text-3xl mb-4"></i>
-                <h4 class="font-bold text-white mb-2">Data Quality Turnaround</h4>
-                <p class="text-sm text-slate-400">Raised team data quality from 62% to 95% in Appen Project Aragorn through root-cause analysis and visual job aids.</p>
+    <!-- Hero Section -->
+    <section id="home" class="pt-32 pb-16 px-4 relative overflow-hidden">
+        <div class="absolute top-20 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[120px] -z-10"></div>
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="inline-block mb-6 px-4 py-1.5 rounded-full border border-accent/30 bg-accent/10 text-accent text-sm font-semibold tracking-wide">
+                <i class="fas fa-check-circle mr-2"></i> Indonesian & Javanese Linguistic Data Expert
             </div>
-            <div class="glass-panel p-6 rounded-xl">
-                <i class="fas fa-microphone-alt text-indigo-400 text-3xl mb-4"></i>
-                <h4 class="font-bold text-white mb-2">Multilingual Voice Data</h4>
-                <p class="text-sm text-slate-400">Produced 94 high-quality voice recordings across 6 languages at a 94% success rate, delivering 48+ minutes of VAD audio.</p>
+            <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-6 tracking-tight">Viola Aldila</h1>
+            <h2 class="text-2xl md:text-3xl font-medium text-gradient mb-8 leading-tight">
+                AI Quality Assurance & Linguistic Team Lead <br class="hidden md:block"> Audio & LLM Agent Evaluation
+            </h2>
+            <p class="text-lg text-slate-400 mb-10 max-w-3xl mx-auto leading-relaxed">
+                3.5+ years keeping AI training data clean, accurate, and grounded in natural human speech. Specializing in RLHF evaluation, transcription QA, and turning complex guidelines into visual workflows that raise team accuracy from 62% to 95%.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4 text-sm font-semibold text-slate-300 mb-8">
+                <span class="bg-cardBg px-4 py-2 rounded-lg border border-white/5"><i class="fas fa-map-marker-alt text-primary mr-2"></i>Jakarta, ID</span>
+                <span class="bg-cardBg px-4 py-2 rounded-lg border border-white/5"><i class="fas fa-envelope text-primary mr-2"></i>storecikar@gmail.com</span>
+                <span class="bg-cardBg px-4 py-2 rounded-lg border border-white/5"><i class="fab fa-whatsapp text-emerald-400 mr-2"></i>+62 87748525874</span>
             </div>
-            <div class="glass-panel p-6 rounded-xl">
-                <i class="fas fa-shield-alt text-emerald-400 text-3xl mb-4"></i>
-                <h4 class="font-bold text-white mb-2">AI Red Teaming</h4>
-                <p class="text-sm text-slate-400">Conducted adversarial LLM testing to identify safety, bias, and policy risks, producing structured findings for AI safety.</p>
-            </div>
-            <div class="glass-panel p-6 rounded-xl">
-                <i class="fas fa-book text-amber-400 text-3xl mb-4"></i>
-                <h4 class="font-bold text-white mb-2">Author & Content Creator</h4>
-                <p class="text-sm text-slate-400">Authored the e-book "Remote Jobs Playbook" and created educational content on AI annotation best practices.</p>
-            </div>
+            <!-- Blog Link Added Here -->
+            <a href="https://portfoliozoneola89.blogspot.com/" target="_blank" class="inline-block bg-primary hover:bg-blue-600 text-white px-8 py-3 rounded-lg font-medium transition-colors shadow-lg shadow-primary/25">
+                <i class="fas fa-globe mr-2"></i> Visit My Personal Blog
+            </a>
         </div>
     </section>
 
-    <!-- Professional Experience -->
-    <section class="py-12 px-6 max-w-5xl mx-auto">
-        <h3 class="text-2xl font-bold text-white mb-8 border-b border-slate-700 pb-2">Professional Experience</h3>
-        <div class="space-y-8 relative border-l border-slate-700 ml-3">
+    <!-- Verified Badges (Mimir, Mettl, Cornerstone) -->
+    <section id="badges" class="py-16 px-4 relative z-10">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold text-center text-white mb-4">Verified Credentials & <span class="text-accent">Platform Badges</span></h2>
+            <p class="text-center text-slate-400 mb-12 max-w-2xl mx-auto">Standardized industry assessments from Cornerstone, Mimir, and Mettl covering Quality Control, Prompt Engineering, and Cross-Market Localization.</p>
             
-            <div class="pl-6 relative">
-                <div class="absolute w-3 h-3 bg-sky-400 rounded-full -left-[6.5px] top-2"></div>
-                <h4 class="text-xl font-bold text-white">AI Voice Data Contributor</h4>
-                <p class="text-sky-400 text-sm font-semibold mb-2">Silencio Voice AI | Sep 2026 – Present</p>
-                <ul class="list-disc list-inside text-sm text-slate-400 space-y-1">
-                    <li>Delivered 94 high-quality voice recordings across 6 different languages.</li>
-                    <li>Maintained a 94% success rate adhering to strict linguistic and audio guidelines.</li>
-                </ul>
-            </div>
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Category 1 -->
+                <div class="glass-card p-6 rounded-2xl border-t-4 border-t-primary">
+                    <h3 class="text-lg font-bold text-white mb-4 flex items-center"><i class="fas fa-shield-check text-primary mr-2"></i> QC & LLM Evaluation</h3>
+                    <ul class="space-y-3">
+                        <li class="badge-box p-3 rounded-lg text-sm text-slate-300"><strong class="text-accent block">Cursa QC Client Certification</strong>Score: 78 (Oct 2026)</li>
+                        <li class="badge-box p-3 rounded-lg text-sm text-slate-300"><strong class="text-accent block">Lyra Prompting & Rubrics</strong>Mimir Verified (Oct 2026)</li>
+                        <li class="badge-box p-3 rounded-lg text-sm text-slate-300"><strong class="text-accent block">Cursa Annotation Training</strong>Cornerstone (Oct 2026)</li>
+                    </ul>
+                </div>
 
-            <div class="pl-6 relative">
-                <div class="absolute w-3 h-3 bg-slate-500 rounded-full -left-[6.5px] top-2"></div>
-                <h4 class="text-xl font-bold text-white">LLM Agent Evaluator (UK Regional)</h4>
-                <p class="text-sky-400 text-sm font-semibold mb-2">AIDP ByteDance AO | Aug 2026 – Present</p>
-                <ul class="list-disc list-inside text-sm text-slate-400 space-y-1">
-                    <li>Evaluate live LLM agent responses on the LMArena platform for the GRM project.</li>
-                </ul>
-            </div>
+                <!-- Category 2 -->
+                <div class="glass-card p-6 rounded-2xl border-t-4 border-t-purple-400">
+                    <h3 class="text-lg font-bold text-white mb-4 flex items-center"><i class="fas fa-brain text-purple-400 mr-2"></i> Cognitive & Logic Validation</h3>
+                    <ul class="space-y-3">
+                        <li class="bg-purple-900/20 border border-purple-500/20 p-3 rounded-lg text-sm text-slate-300"><strong class="text-purple-400 block">Causal Reasoning (enUS-enUS)</strong>Mimir Score: 17 (Sep 2026)</li>
+                        <li class="bg-purple-900/20 border border-purple-500/20 p-3 rounded-lg text-sm text-slate-300"><strong class="text-purple-400 block">Written Consistency Analysis</strong>Mettl Score: 15 (May 2026)</li>
+                        <li class="bg-purple-900/20 border border-purple-500/20 p-3 rounded-lg text-sm text-slate-300"><strong class="text-purple-400 block">Attention to Detail (enUS-AG)</strong>Mimir Score: 8 (Aug 2026)</li>
+                    </ul>
+                </div>
 
-            <div class="pl-6 relative">
-                <div class="absolute w-3 h-3 bg-slate-500 rounded-full -left-[6.5px] top-2"></div>
-                <h4 class="text-xl font-bold text-white">Audio Agent Evaluation Specialist (RLHF)</h4>
-                <p class="text-sky-400 text-sm font-semibold mb-2">Meridian / Invisible Technologies | Jul 2026 – Present</p>
-                <ul class="list-disc list-inside text-sm text-slate-400 space-y-1">
-                    <li>Evaluate audio-based AI agent interactions for RLHF training pipelines, assessing task accuracy.</li>
-                </ul>
+                <!-- Category 3 -->
+                <div class="glass-card p-6 rounded-2xl border-t-4 border-t-emerald-400">
+                    <h3 class="text-lg font-bold text-white mb-4 flex items-center"><i class="fas fa-globe-asia text-emerald-400 mr-2"></i> Language & Localization</h3>
+                    <ul class="space-y-3">
+                        <li class="bg-emerald-900/20 border border-emerald-500/20 p-3 rounded-lg text-sm text-slate-300"><strong class="text-emerald-400 block">Culture Adaptation (idID, itIT)</strong>Mettl Score: 38 (id) / 29 (it)</li>
+                        <li class="bg-emerald-900/20 border border-emerald-500/20 p-3 rounded-lg text-sm text-slate-300"><strong class="text-emerald-400 block">Marketing Proofreading (enUS-idID)</strong>Mettl Score: 13 (Apr 2026)</li>
+                        <li class="bg-emerald-900/20 border border-emerald-500/20 p-3 rounded-lg text-sm text-slate-300"><strong class="text-emerald-400 block">Language Proficiency (enUS-AG)</strong>Mettl Score: 34 (Apr 2026)</li>
+                    </ul>
+                </div>
             </div>
-
-            <div class="pl-6 relative">
-                <div class="absolute w-3 h-3 bg-slate-500 rounded-full -left-[6.5px] top-2"></div>
-                <h4 class="text-xl font-bold text-white">Indonesian Annotation Team Lead & QA</h4>
-                <p class="text-sky-400 text-sm font-semibold mb-2">Appen - Project Aragorn | Feb 2026 – Present</p>
-                <ul class="list-disc list-inside text-sm text-slate-400 space-y-1">
-                    <li>Converted complex English instructions into clear Indonesian visual guides and posters.</li>
-                    <li>Improved the team data quality score from 62% to 95% through focused support.</li>
-                </ul>
-            </div>
-
         </div>
     </section>
 
-    <!-- Education & Certifications -->
-    <section class="py-12 px-6 max-w-5xl mx-auto mb-20">
-        <h3 class="text-2xl font-bold text-white mb-6 border-b border-slate-700 pb-2">Education & Certifications</h3>
-        <div class="glass-panel p-6 rounded-xl mb-6 border-l-4 border-l-indigo-400">
-            <h4 class="font-bold text-white text-lg">Bachelor of Economics in Accounting, Audit Concentration</h4>
-            <p class="text-sky-400 text-sm mb-2">Universitas Bangka Belitung | GPA: 3.85</p>
-            <p class="text-sm text-slate-400">Relevant study: auditing, financial accounting, taxation, management accounting, and business reporting.</p>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="bg-slate-800 p-4 rounded-lg"><span class="text-sky-400 font-bold">Google (2026):</span> AI Professional Certificate, Intro to LLMs, AI for Data Analysis.</div>
-            <div class="bg-slate-800 p-4 rounded-lg"><span class="text-sky-400 font-bold">IBM (2026):</span> Agentic AI with LangChain and LangGraph.</div>
-            <div class="bg-slate-800 p-4 rounded-lg"><span class="text-sky-400 font-bold">AWS (2026):</span> Foundations of Prompt Engineering, Generative AI.</div>
-            <div class="bg-slate-800 p-4 rounded-lg"><span class="text-sky-400 font-bold">OpenAI Academy (2026):</span> AI Foundations (ID: prm1z8whur).</div>
+    <!-- QA Master Blueprint Highlight -->
+    <section id="blueprint" class="py-16 px-4 bg-cardBg/30 border-y border-white/5">
+        <div class="max-w-5xl mx-auto">
+            <div class="bg-[#0f172a] border border-slate-700 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center gap-10">
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-accent to-purple-500"></div>
+                <div class="md:w-2/3 z-10">
+                    <div class="inline-block bg-accent/20 border border-accent/30 text-accent text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full mb-4">
+                        Framework Creator
+                    </div>
+                    <h2 class="text-3xl font-extrabold text-white mb-4">QA Master Blueprint: English Audio Record</h2>
+                    <p class="text-slate-300 mb-6 text-sm md:text-base leading-relaxed">
+                        Authored a comprehensive 16-page Operational QA Reference to standardize subjectivity in global AI projects. Built to ensure that audio evaluations are consistent, objective, and audit-ready.
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                        <div class="bg-darkBg/50 p-4 rounded-xl border border-white/5">
+                            <h4 class="text-white font-bold mb-1"><i class="fas fa-layer-group text-primary mr-2"></i> 3-Layer Matrix</h4>
+                            <p class="text-xs text-slate-400">Assesses Compliance, Linguistic Quality (Omission/Substitution), and Audio Technical Quality.</p>
+                        </div>
+                        <div class="bg-darkBg/50 p-4 rounded-xl border border-white/5">
+                            <h4 class="text-white font-bold mb-1"><i class="fas fa-balance-scale text-accent mr-2"></i> 100-Point Scorecard</h4>
+                            <p class="text-xs text-slate-400">Distinguishes Critical/Fatal auto-rejects from acceptable accents to reduce false-reject rates.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/3 flex justify-center z-10">
+                    <div class="w-40 h-52 bg-slate-800 rounded-xl border border-slate-600 shadow-2xl flex flex-col items-center justify-center rotate-3">
+                        <i class="fas fa-file-pdf text-6xl text-red-500 mb-3"></i>
+                        <span class="text-white font-bold text-sm text-center">QA MASTER<br>BLUEPRINT</span>
+                        <span class="text-slate-500 text-[10px] mt-2 border-t border-slate-600 pt-2 w-3/4 text-center">Version 1.0</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
+
+    <!-- Professional Experience Section -->
+    <section id="experience" class="py-20 px-4">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-3xl font-bold text-center text-white mb-16">Key <span class="text-primary">Experience</span></h2>
+            
+            <div class="space-y-6">
+                <!-- Role 1 -->
+                <div class="glass-card p-6 md:p-8 rounded-2xl border-l-4 border-l-primary flex flex-col md:flex-row gap-6">
+                    <div class="md:w-1/4">
+                        <span class="text-accent font-bold text-xs tracking-widest uppercase">Jun 2023 – Present</span>
+                        <h4 class="text-white font-bold mt-2 text-lg">CrowdGen</h4>
+                        <p class="text-slate-400 text-sm">QA Specialist & Validator</p>
+                    </div>
+                    <div class="md:w-3/4">
+                        <h3 class="text-xl font-bold text-white mb-3">Quality Assurance Specialist (Final Gatekeeper)</h3>
+                        <ul class="list-disc list-inside space-y-2 text-slate-300 text-sm">
+                            <li>Run daily QA across audio segmentation, transcription, voice recording, and data-labeling queues.</li>
+                            <li>Act as the final linguistic validator for Indonesian and Javanese datasets (Project Jigglypuff, SIDA).</li>
+                            <li>Evaluate search queries and LLM text generation to ensure 100% clean data delivery.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Role 2 -->
+                <div class="glass-card p-6 md:p-8 rounded-2xl border-l-4 border-l-accent flex flex-col md:flex-row gap-6">
+                    <div class="md:w-1/4">
+                        <span class="text-accent font-bold text-xs tracking-widest uppercase">Jun 2023 – Oct 2026</span>
+                        <h4 class="text-white font-bold mt-2 text-lg">Appen</h4>
+                        <p class="text-slate-400 text-sm">Project Aragorn & VLA</p>
+                    </div>
+                    <div class="md:w-3/4">
+                        <h3 class="text-xl font-bold text-white mb-3">Indonesian Annotation Team Lead & QA</h3>
+                        <ul class="list-disc list-inside space-y-2 text-slate-300 text-sm">
+                            <li><strong>Turnaround:</strong> Brought contributor accuracy from 62% up to 92% (held 95% on Aragorn) by replacing dense textbook rules with visual workflow posters.</li>
+                            <li>Coached annotators across transcription, speaker labeling, and Vision-Language-Action (VLA) workflows.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Role 3 -->
+                <div class="glass-card p-6 md:p-8 rounded-2xl border-l-4 border-l-purple-400 flex flex-col md:flex-row gap-6">
+                    <div class="md:w-1/4">
+                        <span class="text-accent font-bold text-xs tracking-widest uppercase">Aug 2026 – Oct 2026</span>
+                        <h4 class="text-white font-bold mt-2 text-lg">Invisible Tech</h4>
+                        <p class="text-slate-400 text-sm">RLHF Audio Agent</p>
+                    </div>
+                    <div class="md:w-3/4">
+                        <h3 class="text-xl font-bold text-white mb-3">Audio Agent Evals Lead (RLHF)</h3>
+                        <ul class="list-disc list-inside space-y-2 text-slate-300 text-sm">
+                            <li>Audited AI-to-human voice calls, checking backend JSON logs to verify tool parameters.</li>
+                            <li>Scored models on Task Completion (TC) and Conversational Naturalness (CN).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Role 4 -->
+                <div class="glass-card p-6 md:p-8 rounded-2xl border-l-4 border-l-emerald-400 flex flex-col md:flex-row gap-6">
+                    <div class="md:w-1/4">
+                        <span class="text-accent font-bold text-xs tracking-widest uppercase">Sep 2026 & 2024</span>
+                        <h4 class="text-white font-bold mt-2 text-lg">Mercor & Agents Only</h4>
+                        <p class="text-slate-400 text-sm">Red Teaming & LMArena</p>
+                    </div>
+                    <div class="md:w-3/4">
+                        <h3 class="text-xl font-bold text-white mb-3">AI Safety Red Teamer & Agent Evaluator</h3>
+                        <ul class="list-disc list-inside space-y-2 text-slate-300 text-sm">
+                            <li><strong>Mercor:</strong> Ran adversarial tests on LLM outputs to expose bias, safety loopholes, and policy issues.</li>
+                            <li><strong>Agents Only:</strong> Graded live LLM agent responses (LMArena Live, UK Regional) to verify multi-step task execution.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comprehensive Certifications 2026 -->
+    <section id="certifications" class="py-20 bg-cardBg/30 border-y border-white/5 px-4">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold text-center text-white mb-12">2026 Comprehensive <span class="text-primary">Certifications</span></h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Google Cloud / Google -->
+                <div class="glass-card p-6 rounded-xl border-t-2 border-t-primary">
+                    <h3 class="text-lg font-bold text-white mb-4 border-b border-white/10 pb-2"><i class="fab fa-google text-primary mr-2"></i> Google / Google Cloud</h3>
+                    <ul class="space-y-2 text-sm text-slate-300">
+                        <li><i class="fas fa-certificate text-primary/50 mr-2"></i> Google AI Professional Cert</li>
+                        <li><i class="fas fa-certificate text-primary/50 mr-2"></i> Intro to Large Language Models</li>
+                        <li><i class="fas fa-certificate text-primary/50 mr-2"></i> AI for Data Analysis & Content</li>
+                        <li><i class="fas fa-certificate text-primary/50 mr-2"></i> AI for Writing & Communicating</li>
+                        <li><i class="fas fa-certificate text-primary/50 mr-2"></i> Prepare Data for Exploration</li>
+                        <li><i class="fas fa-certificate text-primary/50 mr-2"></i> Ask Questions for Decisions</li>
+                        <li><i class="fas fa-certificate text-primary/50 mr-2"></i> AI-Powered Performance Ads</li>
+                    </ul>
+                </div>
+
+                <!-- AWS & IBM -->
+                <div class="glass-card p-6 rounded-xl border-t-2 border-t-accent">
+                    <h3 class="text-lg font-bold text-white mb-4 border-b border-white/10 pb-2"><i class="fas fa-server text-accent mr-2"></i> AWS & IBM</h3>
+                    <ul class="space-y-2 text-sm text-slate-300">
+                        <li><i class="fas fa-certificate text-accent/50 mr-2"></i> <strong>IBM:</strong> Agentic AI with LangChain & LangGraph</li>
+                        <li><i class="fas fa-certificate text-accent/50 mr-2"></i> <strong>AWS:</strong> Foundations of Prompt Engineering</li>
+                        <li><i class="fas fa-certificate text-accent/50 mr-2"></i> <strong>AWS:</strong> Intro to Gen AI - Art of the Possible</li>
+                        <li><i class="fas fa-certificate text-accent/50 mr-2"></i> <strong>AWS:</strong> ML Terminology and Process</li>
+                    </ul>
+                </div>
+
+                <!-- Anthropic, HP, OpenAI -->
+                <div class="glass-card p-6 rounded-xl border-t-2 border-t-purple-400">
+                    <h3 class="text-lg font-bold text-white mb-4 border-b border-white/10 pb-2"><i class="fas fa-brain text-purple-400 mr-2"></i> AI Builders & Foundations</h3>
+                    <ul class="space-y-2 text-sm text-slate-300">
+                        <li><i class="fas fa-certificate text-purple-400/50 mr-2"></i> <strong>Anthropic:</strong> Claude 101</li>
+                        <li><i class="fas fa-certificate text-purple-400/50 mr-2"></i> <strong>Anthropic:</strong> Claude Code 101</li>
+                        <li><i class="fas fa-certificate text-purple-400/50 mr-2"></i> <strong>OpenAI Academy:</strong> AI Foundations</li>
+                        <li><i class="fas fa-certificate text-purple-400/50 mr-2"></i> <strong>HP Foundation:</strong> Critical Thinking in AI</li>
+                        <li><i class="fas fa-certificate text-purple-400/50 mr-2"></i> <strong>HP Foundation:</strong> Financial Basics</li>
+                        <li><i class="fas fa-certificate text-purple-400/50 mr-2"></i> <strong>HP Foundation:</strong> Presenting Data</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="mt-8 text-center">
+                <p class="text-sm text-slate-400"><i class="fas fa-graduation-cap mr-2"></i> <strong>Formal Education:</strong> Bachelor of Economics in Accounting (Audit Focus) • Universitas Bangka Belitung • GPA: 3.85</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 px-4 text-center">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-2xl font-bold text-white mb-6">Connect & Collaborate</h2>
+            <div class="flex flex-wrap justify-center gap-6 mb-8">
+                <a href="https://wa.me/6287748525874" class="text-slate-300 hover:text-emerald-400 transition-colors"><i class="fab fa-whatsapp text-2xl"></i></a>
+                <a href="mailto:storecikar@gmail.com" class="text-slate-300 hover:text-primary transition-colors"><i class="fas fa-envelope text-2xl"></i></a>
+                <a href="https://linkedin.com/in/viola-aldila-b859b63a3" class="text-slate-300 hover:text-primary transition-colors"><i class="fab fa-linkedin text-2xl"></i></a>
+                <!-- Blog Link Added Here as well -->
+                <a href="https://portfoliozoneola89.blogspot.com/" target="_blank" class="text-slate-300 hover:text-accent transition-colors" title="Personal Blog"><i class="fas fa-blog text-2xl"></i></a>
+            </div>
+            <p class="text-slate-600 text-sm">&copy; 2026 Viola Aldila. All Rights Reserved.</p>
+        </div>
+    </footer>
 
 </body>
 </html>
