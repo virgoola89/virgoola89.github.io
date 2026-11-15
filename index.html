@@ -3,296 +3,1741 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Viola Aldila | QA & AI Language Specialist</title>
+    <title>Viola Aldila | AI Quality Assurance Specialist & Linguistic Team Lead</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: { sans: ['Inter', 'sans-serif'], },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    },
                     colors: {
-                        darkBg: '#0b1121', cardBg: '#151e32', primary: '#3b82f6', accent: '#06b6d4',
+                        techBg: '#060a12',
+                        techCard: '#0d1526',
+                        techCardHover: '#111c33',
+                        cyanAccent: '#38bdf8',
+                        tealAccent: '#06b6d4',
+                        indigoAccent: '#6366f1',
+                        emeraldAccent: '#10b981'
                     }
                 }
             }
         }
     </script>
+
     <style>
-        body { background-color: #0b1121; color: #cbd5e1; }
-        .text-gradient { background: linear-gradient(to right, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .glass-card { background: rgba(21, 30, 50, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.05); transition: transform 0.3s ease, border-color 0.3s ease; }
-        .glass-card:hover { transform: translateY(-5px); border-color: rgba(56, 189, 248, 0.3); }
-        .badge-box { background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.2); }
+        body {
+            background-color: #060a12;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+
+        .eng-card {
+            background-color: rgba(13, 21, 38, 0.86);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(56, 189, 248, 0.13);
+            transition: border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .eng-card:hover {
+            background-color: rgba(17, 28, 51, 0.92);
+            border-color: rgba(56, 189, 248, 0.34);
+            box-shadow: 0 12px 32px -12px rgba(2, 6, 23, 0.85);
+        }
+
+        .tab-active {
+            background: linear-gradient(135deg, #06b6d4, #38bdf8);
+            color: #060a12;
+            font-weight: 700;
+            border-color: transparent;
+            box-shadow: 0 0 16px rgba(6, 182, 212, 0.25);
+        }
+
+        .tab-inactive {
+            background-color: rgba(13, 21, 38, 0.88);
+            color: #cbd5e1;
+            border-color: rgba(56, 189, 248, 0.16);
+        }
+
+        .tab-inactive:hover {
+            border-color: rgba(56, 189, 248, 0.42);
+            color: #ffffff;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #060a12;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #172542;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #233863;
+        }
     </style>
 </head>
-<body class="antialiased selection:bg-primary selection:text-white">
+<body class="antialiased selection:bg-cyanAccent selection:text-techBg font-sans">
 
-    <!-- Navigation -->
-    <nav class="fixed w-full z-50 bg-darkBg/90 backdrop-blur-md border-b border-white/10 transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex-shrink-0 font-bold text-xl tracking-wider text-white">
-                    VIOLA<span class="text-accent">.AI</span>
-                </div>
-                <div class="hidden lg:block">
-                    <div class="flex items-baseline space-x-6">
-                        <a href="#home" class="hover:text-white transition-colors text-sm font-medium">Home</a>
-                        <a href="#badges" class="hover:text-white transition-colors text-sm font-medium">Verified Badges</a>
-                        <a href="#blueprint" class="hover:text-white transition-colors text-sm font-medium">QA Blueprint</a>
-                        <a href="#experience" class="hover:text-white transition-colors text-sm font-medium">Experience</a>
-                        <a href="#certifications" class="hover:text-white transition-colors text-sm font-medium">Certifications</a>
+    <!-- LAYER 1: Static Connected Geometric Network (Drawn ONCE on load and resize, zero animation) -->
+    <canvas id="staticNetworkCanvas" class="fixed inset-0 w-full h-full pointer-events-none z-0"></canvas>
+
+    <!-- LAYER 2: Single Slow-Gliding Fine Cursor Trail Line -->
+    <canvas id="cursorLineCanvas" class="fixed inset-0 w-full h-full pointer-events-none z-[1]"></canvas>
+
+    <!-- Sticky Header -->
+    <header class="sticky top-0 z-40 bg-techBg/85 backdrop-blur-xl border-b border-sky-400/15">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
+            <div class="flex items-center gap-3 sm:gap-4">
+                <a href="#top" class="font-mono font-bold text-base sm:text-lg tracking-wider text-white flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-sm bg-cyanAccent rotate-45 inline-block"></span>
+                    <span>VIOLA<span class="text-cyanAccent">.QA</span></span>
+                </a>
+                <span class="hidden md:inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emeraldAccent/10 border border-emeraldAccent/30 text-[11px] font-mono text-emerald-300">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emeraldAccent"></span>
+                    <span>NDA-Compliant Portfolio • Client Codenames Redacted</span>
+                </span>
+            </div>
+
+            <nav class="hidden lg:flex items-center gap-6 text-xs font-mono uppercase tracking-wider text-slate-300">
+                <a href="#artifacts" class="hover:text-cyanAccent transition-colors">Artifacts</a>
+                <a href="#badges" class="hover:text-cyanAccent transition-colors">Badges</a>
+                <a href="#experience" class="hover:text-cyanAccent transition-colors">Experience</a>
+                <a href="#certifications" class="hover:text-cyanAccent transition-colors">Certifications</a>
+                <a href="#stack" class="hover:text-cyanAccent transition-colors">Stack</a>
+            </nav>
+
+            <div class="flex items-center gap-2">
+                <button onclick="copyText('storecikar@gmail.com', 'Email copied: storecikar@gmail.com')" class="inline-flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-mono font-medium bg-techCard hover:bg-techCardHover text-slate-200 border border-sky-400/20 transition-colors">
+                    <i class="fa-regular fa-copy text-cyanAccent"></i>
+                    <span class="hidden sm:inline">Copy Email</span>
+                </button>
+                <a href="https://wa.me/6287748525874" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-mono font-semibold bg-cyanAccent text-techBg hover:bg-tealAccent transition-colors">
+                    <i class="fa-brands fa-whatsapp text-sm"></i>
+                    <span>WhatsApp</span>
+                </a>
+                <button id="mobileMenuToggle" aria-label="Open navigation menu" class="lg:hidden p-2 rounded-xl bg-techCard border border-sky-400/20 text-slate-200">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileNavPanel" class="hidden lg:hidden bg-techCard/95 backdrop-blur-xl border-b border-sky-400/15 px-4 pt-3 pb-5 space-y-2">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emeraldAccent/10 border border-emeraldAccent/30 text-[11px] font-mono text-emerald-300 mb-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-emeraldAccent"></span>
+                <span>NDA-Compliant Portfolio • Client Codenames Redacted</span>
+            </div>
+            <a href="#artifacts" class="mobile-nav-item block py-2 px-3 rounded-lg hover:bg-techCardHover font-mono text-xs uppercase tracking-wider text-slate-200">QA Artifacts</a>
+            <a href="#badges" class="mobile-nav-item block py-2 px-3 rounded-lg hover:bg-techCardHover font-mono text-xs uppercase tracking-wider text-slate-200">Platform Badges</a>
+            <a href="#experience" class="mobile-nav-item block py-2 px-3 rounded-lg hover:bg-techCardHover font-mono text-xs uppercase tracking-wider text-slate-200">Experience Timeline</a>
+            <a href="#certifications" class="mobile-nav-item block py-2 px-3 rounded-lg hover:bg-techCardHover font-mono text-xs uppercase tracking-wider text-slate-200">2026 Certifications</a>
+            <a href="#stack" class="mobile-nav-item block py-2 px-3 rounded-lg hover:bg-techCardHover font-mono text-xs uppercase tracking-wider text-slate-200">Technical Stack & Education</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="top" class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-16 pb-24 space-y-20 sm:space-y-24">
+
+        <!-- 1. HERO & KEY IMPACT METRICS BAR -->
+        <section aria-labelledby="hero-heading" class="space-y-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                <div class="lg:col-span-8 space-y-6">
+                    <div class="flex flex-wrap items-center gap-2.5">
+                        <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emeraldAccent/10 border border-emeraldAccent/30 text-emerald-300 text-xs font-mono">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            <span>NDA-Compliant Portfolio • Client Codenames Redacted</span>
+                        </span>
+                        <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-techCard border border-sky-400/20 text-cyanAccent text-xs font-mono">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <span>Jakarta, Indonesia • Remote Ready</span>
+                        </span>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h1 id="hero-heading" class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white">
+                            Viola Aldila
+                        </h1>
+                        <p class="text-xl sm:text-2xl font-bold bg-gradient-to-r from-cyanAccent via-tealAccent to-indigoAccent bg-clip-text text-transparent">
+                            AI Quality Assurance Specialist & Linguistic Team Lead
+                        </p>
+                    </div>
+
+                    <div class="space-y-4 text-slate-300 text-base sm:text-lg leading-relaxed">
+                        <p>
+                            Bad data breaks smart models. I've spent over 3.5 years keeping AI training datasets clean, accurate, and grounded in how real people talk.
+                        </p>
+                        <p>
+                            Honestly, most annotation errors don't happen because contributors are careless. They happen when teams get buried under fifty-page English rulebooks. When I stepped in to lead an Indonesian speech team at Appen, our quality score sat at 62%. So I dug through the error logs, spotted where people got stuck, and rebuilt those dense rules into visual workflow posters and quick audio checklists. Team accuracy jumped to 92%, and we held 95% on our flagship speech program.
+                        </p>
+                        <p>
+                            Before moving into AI, I worked in financial auditing and tax administration. That training stuck with me. Whether I'm inspecting backend JSON logs on voice agent calls, stress-testing LLMs for safety risks, or checking Indonesian and Javanese speech word for word, I treat every batch like an audit under strict NDA rules.
+                        </p>
+                    </div>
+
+                    <!-- Direct Contact & Links -->
+                    <div class="pt-1 flex flex-wrap gap-2.5">
+                        <button onclick="copyText('storecikar@gmail.com', 'Copied storecikar@gmail.com to clipboard')" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-cyanAccent text-techBg font-mono font-bold text-xs sm:text-sm hover:bg-tealAccent transition-colors">
+                            <i class="fa-solid fa-envelope"></i>
+                            <span>storecikar@gmail.com</span>
+                        </button>
+                        <a href="https://wa.me/6287748525874" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl eng-card text-xs sm:text-sm font-mono text-slate-200 hover:text-white">
+                            <i class="fa-brands fa-whatsapp text-emeraldAccent text-base"></i>
+                            <span>+62 87748525874</span>
+                        </a>
+                        <a href="https://www.linkedin.com/in/viola-aldila-b859b63a3/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl eng-card text-xs sm:text-sm font-mono text-slate-200 hover:text-white">
+                            <i class="fa-brands fa-linkedin text-cyanAccent text-base"></i>
+                            <span>LinkedIn Profile</span>
+                        </a>
+                        <a href="https://portfoliozoneola89.blogspot.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl eng-card text-xs sm:text-sm font-mono text-slate-200 hover:text-white">
+                            <i class="fa-solid fa-pen-nib text-amber-400"></i>
+                            <span>Personal Blog</span>
+                        </a>
                     </div>
                 </div>
-            </div>
-        </div>
-    </nav>
 
-    <!-- Hero Section -->
-    <section id="home" class="pt-32 pb-16 px-4 relative overflow-hidden">
-        <div class="absolute top-20 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[120px] -z-10"></div>
-        <div class="max-w-4xl mx-auto text-center">
-            <div class="inline-block mb-6 px-4 py-1.5 rounded-full border border-accent/30 bg-accent/10 text-accent text-sm font-semibold tracking-wide">
-                <i class="fas fa-check-circle mr-2"></i> Indonesian & Javanese Linguistic Data Expert
-            </div>
-            <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-6 tracking-tight">Viola Aldila</h1>
-            <h2 class="text-2xl md:text-3xl font-medium text-gradient mb-8 leading-tight">
-                AI Quality Assurance & Linguistic Team Lead <br class="hidden md:block"> Audio & LLM Agent Evaluation
-            </h2>
-            <p class="text-lg text-slate-400 mb-10 max-w-3xl mx-auto leading-relaxed">
-                3.5+ years keeping AI training data clean, accurate, and grounded in natural human speech. Specializing in RLHF evaluation, transcription QA, and turning complex guidelines into visual workflows that raise team accuracy from 62% to 95%.
-            </p>
-            <div class="flex flex-wrap justify-center gap-4 text-sm font-semibold text-slate-300 mb-8">
-                <span class="bg-cardBg px-4 py-2 rounded-lg border border-white/5"><i class="fas fa-map-marker-alt text-primary mr-2"></i>Jakarta, ID</span>
-                <span class="bg-cardBg px-4 py-2 rounded-lg border border-white/5"><i class="fas fa-envelope text-primary mr-2"></i>storecikar@gmail.com</span>
-                <span class="bg-cardBg px-4 py-2 rounded-lg border border-white/5"><i class="fab fa-whatsapp text-emerald-400 mr-2"></i>+62 87748525874</span>
-            </div>
-            <!-- Blog Link Added Here -->
-            <a href="https://portfoliozoneola89.blogspot.com/" target="_blank" class="inline-block bg-primary hover:bg-blue-600 text-white px-8 py-3 rounded-lg font-medium transition-colors shadow-lg shadow-primary/25">
-                <i class="fas fa-globe mr-2"></i> Visit My Personal Blog
-            </a>
-        </div>
-    </section>
-
-    <!-- Verified Badges (Mimir, Mettl, Cornerstone) -->
-    <section id="badges" class="py-16 px-4 relative z-10">
-        <div class="max-w-6xl mx-auto">
-            <h2 class="text-3xl font-bold text-center text-white mb-4">Verified Credentials & <span class="text-accent">Platform Badges</span></h2>
-            <p class="text-center text-slate-400 mb-12 max-w-2xl mx-auto">Standardized industry assessments from Cornerstone, Mimir, and Mettl covering Quality Control, Prompt Engineering, and Cross-Market Localization.</p>
-            
-            <div class="grid md:grid-cols-3 gap-6">
-                <!-- Category 1 -->
-                <div class="glass-card p-6 rounded-2xl border-t-4 border-t-primary">
-                    <h3 class="text-lg font-bold text-white mb-4 flex items-center"><i class="fas fa-shield-check text-primary mr-2"></i> QC & LLM Evaluation</h3>
-                    <ul class="space-y-3">
-                        <li class="badge-box p-3 rounded-lg text-sm text-slate-300"><strong class="text-accent block">Cursa QC Client Certification</strong>Score: 78 (Oct 2026)</li>
-                        <li class="badge-box p-3 rounded-lg text-sm text-slate-300"><strong class="text-accent block">Lyra Prompting & Rubrics</strong>Mimir Verified (Oct 2026)</li>
-                        <li class="badge-box p-3 rounded-lg text-sm text-slate-300"><strong class="text-accent block">Cursa Annotation Training</strong>Cornerstone (Oct 2026)</li>
-                    </ul>
-                </div>
-
-                <!-- Category 2 -->
-                <div class="glass-card p-6 rounded-2xl border-t-4 border-t-purple-400">
-                    <h3 class="text-lg font-bold text-white mb-4 flex items-center"><i class="fas fa-brain text-purple-400 mr-2"></i> Cognitive & Logic Validation</h3>
-                    <ul class="space-y-3">
-                        <li class="bg-purple-900/20 border border-purple-500/20 p-3 rounded-lg text-sm text-slate-300"><strong class="text-purple-400 block">Causal Reasoning (enUS-enUS)</strong>Mimir Score: 17 (Sep 2026)</li>
-                        <li class="bg-purple-900/20 border border-purple-500/20 p-3 rounded-lg text-sm text-slate-300"><strong class="text-purple-400 block">Written Consistency Analysis</strong>Mettl Score: 15 (May 2026)</li>
-                        <li class="bg-purple-900/20 border border-purple-500/20 p-3 rounded-lg text-sm text-slate-300"><strong class="text-purple-400 block">Attention to Detail (enUS-AG)</strong>Mimir Score: 8 (Aug 2026)</li>
-                    </ul>
-                </div>
-
-                <!-- Category 3 -->
-                <div class="glass-card p-6 rounded-2xl border-t-4 border-t-emerald-400">
-                    <h3 class="text-lg font-bold text-white mb-4 flex items-center"><i class="fas fa-globe-asia text-emerald-400 mr-2"></i> Language & Localization</h3>
-                    <ul class="space-y-3">
-                        <li class="bg-emerald-900/20 border border-emerald-500/20 p-3 rounded-lg text-sm text-slate-300"><strong class="text-emerald-400 block">Culture Adaptation (idID, itIT)</strong>Mettl Score: 38 (id) / 29 (it)</li>
-                        <li class="bg-emerald-900/20 border border-emerald-500/20 p-3 rounded-lg text-sm text-slate-300"><strong class="text-emerald-400 block">Marketing Proofreading (enUS-idID)</strong>Mettl Score: 13 (Apr 2026)</li>
-                        <li class="bg-emerald-900/20 border border-emerald-500/20 p-3 rounded-lg text-sm text-slate-300"><strong class="text-emerald-400 block">Language Proficiency (enUS-AG)</strong>Mettl Score: 34 (Apr 2026)</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- QA Master Blueprint Highlight -->
-    <section id="blueprint" class="py-16 px-4 bg-cardBg/30 border-y border-white/5">
-        <div class="max-w-5xl mx-auto">
-            <div class="bg-[#0f172a] border border-slate-700 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center gap-10">
-                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-accent to-purple-500"></div>
-                <div class="md:w-2/3 z-10">
-                    <div class="inline-block bg-accent/20 border border-accent/30 text-accent text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full mb-4">
-                        Framework Creator
+                <!-- Right Engineering Summary Panel -->
+                <aside class="lg:col-span-4 eng-card rounded-2xl p-6 space-y-5">
+                    <div class="flex items-center justify-between border-b border-sky-400/15 pb-4">
+                        <div>
+                            <p class="text-[11px] font-mono uppercase tracking-widest text-cyanAccent">Pipeline Coverage</p>
+                            <h2 class="text-lg font-bold text-white mt-0.5">QA Gatekeeper Spec</h2>
+                        </div>
+                        <span class="px-2.5 py-1 rounded-lg bg-cyanAccent/10 border border-cyanAccent/30 font-mono text-xs font-bold text-cyanAccent">
+                            ID / EN / JV
+                        </span>
                     </div>
-                    <h2 class="text-3xl font-extrabold text-white mb-4">QA Master Blueprint: English Audio Record</h2>
-                    <p class="text-slate-300 mb-6 text-sm md:text-base leading-relaxed">
-                        Authored a comprehensive 16-page Operational QA Reference to standardize subjectivity in global AI projects. Built to ensure that audio evaluations are consistent, objective, and audit-ready.
+
+                    <div class="space-y-3 text-xs sm:text-sm text-slate-300">
+                        <div class="p-3.5 rounded-xl bg-techBg/70 border border-sky-400/10">
+                            <p class="font-mono text-xs text-cyanAccent font-semibold">01. RLHF & Agent Audits</p>
+                            <p class="mt-1 leading-relaxed">Backend JSON tool-call verification, Task Completion scoring, and live multi-step agent grading.</p>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-techBg/70 border border-sky-400/10">
+                            <p class="font-mono text-xs text-emerald-400 font-semibold">02. Speech & Acoustic QA</p>
+                            <p class="mt-1 leading-relaxed">Pure VAD recording, ASR and TTS segmentation, wake-word timing, and native Javanese and Indonesian review.</p>
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-techBg/70 border border-sky-400/10">
+                            <p class="font-mono text-xs text-indigo-400 font-semibold">03. Red Teaming & SOPs</p>
+                            <p class="mt-1 leading-relaxed">Adversarial safety testing and visual SOP localization that keeps contributor teams calibrated.</p>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+
+            <!-- Key Impact Metrics Bar -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="eng-card rounded-2xl p-5 border-t-2 border-t-cyanAccent">
+                    <div class="flex items-center justify-between">
+                        <span class="font-mono text-xs uppercase text-cyanAccent">Pipeline Depth</span>
+                        <i class="fa-solid fa-layer-group text-cyanAccent text-sm"></i>
+                    </div>
+                    <p class="font-mono text-2xl sm:text-3xl font-bold text-white mt-2">3.5+ Years</p>
+                    <p class="text-xs sm:text-sm text-slate-300 mt-1.5 leading-relaxed">
+                        Hands-on AI Data QA across speech corpora, RLHF voice agents, VLA tasks, and final linguistic sign-off.
                     </p>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-                        <div class="bg-darkBg/50 p-4 rounded-xl border border-white/5">
-                            <h4 class="text-white font-bold mb-1"><i class="fas fa-layer-group text-primary mr-2"></i> 3-Layer Matrix</h4>
-                            <p class="text-xs text-slate-400">Assesses Compliance, Linguistic Quality (Omission/Substitution), and Audio Technical Quality.</p>
+                </div>
+
+                <div class="eng-card rounded-2xl p-5 border-t-2 border-t-tealAccent">
+                    <div class="flex items-center justify-between">
+                        <span class="font-mono text-xs uppercase text-tealAccent">Team Turnaround</span>
+                        <i class="fa-solid fa-arrow-trend-up text-tealAccent text-sm"></i>
+                    </div>
+                    <p class="font-mono text-2xl sm:text-3xl font-bold text-white mt-2">62% to 95%</p>
+                    <p class="text-xs sm:text-sm text-slate-300 mt-1.5 leading-relaxed">
+                        Raised contributor accuracy from 62% to 92% overall and held 95% on our flagship speech queue.
+                    </p>
+                </div>
+
+                <div class="eng-card rounded-2xl p-5 border-t-2 border-t-emeraldAccent">
+                    <div class="flex items-center justify-between">
+                        <span class="font-mono text-xs uppercase text-emerald-400">Studio Voice QA</span>
+                        <i class="fa-solid fa-microphone-lines text-emerald-400 text-sm"></i>
+                    </div>
+                    <p class="font-mono text-2xl sm:text-3xl font-bold text-white mt-2">94% Accepted</p>
+                    <p class="text-xs sm:text-sm text-slate-300 mt-1.5 leading-relaxed">
+                        Delivered 94 approved recordings across 6 languages, producing over 48 minutes of pure VAD audio.
+                    </p>
+                </div>
+
+                <div class="eng-card rounded-2xl p-5 border-t-2 border-t-indigoAccent">
+                    <div class="flex items-center justify-between">
+                        <span class="font-mono text-xs uppercase text-indigo-400">2026 Credentials</span>
+                        <i class="fa-solid fa-award text-indigo-400 text-sm"></i>
+                    </div>
+                    <p class="font-mono text-2xl sm:text-3xl font-bold text-white mt-2">19+ Verified</p>
+                    <p class="text-xs sm:text-sm text-slate-300 mt-1.5 leading-relaxed">
+                        Certificates across Google Cloud, IBM, Anthropic, OpenAI Academy, AWS, and HP Foundation.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. INTERACTIVE ENGINEERING ARTIFACTS (2 DEEP-DIVE MODALS) -->
+        <section id="artifacts" class="space-y-8 scroll-mt-24">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div>
+                    <p class="text-xs font-mono uppercase tracking-widest text-cyanAccent">QA Systems I Built</p>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">Operational QA Artifacts & Frameworks</h2>
+                </div>
+                <p class="text-sm text-slate-400 max-w-xl">
+                    Guesswork ruins datasets. I built these two operational guides so reviewers grade audio and prompts by clear rules instead of gut feeling.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Artifact A: Audio QA Master Blueprint -->
+                <article class="eng-card rounded-2xl p-6 sm:p-8 flex flex-col justify-between space-y-6 border-t-2 border-t-cyanAccent">
+                    <div class="space-y-4">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <span class="px-3 py-1 rounded-full text-xs font-mono bg-cyanAccent/15 text-cyanAccent border border-cyanAccent/30">
+                                16-Page Operational Reference
+                            </span>
+                            <span class="text-xs font-mono text-emerald-300">NDA Sanitized</span>
                         </div>
-                        <div class="bg-darkBg/50 p-4 rounded-xl border border-white/5">
-                            <h4 class="text-white font-bold mb-1"><i class="fas fa-balance-scale text-accent mr-2"></i> 100-Point Scorecard</h4>
-                            <p class="text-xs text-slate-400">Distinguishes Critical/Fatal auto-rejects from acceptable accents to reduce false-reject rates.</p>
+
+                        <h3 class="text-xl sm:text-2xl font-bold text-white">
+                            Audio QA Master Blueprint (v1.0)
+                        </h3>
+
+                        <p class="text-sm sm:text-base text-slate-300 leading-relaxed">
+                            I wrote this 16-page operational QA reference to take the guesswork out of global English and multilingual audio evaluations. Reviewers often reject good speakers just because of natural regional accents while missing subtle clipping or dropped words. This blueprint fixes that split.
+                        </p>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                            <div class="p-3.5 rounded-xl bg-techBg/80 border border-sky-400/15">
+                                <p class="font-mono text-xs text-cyanAccent font-semibold">3-Layer Evaluation Matrix</p>
+                                <p class="text-xs text-slate-300 mt-1 leading-relaxed">
+                                    Checks Prompt & Policy Compliance, Linguistic Accuracy, and Technical Signal Integrity in order.
+                                </p>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-techBg/80 border border-sky-400/15">
+                                <p class="font-mono text-xs text-emerald-400 font-semibold">100-Point Scorecard</p>
+                                <p class="text-xs text-slate-300 mt-1 leading-relaxed">
+                                    Separates Critical auto-reject defects from natural regional accents so good data stays in.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <button onclick="openArtifactModal('blueprintModal')" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-cyanAccent text-techBg font-mono font-bold text-xs sm:text-sm hover:bg-tealAccent transition-colors inline-flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-sliders"></i>
+                            <span>Open 3-Layer Matrix & Scorecard</span>
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Artifact B: 8-Step Visual QA & Prompt Workflow Guide -->
+                <article class="eng-card rounded-2xl p-6 sm:p-8 flex flex-col justify-between space-y-6 border-t-2 border-t-indigoAccent">
+                    <div class="space-y-4">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <span class="px-3 py-1 rounded-full text-xs font-mono bg-indigoAccent/15 text-indigo-300 border border-indigoAccent/30">
+                                8-Panel Visual SOP Checklist
+                            </span>
+                            <span class="text-xs font-mono text-slate-400">Indonesian & English Job Aid</span>
+                        </div>
+
+                        <h3 class="text-xl sm:text-2xl font-bold text-white">
+                            8-Step Visual QA & Prompt Workflow Guide
+                        </h3>
+
+                        <p class="text-sm sm:text-base text-slate-300 leading-relaxed">
+                            Nobody remembers a wall of English rules when they're grading fast queues. I designed this 8-panel visual SOP system to turn dense client manuals into clear Indonesian and English do-and-don't cards, low-bias prompt blocks, and backend JSON log checks.
+                        </p>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                            <div class="p-3.5 rounded-xl bg-techBg/80 border border-sky-400/15">
+                                <p class="font-mono text-xs text-indigo-300 font-semibold">Visual Do-and-Don't Cards</p>
+                                <p class="text-xs text-slate-300 mt-1 leading-relaxed">
+                                    Side-by-side examples showing exact boundary trims, filler tags, and bias traps.
+                                </p>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-techBg/80 border border-sky-400/15">
+                                <p class="font-mono text-xs text-cyanAccent font-semibold">JSON & Rubric Verification</p>
+                                <p class="text-xs text-slate-300 mt-1 leading-relaxed">
+                                    Step-by-step tool parameter checks before locking final Task Completion scores.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <button onclick="openArtifactModal('workflowModal')" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-indigoAccent text-white font-mono font-bold text-xs sm:text-sm hover:bg-indigo-500 transition-colors inline-flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-list-check"></i>
+                            <span>Inspect 8-Panel SOP Checklist</span>
+                        </button>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- 3. VERIFIED PLATFORM ASSESSMENT BADGES (9 BADGES ACROSS 3 CARDS) -->
+        <section id="badges" class="space-y-8 scroll-mt-24">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div>
+                    <p class="text-xs font-mono uppercase tracking-widest text-cyanAccent">Benchmark Scores</p>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">Verified Platform Assessment Badges</h2>
+                </div>
+                <p class="text-sm text-slate-400 max-w-xl">
+                    Tested on Cornerstone, Mimir, and Mettl. Internal client queue names are replaced with generic descriptors to honor strict NDAs.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Card 1: QC & Rubrics -->
+                <div class="eng-card rounded-2xl p-6 space-y-4 border-t-2 border-t-cyanAccent">
+                    <div class="flex items-center justify-between border-b border-sky-400/15 pb-3">
+                        <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-clipboard-check text-cyanAccent"></i>
+                            <span>QC & Rubrics</span>
+                        </h3>
+                        <span class="font-mono text-[11px] text-cyanAccent">3 Badges</span>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div class="p-3.5 rounded-xl bg-techBg/75 border border-sky-400/10 flex items-start justify-between gap-3">
+                            <div>
+                                <p class="font-semibold text-white text-sm">Enterprise QC Client Certification</p>
+                                <p class="font-mono text-xs text-slate-400 mt-0.5">Cornerstone • Oct 2026</p>
+                            </div>
+                            <span class="font-mono text-xs px-2.5 py-1 rounded-lg bg-cyanAccent/15 text-cyanAccent font-bold whitespace-nowrap">Score: 78</span>
+                        </div>
+
+                        <div class="p-3.5 rounded-xl bg-techBg/75 border border-sky-400/10 flex items-start justify-between gap-3">
+                            <div>
+                                <p class="font-semibold text-white text-sm">Enterprise Prompting & Rubrics Assessment</p>
+                                <p class="font-mono text-xs text-slate-400 mt-0.5">Mimir • Oct 2026</p>
+                            </div>
+                            <span class="font-mono text-xs px-2.5 py-1 rounded-lg bg-emeraldAccent/15 text-emerald-300 font-bold whitespace-nowrap">Verified</span>
+                        </div>
+
+                        <div class="p-3.5 rounded-xl bg-techBg/75 border border-sky-400/10 flex items-start justify-between gap-3">
+                            <div>
+                                <p class="font-semibold text-white text-sm">Enterprise Annotation Workflow Training</p>
+                                <p class="font-mono text-xs text-slate-400 mt-0.5">Cornerstone • Oct 2026</p>
+                            </div>
+                            <span class="font-mono text-xs px-2.5 py-1 rounded-lg bg-emeraldAccent/15 text-emerald-300 font-bold whitespace-nowrap">Completed</span>
                         </div>
                     </div>
                 </div>
-                <div class="md:w-1/3 flex justify-center z-10">
-                    <div class="w-40 h-52 bg-slate-800 rounded-xl border border-slate-600 shadow-2xl flex flex-col items-center justify-center rotate-3">
-                        <i class="fas fa-file-pdf text-6xl text-red-500 mb-3"></i>
-                        <span class="text-white font-bold text-sm text-center">QA MASTER<br>BLUEPRINT</span>
-                        <span class="text-slate-500 text-[10px] mt-2 border-t border-slate-600 pt-2 w-3/4 text-center">Version 1.0</span>
+
+                <!-- Card 2: Cognitive & Logic -->
+                <div class="eng-card rounded-2xl p-6 space-y-4 border-t-2 border-t-indigoAccent">
+                    <div class="flex items-center justify-between border-b border-sky-400/15 pb-3">
+                        <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-microchip text-indigo-400"></i>
+                            <span>Cognitive & Logic</span>
+                        </h3>
+                        <span class="font-mono text-[11px] text-indigo-300">3 Badges</span>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div class="p-3.5 rounded-xl bg-techBg/75 border border-sky-400/10 flex items-start justify-between gap-3">
+                            <div>
+                                <p class="font-semibold text-white text-sm">Causal Reasoning enUS-enUS</p>
+                                <p class="font-mono text-xs text-slate-400 mt-0.5">Mimir • Sep 2026</p>
+                            </div>
+                            <span class="font-mono text-xs px-2.5 py-1 rounded-lg bg-indigoAccent/20 text-indigo-300 font-bold whitespace-nowrap">Score: 17</span>
+                        </div>
+
+                        <div class="p-3.5 rounded-xl bg-techBg/75 border border-sky-400/10 flex items-start justify-between gap-3">
+                            <div>
+                                <p class="font-semibold text-white text-sm">Written Consistency Analysis</p>
+                                <p class="font-mono text-xs text-slate-400 mt-0.5">Mettl • May 2026</p>
+                            </div>
+                            <span class="font-mono text-xs px-2.5 py-1 rounded-lg bg-indigoAccent/20 text-indigo-300 font-bold whitespace-nowrap">Score: 15</span>
+                        </div>
+
+                        <div class="p-3.5 rounded-xl bg-techBg/75 border border-sky-400/10 flex items-start justify-between gap-3">
+                            <div>
+                                <p class="font-semibold text-white text-sm">Attention to Detail enUS-AG</p>
+                                <p class="font-mono text-xs text-slate-400 mt-0.5">Mimir • Aug 2026</p>
+                            </div>
+                            <span class="font-mono text-xs px-2.5 py-1 rounded-lg bg-indigoAccent/20 text-indigo-300 font-bold whitespace-nowrap">Score: 8</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3: Localization -->
+                <div class="eng-card rounded-2xl p-6 space-y-4 border-t-2 border-t-emeraldAccent">
+                    <div class="flex items-center justify-between border-b border-sky-400/15 pb-3">
+                        <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-earth-asia text-emerald-400"></i>
+                            <span>Localization</span>
+                        </h3>
+                        <span class="font-mono text-[11px] text-emerald-300">3 Badges</span>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div class="p-3.5 rounded-xl bg-techBg/75 border border-sky-400/10 flex items-start justify-between gap-3">
+                            <div>
+                                <p class="font-semibold text-white text-sm">Culture Adaptation idID & itIT</p>
+                                <p class="font-mono text-xs text-slate-400 mt-0.5">Mettl • Cross-Market Localization</p>
+                            </div>
+                            <span class="font-mono text-xs px-2.5 py-1 rounded-lg bg-emeraldAccent/15 text-emerald-300 font-bold whitespace-nowrap">38 idID / 29 itIT</span>
+                        </div>
+
+                        <div class="p-3.5 rounded-xl bg-techBg/75 border border-sky-400/10 flex items-start justify-between gap-3">
+                            <div>
+                                <p class="font-semibold text-white text-sm">Marketing Proofreading enUS-idID</p>
+                                <p class="font-mono text-xs text-slate-400 mt-0.5">Mettl • Apr 2026</p>
+                            </div>
+                            <span class="font-mono text-xs px-2.5 py-1 rounded-lg bg-emeraldAccent/15 text-emerald-300 font-bold whitespace-nowrap">Score: 13</span>
+                        </div>
+
+                        <div class="p-3.5 rounded-xl bg-techBg/75 border border-sky-400/10 flex items-start justify-between gap-3">
+                            <div>
+                                <p class="font-semibold text-white text-sm">Language Proficiency enUS-AG</p>
+                                <p class="font-mono text-xs text-slate-400 mt-0.5">Mettl • Apr 2026</p>
+                            </div>
+                            <span class="font-mono text-xs px-2.5 py-1 rounded-lg bg-emeraldAccent/15 text-emerald-300 font-bold whitespace-nowrap">Score: 34</span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Professional Experience Section -->
-    <section id="experience" class="py-20 px-4">
-        <div class="max-w-5xl mx-auto">
-            <h2 class="text-3xl font-bold text-center text-white mb-16">Key <span class="text-primary">Experience</span></h2>
-            
-            <div class="space-y-6">
-                <!-- Role 1 -->
-                <div class="glass-card p-6 md:p-8 rounded-2xl border-l-4 border-l-primary flex flex-col md:flex-row gap-6">
-                    <div class="md:w-1/4">
-                        <span class="text-accent font-bold text-xs tracking-widest uppercase">Jun 2023 – Present</span>
-                        <h4 class="text-white font-bold mt-2 text-lg">CrowdGen</h4>
-                        <p class="text-slate-400 text-sm">QA Specialist & Validator</p>
+        <!-- 4. FILTERABLE EXPERIENCE TIMELINE (17 NDA-SANITIZED ROLES) -->
+        <section id="experience" class="space-y-8 scroll-mt-24">
+            <div class="space-y-4">
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                    <div>
+                        <p class="text-xs font-mono uppercase tracking-widest text-cyanAccent">Full Career History</p>
+                        <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">NDA-Compliant Experience Timeline</h2>
                     </div>
-                    <div class="md:w-3/4">
-                        <h3 class="text-xl font-bold text-white mb-3">Quality Assurance Specialist (Final Gatekeeper)</h3>
-                        <ul class="list-disc list-inside space-y-2 text-slate-300 text-sm">
-                            <li>Run daily QA across audio segmentation, transcription, voice recording, and data-labeling queues.</li>
-                            <li>Act as the final linguistic validator for Indonesian and Javanese datasets (Project Jigglypuff, SIDA).</li>
-                            <li>Evaluate search queries and LLM text generation to ensure 100% clean data delivery.</li>
-                        </ul>
+                    <p class="text-xs font-mono text-slate-400">
+                        Showing <span id="roleCounter" class="text-cyanAccent font-bold">17</span> verified role records
+                    </p>
+                </div>
+
+                <!-- Filter Tabs -->
+                <div class="flex flex-wrap gap-2 pt-1" role="tablist" aria-label="Filter experience roles">
+                    <button onclick="filterRoles('all', this)" class="role-tab tab-active px-4 py-2 rounded-xl text-xs font-mono border transition-all">
+                        All (17)
+                    </button>
+                    <button onclick="filterRoles('leadership', this)" class="role-tab tab-inactive px-4 py-2 rounded-xl text-xs font-mono border transition-all">
+                        Leadership & QA
+                    </button>
+                    <button onclick="filterRoles('rlhf', this)" class="role-tab tab-inactive px-4 py-2 rounded-xl text-xs font-mono border transition-all">
+                        RLHF & Red Teaming
+                    </button>
+                    <button onclick="filterRoles('speech', this)" class="role-tab tab-inactive px-4 py-2 rounded-xl text-xs font-mono border transition-all">
+                        Speech & Linguistics
+                    </button>
+                    <button onclick="filterRoles('audit', this)" class="role-tab tab-inactive px-4 py-2 rounded-xl text-xs font-mono border transition-all">
+                        Earlier Audit Career
+                    </button>
+                </div>
+            </div>
+
+            <!-- 17 Role Cards -->
+            <div id="rolesGrid" class="space-y-4">
+
+                <!-- 1. CrowdGen | Quality Assurance Specialist -->
+                <article data-role="leadership speech" class="role-card eng-card rounded-2xl p-6 border-l-4 border-l-cyanAccent">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2.5">
+                        <div>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <h3 class="text-lg font-bold text-white">Quality Assurance Specialist</h3>
+                                <span class="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-cyanAccent/15 text-cyanAccent border border-cyanAccent/30">Active Gatekeeper</span>
+                            </div>
+                            <p class="text-sm font-medium text-cyanAccent mt-0.5">CrowdGen <span class="text-slate-400 font-normal">• Jakarta, Indonesia / Remote</span></p>
+                        </div>
+                        <span class="font-mono text-xs px-3 py-1 rounded-lg bg-techBg text-slate-300 border border-sky-400/15 self-start sm:self-center">
+                            Jul 2026 to Present
+                        </span>
+                    </div>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        I run daily QA checks across audio segmentation, transcription, voice recording, and labeling queues. When contributor drift shows up, I catch it early and step in with practical feedback before batches hit client audits.
+                    </p>
+                </article>
+
+                <!-- 2. CrowdGen | Javanese Native Language Expert -->
+                <article data-role="speech leadership" class="role-card eng-card rounded-2xl p-6 border-l-4 border-l-emeraldAccent">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2.5">
+                        <div>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <h3 class="text-lg font-bold text-white">Javanese Native Language Expert</h3>
+                                <span class="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-emeraldAccent/15 text-emerald-300 border border-emeraldAccent/30">Confidential Javanese QA Program</span>
+                            </div>
+                            <p class="text-sm font-medium text-emerald-400 mt-0.5">CrowdGen <span class="text-slate-400 font-normal">• Remote</span></p>
+                        </div>
+                        <span class="font-mono text-xs px-3 py-1 rounded-lg bg-techBg text-slate-300 border border-sky-400/15 self-start sm:self-center">
+                            Jul 2026 to Oct 2026
+                        </span>
+                    </div>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        I brought a native speaker's ear to a confidential Javanese dataset, checking cultural context, politeness levels, and regional phrasing so unnatural machine translations didn't slip through.
+                    </p>
+                </article>
+
+                <!-- 3. CrowdGen | Final Linguistic Validator -->
+                <article data-role="speech leadership" class="role-card eng-card rounded-2xl p-6 border-l-4 border-l-cyanAccent">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2.5">
+                        <div>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <h3 class="text-lg font-bold text-white">Final Linguistic Validator</h3>
+                                <span class="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-cyanAccent/15 text-cyanAccent border border-cyanAccent/30">Confidential Multilingual Program</span>
+                            </div>
+                            <p class="text-sm font-medium text-cyanAccent mt-0.5">CrowdGen <span class="text-slate-400 font-normal">• Remote</span></p>
+                        </div>
+                        <span class="font-mono text-xs px-3 py-1 rounded-lg bg-techBg text-slate-300 border border-sky-400/15 self-start sm:self-center">
+                            Sep 2025 to Oct 2026
+                        </span>
+                    </div>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Handled the final quality check on AI-generated Indonesian and Javanese responses. I verified natural tone, local idioms, and strict prompt compliance before delivery.
+                    </p>
+                </article>
+
+                <!-- 4. CrowdGen | Senior Validation Specialist -->
+                <article data-role="leadership rlhf speech" class="role-card eng-card rounded-2xl p-6 border-l-4 border-l-tealAccent">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2.5">
+                        <div>
+                            <h3 class="text-lg font-bold text-white">Senior Validation Specialist</h3>
+                            <p class="text-sm font-medium text-tealAccent mt-0.5">CrowdGen <span class="text-slate-400 font-normal">• Remote</span></p>
+                        </div>
+                        <span class="font-mono text-xs px-3 py-1 rounded-lg bg-techBg text-slate-300 border border-sky-400/15 self-start sm:self-center">
+                            Jun 2023 to Mar 2026
+                        </span>
+                    </div>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Served as the final gatekeeper for Indonesian and Javanese linguistic datasets, rated search query relevance to tune ranking models, and ran safety audits on AI retrieval queues.
+                    </p>
+                </article>
+
+                <!-- 5. Appen | AI Annotation Team Lead & VLA Validator -->
+                <article data-role="leadership speech rlhf" class="role-card eng-card rounded-2xl p-6 border-l-4 border-l-cyanAccent">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2.5">
+                        <div>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <h3 class="text-lg font-bold text-white">AI Annotation Team Lead & VLA Validator</h3>
+                                <span class="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-emeraldAccent/15 text-emerald-300 border border-emeraldAccent/30">62% to 95% Turnaround</span>
+                            </div>
+                            <p class="text-sm font-medium text-cyanAccent mt-0.5">Appen <span class="text-slate-400 font-normal">• Confidential Multilingual Speech & VLA Programs • Remote</span></p>
+                        </div>
+                        <span class="font-mono text-xs px-3 py-1 rounded-lg bg-techBg text-slate-300 border border-sky-400/15 self-start sm:self-center">
+                            Jun 2023 to Oct 2026
+                        </span>
+                    </div>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        I raised team accuracy from 62% to 92% overall and held 95% on a flagship enterprise speech program. Instead of repeating dense English rules, I built visual Indonesian workflow posters, do-and-don't cards, and audio checklists, then translated those tools back into English so global leads stayed aligned. I also coached annotators on transcription, speaker labeling, and Vision-Language-Action (VLA) validation.
+                    </p>
+                </article>
+
+                <!-- 6. Silencio Voice AI | AI Voice Data Contributor -->
+                <article data-role="speech" class="role-card eng-card rounded-2xl p-6 border-l-4 border-l-emeraldAccent">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2.5">
+                        <div>
+                            <h3 class="text-lg font-bold text-white">AI Voice Data Contributor</h3>
+                            <p class="text-sm font-medium text-emerald-400 mt-0.5">Silencio Voice AI <span class="text-slate-400 font-normal">• Multilingual Studio Voice Corpus • Remote</span></p>
+                        </div>
+                        <span class="font-mono text-xs px-3 py-1 rounded-lg bg-techBg text-slate-300 border border-sky-400/15 self-start sm:self-center">
+                            Sep 2026 to Present
+                        </span>
+                    </div>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Delivered 94 clean voice recordings across 6 languages at a 94% acceptance rate, producing over 48 minutes of pure Voice Activity Detection (VAD) audio with tight noise-floor control.
+                    </p>
+                </article>
+
+                <!-- 7. Mercor | AI Safety Red Teamer -->
+                <article data-role="rlhf leadership" class="role-card eng-card rounded-2xl p-6 border-l-4 border-l-rose-500">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2.5">
+                        <div>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <h3 class="text-lg font-bold text-white">AI Safety Red Teamer</h3>
+                                <span class="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-rose-500/15 text-rose-300 border border-rose-500/30">Adversarial LLM Testing</span>
+                            </div>
+                            <p class="text-sm font-medium text-rose-400 mt-0.5">Mercor <span class="text-slate-400 font-normal">• Pre-Release Safety Queues • Remote</span></p>
+                        </div>
+                        <span class="font-mono text-xs px-3 py-1 rounded-lg bg-techBg text-slate-300 border border-sky-400/15 self-start sm:self-center">
+                            Sep 2026 to Present, and 2024
+                        </span>
+                    </div>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        I run adversarial stress-tests on LLMs to expose safety loopholes, bias risks, and policy failures before public release. Then I write clear, reproducible bug reports so alignment engineers can fix the root issue fast.
+                    </p>
+                </article>
+
+                <!-- 8. Handshake AI Fellowship | Indonesian Language Data Evaluator -->
+                <article data-role="rlhf speech" class="role-card eng-card rounded-2xl p-6 border-l-4 border-l-cyanAccent">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2.5">
+                        <div>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <h3 class="text-lg font-bold text-white">Indonesian Language Data Evaluator</h3>
+                                <span class="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-cyanAccent/15 text-cyanAccent border border-cyanAccent/30">Confidential Language Program</span>
+                            </div>
+                            <p class="text-sm font-medium text-cyanAccent mt-0.5">Handshake AI Fellowship <span class="text-slate-400 font-normal">• Central Jakarta / Remote</span></p>
+                        </div>
+                        <span class="font-mono text-xs px-3 py-1 rounded-lg bg-techBg text-slate-300 border border-sky-400/15 self-start sm:self-center">
+                            Aug 2026 to Sep 2026
+                        </span>
+                    </div>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Evaluated Indonesian language prompts and model outputs under strict linguistic rubrics, checking natural phrasing, register, and factual grounding.
+                    </p>
+                </article>
+
+                <!-- 9. Invisible Technologies | Audio Agent Evaluations Lead, RLHF -->
+                <article data-role="rlhf leadership speech" class="role-card eng-card rounded-2xl p-6 border-l-4 border-l-indigoAccent">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2.5">
+                        <div>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <h3 class="text-lg font-bold text-white">Audio Agent Evaluations Lead, RLHF</h3>
+                                <span class="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-indigoAccent/15 text-indigo-300 border border-indigoAccent/30">JSON Tool Audits</span>
+                            </div>
+                            <p class="text-sm font-medium text-indigo-400 mt-0.5">Invisible Technologies <span class="text-slate-400 font-normal">• Conversational Voice Agent Pipeline • Remote</span></p>
+                        </div>
+                        <span class="font-mono text-xs px-3 py-1 rounded-lg bg-techBg text-slate-300 border border-sky-400/15 self-start sm:self-center">
+                            Jul 2026 to Oct 2026
+                        </span>
+                    </div>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Audited AI-to-human voice calls for RLHF training pipelines. I inspected backend JSON logs to verify tool parameters and function calls, then scored each run on Task Completion and Conversational Naturalness.
+                    </p>
+                </article>
+
+                <!-- 10. RWS | Voice Evaluation & Wake-Word Specialist -->
+                <article data-role="speech rlhf" class="role-card eng-card rounded-2xl p-6 border-l-4 border-l-tealAccent">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2.5">
+                        <div>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <h3 class="text-lg font-bold text-white">Voice Evaluation & Wake-Word Specialist</h3>
+                                <span class="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-emeraldAccent/15 text-emerald-300 border border-emeraldAccent/30">Confidential Smart-Device Wake-Word Program</span>
+                            </div>
+                            <p class="text-sm font-medium text-tealAccent mt-0.5">RWS <span class="text-slate-400 font-normal">• Jakarta, Indonesia / Remote</span></p>
+                        </div>
+                        <span class="font-mono text-xs px-3 py-1 rounded-lg bg-techBg text-slate-300 border border-sky-400/15 self-start sm:self-center">
+                            Jul 2026 to Oct 2026
+                        </span>
+                    </div>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Ran side-by-side voice model comparisons against structured audio quality criteria, and tagged confidential smart-device wake-word triggers with millisecond timing precision.
+                    </p>
+                </article>
+
+                <!-- 11. Agents Only Technologies | LLM Agent Rubric Evaluator, UK Scope -->
+                <article data-role="rlhf" class="role-card eng-card rounded-2xl p-6 border-l-4 border-l-indigoAccent">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2.5">
+                        <div>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <h3 class="text-lg font-bold text-white">LLM Agent Rubric Evaluator, UK Scope</h3>
+                                <span class="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-indigoAccent/15 text-indigo-300 border border-indigoAccent/30">Live Multi-Step Agent Queue</span>
+                            </div>
+                            <p class="text-sm font-medium text-indigo-400 mt-0.5">Agents Only Technologies <span class="text-slate-400 font-normal">• Remote</span></p>
+                        </div>
+                        <span class="font-mono text-xs px-3 py-1 rounded-lg bg-techBg text-slate-300 border border-sky-400/15 self-start sm:self-center">
+                            Jun 2026 to Oct 2026
+                        </span>
+                    </div>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Graded live multi-step LLM agent runs against strict UK regional rubrics, checking tool execution, factual accuracy, and instruction adherence.
+                    </p>
+                </article>
+
+                <!-- 12. Alibaba Group | AI Speech Data Annotator -->
+                <article data-role="speech" class="role-card eng-card rounded-2xl p-6 border-l-4 border-l-amber-400">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2.5">
+                        <div>
+                            <h3 class="text-lg font-bold text-white">AI Speech Data Annotator</h3>
+                            <p class="text-sm font-medium text-amber-400 mt-0.5">Alibaba Group <span class="text-slate-400 font-normal">• Enterprise ASR & TTS Corpus • Remote</span></p>
+                        </div>
+                        <span class="font-mono text-xs px-3 py-1 rounded-lg bg-techBg text-slate-300 border border-sky-400/15 self-start sm:self-center">
+                            Mar 2026 to Oct 2026
+                        </span>
+                    </div>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Built high-accuracy Indonesian speech corpora and clean audio transcriptions for large-scale Automatic Speech Recognition (ASR) and Text-to-Speech (TTS) training.
+                    </p>
+                </article>
+
+                <!-- 13. Babel Audio | Native Audio Contributor & Alignment Auditor -->
+                <article data-role="speech leadership" class="role-card eng-card rounded-2xl p-6 border-l-4 border-l-emeraldAccent">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2.5">
+                        <div>
+                            <h3 class="text-lg font-bold text-white">Native Audio Contributor & Alignment Auditor</h3>
+                            <p class="text-sm font-medium text-emerald-400 mt-0.5">Babel Audio <span class="text-slate-400 font-normal">• Speech Synthesis Alignment • Remote</span></p>
+                        </div>
+                        <span class="font-mono text-xs px-3 py-1 rounded-lg bg-techBg text-slate-300 border border-sky-400/15 self-start sm:self-center">
+                            Aug 2023 to Oct 2026
+                        </span>
+                    </div>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Recorded and audited natural Indonesian and Javanese conversational speech synthesis data, flagging transcript mismatches, speaker overlaps, and room-tone issues.
+                    </p>
+                </article>
+
+                <!-- 14. micro1 | Data & Information Processing Specialist -->
+                <article data-role="leadership" class="role-card eng-card rounded-2xl p-6 border-l-4 border-l-slate-400">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2.5">
+                        <div>
+                            <h3 class="text-lg font-bold text-white">Data & Information Processing Specialist</h3>
+                            <p class="text-sm font-medium text-slate-300 mt-0.5">micro1 <span class="text-slate-400 font-normal">• Rapid Turnaround Queues • Remote</span></p>
+                        </div>
+                        <span class="font-mono text-xs px-3 py-1 rounded-lg bg-techBg text-slate-300 border border-sky-400/15 self-start sm:self-center">
+                            Feb 2026 to Oct 2026
+                        </span>
+                    </div>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Handled high-speed structured data validation and verification across rapid turnaround production queues without letting quality slip.
+                    </p>
+                </article>
+
+                <!-- 15. Outlier | AI Reasoning Contributor -->
+                <article data-role="rlhf" class="role-card eng-card rounded-2xl p-6 border-l-4 border-l-cyanAccent">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2.5">
+                        <div>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <h3 class="text-lg font-bold text-white">AI Reasoning Contributor</h3>
+                                <span class="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-cyanAccent/15 text-cyanAccent border border-cyanAccent/30">Confidential Reasoning Queue</span>
+                            </div>
+                            <p class="text-sm font-medium text-cyanAccent mt-0.5">Outlier <span class="text-slate-400 font-normal">• Remote</span></p>
+                        </div>
+                        <span class="font-mono text-xs px-3 py-1 rounded-lg bg-techBg text-slate-300 border border-sky-400/15 self-start sm:self-center">
+                            Jan 2026 to Oct 2026
+                        </span>
+                    </div>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Audited step-by-step model reasoning chains and factual accuracy on a confidential LLM reasoning queue, pinpointing logic jumps and writing clear corrections.
+                    </p>
+                </article>
+
+                <!-- 16. Independent Writer, Voice Talent & Functional QA -->
+                <article data-role="speech leadership" class="role-card eng-card rounded-2xl p-6 border-l-4 border-l-amber-400">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2.5">
+                        <div>
+                            <h3 class="text-lg font-bold text-white">Independent E-Book Writer, Voice Talent & Functional QA</h3>
+                            <p class="text-sm font-medium text-amber-400 mt-0.5">Voices, Voice123, Tester Work & Self-Published</p>
+                        </div>
+                        <span class="font-mono text-xs px-3 py-1 rounded-lg bg-techBg text-slate-300 border border-sky-400/15 self-start sm:self-center">
+                            2023 to 2026
+                        </span>
+                    </div>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Wrote the e-book "Remote Jobs Playbook", recorded commercial voiceovers on Voices and Voice123, and ran functional app bug hunts on Tester Work.
+                    </p>
+                </article>
+
+                <!-- 17. Earlier Finance, Tax & Audit Career -->
+                <article data-role="audit" class="role-card eng-card rounded-2xl p-6 border-l-4 border-l-slate-500">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+                        <div>
+                            <h3 class="text-lg font-bold text-white">Earlier Finance, Tax & Audit Career</h3>
+                            <p class="text-sm font-medium text-slate-300 mt-0.5">Aviation, Ministry of Finance, Export & State Enterprises</p>
+                        </div>
+                        <span class="font-mono text-xs px-3 py-1 rounded-lg bg-techBg text-slate-300 border border-sky-400/15 self-start sm:self-center">
+                            2008 to 2016
+                        </span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm text-slate-300">
+                        <div class="p-3.5 rounded-xl bg-techBg/75 border border-sky-400/10">
+                            <strong class="text-white block">AirNav Indonesia / Angkasa Pura II</strong>
+                            Accounting Staff (2014 to 2016)
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-techBg/75 border border-sky-400/10">
+                            <strong class="text-white block">KPP Bangka, Ministry of Finance</strong>
+                            Tax Administration Staff (2010 to 2014)
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-techBg/75 border border-sky-400/10">
+                            <strong class="text-white block">PT. Morrel Reene</strong>
+                            Export Documentation Specialist (2014)
+                        </div>
+                        <div class="p-3.5 rounded-xl bg-techBg/75 border border-sky-400/10">
+                            <strong class="text-white block">PT. PELNI and DAMRI</strong>
+                            Freelance Financial Auditor (2008 to 2010)
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+        <!-- 5. FILTERABLE 2026 CERTIFICATIONS GRID (WITH VERIFY LINKS & COPYABLE IDS) -->
+        <section id="certifications" class="space-y-8 scroll-mt-24">
+            <div class="space-y-4">
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                    <div>
+                        <p class="text-xs font-mono uppercase tracking-widest text-cyanAccent">Auditable Credentials</p>
+                        <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">2026 Verified Certifications</h2>
+                    </div>
+                    <p class="text-sm text-slate-400 max-w-lg">
+                        Click any Coursera button to open the live verification page, or tap the copy icon to grab the credential ID.
+                    </p>
+                </div>
+
+                <!-- Certification Filter Tabs -->
+                <div class="flex flex-wrap gap-2 pt-1" role="tablist" aria-label="Filter certifications">
+                    <button onclick="filterCerts('all', this)" class="cert-tab tab-active px-4 py-2 rounded-xl text-xs font-mono border transition-all">
+                        All Credentials (19)
+                    </button>
+                    <button onclick="filterCerts('google', this)" class="cert-tab tab-inactive px-4 py-2 rounded-xl text-xs font-mono border transition-all">
+                        Google & Google Cloud (8)
+                    </button>
+                    <button onclick="filterCerts('labs', this)" class="cert-tab tab-inactive px-4 py-2 rounded-xl text-xs font-mono border transition-all">
+                        Anthropic, OpenAI & IBM (5)
+                    </button>
+                    <button onclick="filterCerts('awshp', this)" class="cert-tab tab-inactive px-4 py-2 rounded-xl text-xs font-mono border transition-all">
+                        AWS & HP Foundation (6)
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+                <!-- 1. Google AI Professional Certificate -->
+                <div data-cert="google" class="cert-card eng-card rounded-2xl p-5 flex flex-col justify-between space-y-4">
+                    <div>
+                        <span class="font-mono text-[11px] text-cyanAccent uppercase">Google • 7-Course Specialization</span>
+                        <h3 class="font-bold text-white text-base mt-1">Google AI Professional Certificate</h3>
+                        <p class="font-mono text-xs text-slate-400 mt-1">ID: D6MMOYTGSGK4</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <a href="https://coursera.org/verify/professional-cert/D6MMOYTGSGK4" target="_blank" rel="noopener noreferrer" class="flex-1 inline-flex items-center justify-between px-3 py-2 rounded-xl bg-cyanAccent/15 hover:bg-cyanAccent/25 text-cyanAccent text-xs font-mono font-semibold border border-cyanAccent/30 transition-colors">
+                            <span>Verify Coursera</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                        <button onclick="copyText('D6MMOYTGSGK4', 'Copied Credential ID: D6MMOYTGSGK4')" aria-label="Copy ID D6MMOYTGSGK4" class="px-3 py-2 rounded-xl bg-techBg hover:bg-techCardHover text-slate-300 text-xs border border-sky-400/20">
+                            <i class="fa-regular fa-copy"></i>
+                        </button>
                     </div>
                 </div>
 
-                <!-- Role 2 -->
-                <div class="glass-card p-6 md:p-8 rounded-2xl border-l-4 border-l-accent flex flex-col md:flex-row gap-6">
-                    <div class="md:w-1/4">
-                        <span class="text-accent font-bold text-xs tracking-widest uppercase">Jun 2023 – Oct 2026</span>
-                        <h4 class="text-white font-bold mt-2 text-lg">Appen</h4>
-                        <p class="text-slate-400 text-sm">Project Aragorn & VLA</p>
+                <!-- 2. Google Cloud Intro to LLMs -->
+                <div data-cert="google" class="cert-card eng-card rounded-2xl p-5 flex flex-col justify-between space-y-4">
+                    <div>
+                        <span class="font-mono text-[11px] text-cyanAccent uppercase">Google Cloud</span>
+                        <h3 class="font-bold text-white text-base mt-1">Introduction to Large Language Models</h3>
+                        <p class="font-mono text-xs text-slate-400 mt-1">ID: B39B6B2JB9WK</p>
                     </div>
-                    <div class="md:w-3/4">
-                        <h3 class="text-xl font-bold text-white mb-3">Indonesian Annotation Team Lead & QA</h3>
-                        <ul class="list-disc list-inside space-y-2 text-slate-300 text-sm">
-                            <li><strong>Turnaround:</strong> Brought contributor accuracy from 62% up to 92% (held 95% on Aragorn) by replacing dense textbook rules with visual workflow posters.</li>
-                            <li>Coached annotators across transcription, speaker labeling, and Vision-Language-Action (VLA) workflows.</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Role 3 -->
-                <div class="glass-card p-6 md:p-8 rounded-2xl border-l-4 border-l-purple-400 flex flex-col md:flex-row gap-6">
-                    <div class="md:w-1/4">
-                        <span class="text-accent font-bold text-xs tracking-widest uppercase">Aug 2026 – Oct 2026</span>
-                        <h4 class="text-white font-bold mt-2 text-lg">Invisible Tech</h4>
-                        <p class="text-slate-400 text-sm">RLHF Audio Agent</p>
-                    </div>
-                    <div class="md:w-3/4">
-                        <h3 class="text-xl font-bold text-white mb-3">Audio Agent Evals Lead (RLHF)</h3>
-                        <ul class="list-disc list-inside space-y-2 text-slate-300 text-sm">
-                            <li>Audited AI-to-human voice calls, checking backend JSON logs to verify tool parameters.</li>
-                            <li>Scored models on Task Completion (TC) and Conversational Naturalness (CN).</li>
-                        </ul>
+                    <div class="flex items-center gap-2">
+                        <a href="https://coursera.org/verify/B39B6B2JB9WK" target="_blank" rel="noopener noreferrer" class="flex-1 inline-flex items-center justify-between px-3 py-2 rounded-xl bg-cyanAccent/15 hover:bg-cyanAccent/25 text-cyanAccent text-xs font-mono font-semibold border border-cyanAccent/30 transition-colors">
+                            <span>Verify Coursera</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                        <button onclick="copyText('B39B6B2JB9WK', 'Copied Credential ID: B39B6B2JB9WK')" aria-label="Copy ID B39B6B2JB9WK" class="px-3 py-2 rounded-xl bg-techBg hover:bg-techCardHover text-slate-300 text-xs border border-sky-400/20">
+                            <i class="fa-regular fa-copy"></i>
+                        </button>
                     </div>
                 </div>
 
-                <!-- Role 4 -->
-                <div class="glass-card p-6 md:p-8 rounded-2xl border-l-4 border-l-emerald-400 flex flex-col md:flex-row gap-6">
-                    <div class="md:w-1/4">
-                        <span class="text-accent font-bold text-xs tracking-widest uppercase">Sep 2026 & 2024</span>
-                        <h4 class="text-white font-bold mt-2 text-lg">Mercor & Agents Only</h4>
-                        <p class="text-slate-400 text-sm">Red Teaming & LMArena</p>
+                <!-- 3. IBM Agentic AI -->
+                <div data-cert="labs" class="cert-card eng-card rounded-2xl p-5 flex flex-col justify-between space-y-4">
+                    <div>
+                        <span class="font-mono text-[11px] text-indigo-400 uppercase">IBM</span>
+                        <h3 class="font-bold text-white text-base mt-1">Agentic AI with LangChain and LangGraph</h3>
+                        <p class="font-mono text-xs text-slate-400 mt-1">ID: 0NHPCW0KKDSS</p>
                     </div>
-                    <div class="md:w-3/4">
-                        <h3 class="text-xl font-bold text-white mb-3">AI Safety Red Teamer & Agent Evaluator</h3>
-                        <ul class="list-disc list-inside space-y-2 text-slate-300 text-sm">
-                            <li><strong>Mercor:</strong> Ran adversarial tests on LLM outputs to expose bias, safety loopholes, and policy issues.</li>
-                            <li><strong>Agents Only:</strong> Graded live LLM agent responses (LMArena Live, UK Regional) to verify multi-step task execution.</li>
-                        </ul>
+                    <div class="flex items-center gap-2">
+                        <a href="https://coursera.org/verify/0NHPCW0KKDSS" target="_blank" rel="noopener noreferrer" class="flex-1 inline-flex items-center justify-between px-3 py-2 rounded-xl bg-indigoAccent/15 hover:bg-indigoAccent/25 text-indigo-300 text-xs font-mono font-semibold border border-indigoAccent/30 transition-colors">
+                            <span>Verify Coursera</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                        <button onclick="copyText('0NHPCW0KKDSS', 'Copied Credential ID: 0NHPCW0KKDSS')" aria-label="Copy ID 0NHPCW0KKDSS" class="px-3 py-2 rounded-xl bg-techBg hover:bg-techCardHover text-slate-300 text-xs border border-sky-400/20">
+                            <i class="fa-regular fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 4. Anthropic & UCC Ringling College -->
+                <div data-cert="labs" class="cert-card eng-card rounded-2xl p-5 flex flex-col justify-between space-y-4">
+                    <div>
+                        <span class="font-mono text-[11px] text-cyanAccent uppercase">Anthropic & UCC Ringling College</span>
+                        <h3 class="font-bold text-white text-base mt-1">AI Fluency: Framework & Foundations</h3>
+                        <p class="text-xs text-slate-400 mt-1">Structured AI delegation, verification habits, and safe model workflows (2026)</p>
+                    </div>
+                    <span class="font-mono text-xs text-cyanAccent bg-cyanAccent/10 px-3 py-1.5 rounded-xl border border-cyanAccent/30 w-fit">
+                        <i class="fa-solid fa-check mr-1"></i> Verified 2026
+                    </span>
+                </div>
+
+                <!-- 5. Anthropic Claude 101 -->
+                <div data-cert="labs" class="cert-card eng-card rounded-2xl p-5 flex flex-col justify-between space-y-4">
+                    <div>
+                        <span class="font-mono text-[11px] text-cyanAccent uppercase">Anthropic</span>
+                        <h3 class="font-bold text-white text-base mt-1">Claude 101</h3>
+                        <p class="text-xs text-slate-400 mt-1">Prompt design, clear system context, and output verification (2026)</p>
+                    </div>
+                    <span class="font-mono text-xs text-cyanAccent bg-cyanAccent/10 px-3 py-1.5 rounded-xl border border-cyanAccent/30 w-fit">
+                        <i class="fa-solid fa-check mr-1"></i> Verified 2026
+                    </span>
+                </div>
+
+                <!-- 6. Anthropic Claude Code 101 -->
+                <div data-cert="labs" class="cert-card eng-card rounded-2xl p-5 flex flex-col justify-between space-y-4">
+                    <div>
+                        <span class="font-mono text-[11px] text-cyanAccent uppercase">Anthropic</span>
+                        <h3 class="font-bold text-white text-base mt-1">Claude Code 101</h3>
+                        <p class="text-xs text-slate-400 mt-1">Agentic CLI workflows, tool-call inspection, and code checks (2026)</p>
+                    </div>
+                    <span class="font-mono text-xs text-cyanAccent bg-cyanAccent/10 px-3 py-1.5 rounded-xl border border-cyanAccent/30 w-fit">
+                        <i class="fa-solid fa-check mr-1"></i> Verified 2026
+                    </span>
+                </div>
+
+                <!-- 7. OpenAI Academy -->
+                <div data-cert="labs" class="cert-card eng-card rounded-2xl p-5 flex flex-col justify-between space-y-4">
+                    <div>
+                        <span class="font-mono text-[11px] text-emerald-400 uppercase">OpenAI Academy</span>
+                        <h3 class="font-bold text-white text-base mt-1">AI Foundations</h3>
+                        <p class="text-xs text-slate-400 mt-1">Reasoning evaluation, model alignment basics, and prompt clarity (2026)</p>
+                    </div>
+                    <button onclick="copyText('prm1z8whur', 'Copied OpenAI Credential ID: prm1z8whur')" class="inline-flex items-center justify-between px-3.5 py-2 rounded-xl bg-techBg hover:bg-techCardHover text-slate-200 text-xs font-mono border border-sky-400/20 transition-colors">
+                        <span>ID: prm1z8whur</span>
+                        <i class="fa-regular fa-copy text-emerald-400"></i>
+                    </button>
+                </div>
+
+                <!-- 8. Google AI for Data Analysis -->
+                <div data-cert="google" class="cert-card eng-card rounded-2xl p-5 flex flex-col justify-between space-y-4">
+                    <div>
+                        <span class="font-mono text-[11px] text-cyanAccent uppercase">Google</span>
+                        <h3 class="font-bold text-white text-base mt-1">AI for Data Analysis</h3>
+                        <p class="font-mono text-xs text-slate-400 mt-1">ID: 0BK3108PMOH8</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <a href="https://coursera.org/verify/0BK3108PMOH8" target="_blank" rel="noopener noreferrer" class="flex-1 inline-flex items-center justify-between px-3 py-2 rounded-xl bg-cyanAccent/15 hover:bg-cyanAccent/25 text-cyanAccent text-xs font-mono font-semibold border border-cyanAccent/30 transition-colors">
+                            <span>Verify Coursera</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                        <button onclick="copyText('0BK3108PMOH8', 'Copied Credential ID: 0BK3108PMOH8')" aria-label="Copy ID 0BK3108PMOH8" class="px-3 py-2 rounded-xl bg-techBg hover:bg-techCardHover text-slate-300 text-xs border border-sky-400/20">
+                            <i class="fa-regular fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 9. Google AI for Content Creation -->
+                <div data-cert="google" class="cert-card eng-card rounded-2xl p-5 flex flex-col justify-between space-y-4">
+                    <div>
+                        <span class="font-mono text-[11px] text-cyanAccent uppercase">Google</span>
+                        <h3 class="font-bold text-white text-base mt-1">AI for Content Creation</h3>
+                        <p class="font-mono text-xs text-slate-400 mt-1">ID: 7KGL9TV2LL1V</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <a href="https://coursera.org/verify/7KGL9TV2LL1V" target="_blank" rel="noopener noreferrer" class="flex-1 inline-flex items-center justify-between px-3 py-2 rounded-xl bg-cyanAccent/15 hover:bg-cyanAccent/25 text-cyanAccent text-xs font-mono font-semibold border border-cyanAccent/30 transition-colors">
+                            <span>Verify Coursera</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                        <button onclick="copyText('7KGL9TV2LL1V', 'Copied Credential ID: 7KGL9TV2LL1V')" aria-label="Copy ID 7KGL9TV2LL1V" class="px-3 py-2 rounded-xl bg-techBg hover:bg-techCardHover text-slate-300 text-xs border border-sky-400/20">
+                            <i class="fa-regular fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 10. Google AI for Writing and Communicating -->
+                <div data-cert="google" class="cert-card eng-card rounded-2xl p-5 flex flex-col justify-between space-y-4">
+                    <div>
+                        <span class="font-mono text-[11px] text-cyanAccent uppercase">Google</span>
+                        <h3 class="font-bold text-white text-base mt-1">AI for Writing and Communicating</h3>
+                        <p class="font-mono text-xs text-slate-400 mt-1">ID: DROA7D83BNET</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <a href="https://coursera.org/verify/DROA7D83BNET" target="_blank" rel="noopener noreferrer" class="flex-1 inline-flex items-center justify-between px-3 py-2 rounded-xl bg-cyanAccent/15 hover:bg-cyanAccent/25 text-cyanAccent text-xs font-mono font-semibold border border-cyanAccent/30 transition-colors">
+                            <span>Verify Coursera</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                        <button onclick="copyText('DROA7D83BNET', 'Copied Credential ID: DROA7D83BNET')" aria-label="Copy ID DROA7D83BNET" class="px-3 py-2 rounded-xl bg-techBg hover:bg-techCardHover text-slate-300 text-xs border border-sky-400/20">
+                            <i class="fa-regular fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 11. Google Prepare Data for Exploration -->
+                <div data-cert="google" class="cert-card eng-card rounded-2xl p-5 flex flex-col justify-between space-y-4">
+                    <div>
+                        <span class="font-mono text-[11px] text-cyanAccent uppercase">Google</span>
+                        <h3 class="font-bold text-white text-base mt-1">Prepare Data for Exploration</h3>
+                        <p class="font-mono text-xs text-slate-400 mt-1">ID: 50M9053CWBIX</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <a href="https://coursera.org/verify/50M9053CWBIX" target="_blank" rel="noopener noreferrer" class="flex-1 inline-flex items-center justify-between px-3 py-2 rounded-xl bg-cyanAccent/15 hover:bg-cyanAccent/25 text-cyanAccent text-xs font-mono font-semibold border border-cyanAccent/30 transition-colors">
+                            <span>Verify Coursera</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                        <button onclick="copyText('50M9053CWBIX', 'Copied Credential ID: 50M9053CWBIX')" aria-label="Copy ID 50M9053CWBIX" class="px-3 py-2 rounded-xl bg-techBg hover:bg-techCardHover text-slate-300 text-xs border border-sky-400/20">
+                            <i class="fa-regular fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 12. Google Ask Questions to Make Data-Driven Decisions -->
+                <div data-cert="google" class="cert-card eng-card rounded-2xl p-5 flex flex-col justify-between space-y-4">
+                    <div>
+                        <span class="font-mono text-[11px] text-cyanAccent uppercase">Google</span>
+                        <h3 class="font-bold text-white text-base mt-1">Ask Questions to Make Data-Driven Decisions</h3>
+                        <p class="font-mono text-xs text-slate-400 mt-1">ID: TSFNQ1QU4RZ6</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <a href="https://coursera.org/verify/TSFNQ1QU4RZ6" target="_blank" rel="noopener noreferrer" class="flex-1 inline-flex items-center justify-between px-3 py-2 rounded-xl bg-cyanAccent/15 hover:bg-cyanAccent/25 text-cyanAccent text-xs font-mono font-semibold border border-cyanAccent/30 transition-colors">
+                            <span>Verify Coursera</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                        <button onclick="copyText('TSFNQ1QU4RZ6', 'Copied Credential ID: TSFNQ1QU4RZ6')" aria-label="Copy ID TSFNQ1QU4RZ6" class="px-3 py-2 rounded-xl bg-techBg hover:bg-techCardHover text-slate-300 text-xs border border-sky-400/20">
+                            <i class="fa-regular fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 13. Google AI-Powered Performance Ads -->
+                <div data-cert="google" class="cert-card eng-card rounded-2xl p-5 flex flex-col justify-between space-y-4">
+                    <div>
+                        <span class="font-mono text-[11px] text-cyanAccent uppercase">Google</span>
+                        <h3 class="font-bold text-white text-base mt-1">AI-Powered Performance Ads</h3>
+                        <p class="text-xs text-slate-400 mt-1">Automated campaign evaluation and relevance optimization (2026)</p>
+                    </div>
+                    <span class="font-mono text-xs text-cyanAccent bg-cyanAccent/10 px-3 py-1.5 rounded-xl border border-cyanAccent/30 w-fit">
+                        <i class="fa-solid fa-check mr-1"></i> Google Verified 2026
+                    </span>
+                </div>
+
+                <!-- 14. AWS Foundations of Prompt Engineering -->
+                <div data-cert="awshp" class="cert-card eng-card rounded-2xl p-5 flex flex-col justify-between space-y-4">
+                    <div>
+                        <span class="font-mono text-[11px] text-amber-400 uppercase">AWS Training & Certification</span>
+                        <h3 class="font-bold text-white text-base mt-1">Foundations of Prompt Engineering</h3>
+                        <p class="text-xs text-slate-400 mt-1">Chain-of-thought structure, negative constraints, and prompt testing (2026)</p>
+                    </div>
+                    <span class="font-mono text-xs text-amber-300 bg-amber-400/10 px-3 py-1.5 rounded-xl border border-amber-400/30 w-fit">
+                        <i class="fa-solid fa-check mr-1"></i> AWS Verified 2026
+                    </span>
+                </div>
+
+                <!-- 15. AWS Intro to Gen AI -->
+                <div data-cert="awshp" class="cert-card eng-card rounded-2xl p-5 flex flex-col justify-between space-y-4">
+                    <div>
+                        <span class="font-mono text-[11px] text-amber-400 uppercase">AWS Training & Certification</span>
+                        <h3 class="font-bold text-white text-base mt-1">Intro to Gen AI (Art of the Possible)</h3>
+                        <p class="text-xs text-slate-400 mt-1">Generative AI use cases, quality risks, and production guardrails (2026)</p>
+                    </div>
+                    <span class="font-mono text-xs text-amber-300 bg-amber-400/10 px-3 py-1.5 rounded-xl border border-amber-400/30 w-fit">
+                        <i class="fa-solid fa-check mr-1"></i> AWS Verified 2026
+                    </span>
+                </div>
+
+                <!-- 16. AWS ML Terminology & Process -->
+                <div data-cert="awshp" class="cert-card eng-card rounded-2xl p-5 flex flex-col justify-between space-y-4">
+                    <div>
+                        <span class="font-mono text-[11px] text-amber-400 uppercase">AWS Training & Certification</span>
+                        <h3 class="font-bold text-white text-base mt-1">ML Terminology & Process</h3>
+                        <p class="text-xs text-slate-400 mt-1">Ground-truth labeling splits, validation pipelines, and model error checks (2026)</p>
+                    </div>
+                    <span class="font-mono text-xs text-amber-300 bg-amber-400/10 px-3 py-1.5 rounded-xl border border-amber-400/30 w-fit">
+                        <i class="fa-solid fa-check mr-1"></i> AWS Verified 2026
+                    </span>
+                </div>
+
+                <!-- 17. HP LIFE Critical Thinking in the AI Era -->
+                <div data-cert="awshp" class="cert-card eng-card rounded-2xl p-5 flex flex-col justify-between space-y-4">
+                    <div>
+                        <span class="font-mono text-[11px] text-emerald-400 uppercase">HP LIFE / HP Foundation</span>
+                        <h3 class="font-bold text-white text-base mt-1">Critical Thinking in the AI Era</h3>
+                        <p class="text-xs text-slate-400 mt-1">Issued May 30, 2026 • Fact verification and AI bias detection</p>
+                    </div>
+                    <button onclick="copyText('5f0c815c-7fbf-4f51-8d15-3636dd0176e0', 'Copied HP Serial ID: 5f0c815c-7fbf-4f51-8d15-3636dd0176e0')" class="inline-flex items-center justify-between px-3 py-2 rounded-xl bg-techBg hover:bg-techCardHover text-slate-200 text-[11px] font-mono border border-sky-400/20 transition-colors">
+                        <span class="truncate mr-2">ID: 5f0c815c-7fbf-4f51-8d15-3636dd0176e0</span>
+                        <i class="fa-regular fa-copy text-emerald-400 shrink-0"></i>
+                    </button>
+                </div>
+
+                <!-- 18. HP LIFE Financial Basics -->
+                <div data-cert="awshp" class="cert-card eng-card rounded-2xl p-5 flex flex-col justify-between space-y-4">
+                    <div>
+                        <span class="font-mono text-[11px] text-emerald-400 uppercase">HP LIFE / HP Foundation</span>
+                        <h3 class="font-bold text-white text-base mt-1">Financial Basics</h3>
+                        <p class="text-xs text-slate-400 mt-1">Quantitative reconciliation and audit-ready reporting (2026)</p>
+                    </div>
+                    <span class="font-mono text-xs text-emerald-300 bg-emeraldAccent/10 px-3 py-1.5 rounded-xl border border-emeraldAccent/30 w-fit">
+                        <i class="fa-solid fa-check mr-1"></i> HP Verified 2026
+                    </span>
+                </div>
+
+                <!-- 19. HP LIFE Presenting Data -->
+                <div data-cert="awshp" class="cert-card eng-card rounded-2xl p-5 flex flex-col justify-between space-y-4">
+                    <div>
+                        <span class="font-mono text-[11px] text-emerald-400 uppercase">HP LIFE / HP Foundation</span>
+                        <h3 class="font-bold text-white text-base mt-1">Presenting Data</h3>
+                        <p class="text-xs text-slate-400 mt-1">Turning error logs and QA metrics into clear visual reports (2026)</p>
+                    </div>
+                    <span class="font-mono text-xs text-emerald-300 bg-emeraldAccent/10 px-3 py-1.5 rounded-xl border border-emeraldAccent/30 w-fit">
+                        <i class="fa-solid fa-check mr-1"></i> HP Verified 2026
+                    </span>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 6. TECHNICAL STACK & EDUCATION SECTION -->
+        <section id="stack" class="space-y-8 scroll-mt-24">
+            <div>
+                <p class="text-xs font-mono uppercase tracking-widest text-cyanAccent">Tools & Academic Background</p>
+                <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">Technical Stack & Education</h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Technical Stack (7 cols) -->
+                <div class="lg:col-span-7 eng-card rounded-2xl p-6 sm:p-7 space-y-5">
+                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-terminal text-cyanAccent"></i>
+                        <span>QA & Audio Inspection Toolkit</span>
+                    </h3>
+
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        I combine audio waveform editors, backend log inspection, and visual design tools so my feedback stays fast and unmistakable.
+                    </p>
+
+                    <div class="flex flex-wrap gap-2.5">
+                        <span class="px-3.5 py-2 rounded-xl bg-techBg border border-sky-400/20 text-xs font-mono text-cyanAccent">Audacity</span>
+                        <span class="px-3.5 py-2 rounded-xl bg-techBg border border-sky-400/20 text-xs font-mono text-cyanAccent">Adobe Audition</span>
+                        <span class="px-3.5 py-2 rounded-xl bg-techBg border border-sky-400/20 text-xs font-mono text-cyanAccent">Backend JSON Log Inspection</span>
+                        <span class="px-3.5 py-2 rounded-xl bg-techBg border border-sky-400/20 text-xs font-mono text-slate-200">Google Workspace & Apps Script</span>
+                        <span class="px-3.5 py-2 rounded-xl bg-techBg border border-sky-400/20 text-xs font-mono text-slate-200">Microsoft Excel</span>
+                        <span class="px-3.5 py-2 rounded-xl bg-techBg border border-sky-400/20 text-xs font-mono text-slate-200">Canva</span>
+                        <span class="px-3.5 py-2 rounded-xl bg-techBg border border-sky-400/20 text-xs font-mono text-slate-200">CapCut</span>
+                        <span class="px-3.5 py-2 rounded-xl bg-techBg border border-sky-400/20 text-xs font-mono text-slate-200">Basic Python</span>
+                        <span class="px-3.5 py-2 rounded-xl bg-techBg border border-sky-400/20 text-xs font-mono text-slate-200">HTML / CSS / JS</span>
+                    </div>
+
+                    <div class="pt-2 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                        <div class="p-3 rounded-xl bg-techBg/75 border border-sky-400/10">
+                            <strong class="text-white font-mono block">Indonesian</strong>
+                            <span class="text-emerald-300">Native Speaker</span>
+                        </div>
+                        <div class="p-3 rounded-xl bg-techBg/75 border border-sky-400/10">
+                            <strong class="text-white font-mono block">English</strong>
+                            <span class="text-cyanAccent">Full Professional</span>
+                        </div>
+                        <div class="p-3 rounded-xl bg-techBg/75 border border-sky-400/10">
+                            <strong class="text-white font-mono block">Javanese</strong>
+                            <span class="text-amber-300">Native Cultural Ear</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Education Card (5 cols) -->
+                <div class="lg:col-span-5 eng-card rounded-2xl p-6 sm:p-7 flex flex-col justify-between space-y-6 border-l-4 border-l-indigoAccent">
+                    <div class="space-y-3">
+                        <span class="font-mono text-xs uppercase tracking-widest text-indigo-400">University Degree</span>
+                        <h3 class="text-xl font-bold text-white">
+                            Bachelor of Economics in Accounting (Audit Focus)
+                        </h3>
+                        <p class="text-sm font-medium text-cyanAccent">
+                            Universitas Bangka Belitung • Graduated 2014
+                        </p>
+                        <p class="text-sm text-slate-300 leading-relaxed">
+                            Trained in Auditing, Financial and Management Accounting, Taxation, Business Reporting, and structured documentation. That audit mindset still drives how I verify AI datasets today.
+                        </p>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-techBg border border-indigoAccent/30 flex items-center justify-between">
+                        <span class="font-mono text-xs uppercase text-slate-400">Final GPA</span>
+                        <span class="font-mono text-2xl font-bold text-emerald-400">3.85 / 4.00</span>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Comprehensive Certifications 2026 -->
-    <section id="certifications" class="py-20 bg-cardBg/30 border-y border-white/5 px-4">
-        <div class="max-w-6xl mx-auto">
-            <h2 class="text-3xl font-bold text-center text-white mb-12">2026 Comprehensive <span class="text-primary">Certifications</span></h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Google Cloud / Google -->
-                <div class="glass-card p-6 rounded-xl border-t-2 border-t-primary">
-                    <h3 class="text-lg font-bold text-white mb-4 border-b border-white/10 pb-2"><i class="fab fa-google text-primary mr-2"></i> Google / Google Cloud</h3>
-                    <ul class="space-y-2 text-sm text-slate-300">
-                        <li><i class="fas fa-certificate text-primary/50 mr-2"></i> Google AI Professional Cert</li>
-                        <li><i class="fas fa-certificate text-primary/50 mr-2"></i> Intro to Large Language Models</li>
-                        <li><i class="fas fa-certificate text-primary/50 mr-2"></i> AI for Data Analysis & Content</li>
-                        <li><i class="fas fa-certificate text-primary/50 mr-2"></i> AI for Writing & Communicating</li>
-                        <li><i class="fas fa-certificate text-primary/50 mr-2"></i> Prepare Data for Exploration</li>
-                        <li><i class="fas fa-certificate text-primary/50 mr-2"></i> Ask Questions for Decisions</li>
-                        <li><i class="fas fa-certificate text-primary/50 mr-2"></i> AI-Powered Performance Ads</li>
-                    </ul>
-                </div>
-
-                <!-- AWS & IBM -->
-                <div class="glass-card p-6 rounded-xl border-t-2 border-t-accent">
-                    <h3 class="text-lg font-bold text-white mb-4 border-b border-white/10 pb-2"><i class="fas fa-server text-accent mr-2"></i> AWS & IBM</h3>
-                    <ul class="space-y-2 text-sm text-slate-300">
-                        <li><i class="fas fa-certificate text-accent/50 mr-2"></i> <strong>IBM:</strong> Agentic AI with LangChain & LangGraph</li>
-                        <li><i class="fas fa-certificate text-accent/50 mr-2"></i> <strong>AWS:</strong> Foundations of Prompt Engineering</li>
-                        <li><i class="fas fa-certificate text-accent/50 mr-2"></i> <strong>AWS:</strong> Intro to Gen AI - Art of the Possible</li>
-                        <li><i class="fas fa-certificate text-accent/50 mr-2"></i> <strong>AWS:</strong> ML Terminology and Process</li>
-                    </ul>
-                </div>
-
-                <!-- Anthropic, HP, OpenAI -->
-                <div class="glass-card p-6 rounded-xl border-t-2 border-t-purple-400">
-                    <h3 class="text-lg font-bold text-white mb-4 border-b border-white/10 pb-2"><i class="fas fa-brain text-purple-400 mr-2"></i> AI Builders & Foundations</h3>
-                    <ul class="space-y-2 text-sm text-slate-300">
-                        <li><i class="fas fa-certificate text-purple-400/50 mr-2"></i> <strong>Anthropic:</strong> Claude 101</li>
-                        <li><i class="fas fa-certificate text-purple-400/50 mr-2"></i> <strong>Anthropic:</strong> Claude Code 101</li>
-                        <li><i class="fas fa-certificate text-purple-400/50 mr-2"></i> <strong>OpenAI Academy:</strong> AI Foundations</li>
-                        <li><i class="fas fa-certificate text-purple-400/50 mr-2"></i> <strong>HP Foundation:</strong> Critical Thinking in AI</li>
-                        <li><i class="fas fa-certificate text-purple-400/50 mr-2"></i> <strong>HP Foundation:</strong> Financial Basics</li>
-                        <li><i class="fas fa-certificate text-purple-400/50 mr-2"></i> <strong>HP Foundation:</strong> Presenting Data</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="mt-8 text-center">
-                <p class="text-sm text-slate-400"><i class="fas fa-graduation-cap mr-2"></i> <strong>Formal Education:</strong> Bachelor of Economics in Accounting (Audit Focus) • Universitas Bangka Belitung • GPA: 3.85</p>
-            </div>
-        </div>
-    </section>
+    </main>
 
     <!-- Footer -->
-    <footer class="py-12 px-4 text-center">
-        <div class="max-w-4xl mx-auto">
-            <h2 class="text-2xl font-bold text-white mb-6">Connect & Collaborate</h2>
-            <div class="flex flex-wrap justify-center gap-6 mb-8">
-                <a href="https://wa.me/6287748525874" class="text-slate-300 hover:text-emerald-400 transition-colors"><i class="fab fa-whatsapp text-2xl"></i></a>
-                <a href="mailto:storecikar@gmail.com" class="text-slate-300 hover:text-primary transition-colors"><i class="fas fa-envelope text-2xl"></i></a>
-                <a href="https://linkedin.com/in/viola-aldila-b859b63a3" class="text-slate-300 hover:text-primary transition-colors"><i class="fab fa-linkedin text-2xl"></i></a>
-                <!-- Blog Link Added Here as well -->
-                <a href="https://portfoliozoneola89.blogspot.com/" target="_blank" class="text-slate-300 hover:text-accent transition-colors" title="Personal Blog"><i class="fas fa-blog text-2xl"></i></a>
+    <footer class="relative z-10 border-t border-sky-400/15 bg-techCard/85 backdrop-blur-xl">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-14">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div class="lg:col-span-7 space-y-2.5">
+                    <p class="font-mono text-xs uppercase tracking-widest text-cyanAccent">Direct Contact</p>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white">
+                        Need clean speech or RLHF data without hand-holding?
+                    </h2>
+                    <p class="text-sm sm:text-base text-slate-300 max-w-xl leading-relaxed">
+                        Send me your language pair, rubric goals, and timeline. You'll get straight answers, strict NDA protection, and audit-ready work from day one.
+                    </p>
+                </div>
+
+                <div class="lg:col-span-5 flex flex-wrap lg:justify-end gap-3">
+                    <button onclick="copyText('storecikar@gmail.com', 'Copied storecikar@gmail.com')" class="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-cyanAccent text-techBg font-mono font-bold text-xs sm:text-sm hover:bg-tealAccent transition-colors">
+                        <i class="fa-regular fa-copy"></i>
+                        <span>Copy Email</span>
+                    </button>
+                    <a href="https://wa.me/6287748525874" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-emeraldAccent text-techBg font-mono font-bold text-xs sm:text-sm hover:bg-emerald-400 transition-colors">
+                        <i class="fa-brands fa-whatsapp text-base"></i>
+                        <span>WhatsApp</span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/viola-aldila-b859b63a3/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-techBg hover:bg-techCardHover text-white font-mono text-xs sm:text-sm border border-sky-400/20 transition-colors">
+                        <i class="fa-brands fa-linkedin text-cyanAccent text-base"></i>
+                        <span>LinkedIn</span>
+                    </a>
+                    <a href="https://portfoliozoneola89.blogspot.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-techBg hover:bg-techCardHover text-white font-mono text-xs sm:text-sm border border-sky-400/20 transition-colors">
+                        <i class="fa-solid fa-pen-nib text-amber-400"></i>
+                        <span>Blog</span>
+                    </a>
+                </div>
             </div>
-            <p class="text-slate-600 text-sm">&copy; 2026 Viola Aldila. All Rights Reserved.</p>
+
+            <div class="mt-10 pt-6 border-t border-sky-400/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-400">
+                <p>© 2026 Viola Aldila • Jakarta, Indonesia</p>
+                <p>NDA-Compliant Portfolio • Client Codenames Redacted</p>
+            </div>
         </div>
     </footer>
 
+    <!-- MODAL A: AUDIO QA MASTER BLUEPRINT (v1.0) -->
+    <div id="blueprintModal" role="dialog" aria-modal="true" aria-labelledby="blueprintTitle" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+        <div class="bg-techCard border border-cyanAccent/35 rounded-2xl max-w-3xl w-full max-h-[88vh] overflow-y-auto p-6 sm:p-8 space-y-6 shadow-2xl">
+            <div class="flex items-start justify-between gap-4 border-b border-sky-400/15 pb-4">
+                <div>
+                    <span class="font-mono text-xs uppercase tracking-wider text-cyanAccent">16-Page Operational Reference</span>
+                    <h3 id="blueprintTitle" class="text-xl sm:text-2xl font-bold text-white mt-1">
+                        Audio QA Master Blueprint (v1.0)
+                    </h3>
+                </div>
+                <button onclick="closeArtifactModal('blueprintModal')" aria-label="Close modal" class="p-2 rounded-xl bg-techBg hover:bg-techCardHover text-slate-300 border border-sky-400/20">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <p class="text-sm text-slate-300 leading-relaxed">
+                I wrote this 16-page reference to standardize global English and multilingual audio reviews. When reviewers grade without a shared yardstick, they reject great speakers over harmless regional accents and miss real signal flaws.
+            </p>
+
+            <!-- 3-Layer Matrix -->
+            <div class="space-y-3">
+                <h4 class="font-mono text-xs uppercase tracking-wider text-cyanAccent font-bold">Part 1: The 3-Layer Matrix</h4>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs sm:text-sm">
+                    <div class="p-4 rounded-xl bg-techBg border border-sky-400/15">
+                        <strong class="text-cyanAccent font-mono block mb-1">Layer 1: Prompt & Policy Compliance</strong>
+                        Checks speaker consent, target language match, safety rules, and zero personal data leaks before grading audio.
+                    </div>
+                    <div class="p-4 rounded-xl bg-techBg border border-sky-400/15">
+                        <strong class="text-tealAccent font-mono block mb-1">Layer 2: Linguistic Accuracy</strong>
+                        Catches word omissions, word substitutions, misread prompts, and stiff or unnatural phrasing.
+                    </div>
+                    <div class="p-4 rounded-xl bg-techBg border border-sky-400/15">
+                        <strong class="text-emerald-400 font-mono block mb-1">Layer 3: Technical Signal Integrity</strong>
+                        Verifies clean SNR, zero peak clipping, low room echo, and pure Voice Activity Detection (VAD) boundaries.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 100-Point Objective Scorecard -->
+            <div class="space-y-3">
+                <h4 class="font-mono text-xs uppercase tracking-wider text-cyanAccent font-bold">Part 2: 100-Point Objective Scorecard</h4>
+                <div class="grid grid-cols-2 sm:grid-cols-5 gap-2.5 text-center">
+                    <div class="p-3 rounded-xl bg-techBg border border-sky-400/15">
+                        <p class="font-mono text-lg font-bold text-white">25 pts</p>
+                        <p class="text-[11px] font-mono text-slate-400 mt-0.5">Prompt Match</p>
+                    </div>
+                    <div class="p-3 rounded-xl bg-techBg border border-sky-400/15">
+                        <p class="font-mono text-lg font-bold text-white">20 pts</p>
+                        <p class="text-[11px] font-mono text-slate-400 mt-0.5">Clarity</p>
+                    </div>
+                    <div class="p-3 rounded-xl bg-techBg border border-sky-400/15">
+                        <p class="font-mono text-lg font-bold text-white">20 pts</p>
+                        <p class="text-[11px] font-mono text-slate-400 mt-0.5">SNR & Noise</p>
+                    </div>
+                    <div class="p-3 rounded-xl bg-techBg border border-sky-400/15">
+                        <p class="font-mono text-lg font-bold text-white">20 pts</p>
+                        <p class="text-[11px] font-mono text-slate-400 mt-0.5">Pure VAD & Peaks</p>
+                    </div>
+                    <div class="p-3 rounded-xl bg-techBg border border-sky-400/15 col-span-2 sm:col-span-1">
+                        <p class="font-mono text-lg font-bold text-white">15 pts</p>
+                        <p class="text-[11px] font-mono text-slate-400 mt-0.5">Natural Pace</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm pt-1">
+                    <div class="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/30">
+                        <strong class="text-rose-300 font-mono block mb-1">Critical Auto-Reject Defects</strong>
+                        Clipped waveforms, cut-off first or last syllables, background voices, wrong language, or skipped script words.
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30">
+                        <strong class="text-emerald-300 font-mono block mb-1">Protected Natural Variation</strong>
+                        Authentic regional accents and natural human cadence stay approved as long as pronunciation is clear and accurate.
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-2 flex justify-end">
+                <button onclick="closeArtifactModal('blueprintModal')" class="px-5 py-2.5 rounded-xl bg-cyanAccent text-techBg font-mono font-bold text-xs sm:text-sm hover:bg-tealAccent transition-colors">
+                    Done Reading
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL B: 8-STEP VISUAL QA & PROMPT WORKFLOW GUIDE -->
+    <div id="workflowModal" role="dialog" aria-modal="true" aria-labelledby="workflowTitle" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+        <div class="bg-techCard border border-indigoAccent/40 rounded-2xl max-w-3xl w-full max-h-[88vh] overflow-y-auto p-6 sm:p-8 space-y-6 shadow-2xl">
+            <div class="flex items-start justify-between gap-4 border-b border-sky-400/15 pb-4">
+                <div>
+                    <span class="font-mono text-xs uppercase tracking-wider text-indigo-400">8-Panel Visual SOP Checklist</span>
+                    <h3 id="workflowTitle" class="text-xl sm:text-2xl font-bold text-white mt-1">
+                        8-Step Visual QA & Prompt Workflow Guide
+                    </h3>
+                </div>
+                <button onclick="closeArtifactModal('workflowModal')" aria-label="Close modal" class="p-2 rounded-xl bg-techBg hover:bg-techCardHover text-slate-300 border border-sky-400/20">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <p class="text-sm text-slate-300 leading-relaxed">
+                This is the 8-panel SOP structure I built to turn long English client manuals into visual Indonesian and English job aids. It helped lift our team score from 62% to 95%.
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
+                <div class="p-3.5 rounded-xl bg-techBg border border-sky-400/15">
+                    <span class="font-mono text-cyanAccent font-bold">Panel 01 • Role & Intent Lock</span>
+                    <p class="text-slate-300 mt-1">Read the user prompt first and lock the exact speaker persona, locale, and goal.</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-techBg border border-sky-400/15">
+                    <span class="font-mono text-cyanAccent font-bold">Panel 02 • Bias & Assumption Check</span>
+                    <p class="text-slate-300 mt-1">Strip vague wording that nudges the model toward stereotypes or unverified guesses.</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-techBg border border-sky-400/15">
+                    <span class="font-mono text-cyanAccent font-bold">Panel 03 • Visual Do-and-Don't Card</span>
+                    <p class="text-slate-300 mt-1">Compare live edge cases against green pass examples and red reject examples in Indonesian and English.</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-techBg border border-sky-400/15">
+                    <span class="font-mono text-cyanAccent font-bold">Panel 04 • Acoustic Boundary Check</span>
+                    <p class="text-slate-300 mt-1">Verify clean lead-in and trail-out padding with zero clipped consonants or cross-talk.</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-techBg border border-sky-400/15">
+                    <span class="font-mono text-cyanAccent font-bold">Panel 05 • Word-for-Word Transcript Audit</span>
+                    <p class="text-slate-300 mt-1">Match spoken Indonesian or Javanese audio against text tags, fillers, and regional spelling rules.</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-techBg border border-sky-400/15">
+                    <span class="font-mono text-cyanAccent font-bold">Panel 06 • Backend JSON Tool Check</span>
+                    <p class="text-slate-300 mt-1">Inspect raw JSON logs on agent runs to confirm the right tool fired with exact arguments.</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-techBg border border-sky-400/15">
+                    <span class="font-mono text-cyanAccent font-bold">Panel 07 • Rubric Score Split</span>
+                    <p class="text-slate-300 mt-1">Grade Task Completion separately from Conversational Naturalness so smooth talk never hides wrong facts.</p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-techBg border border-sky-400/15">
+                    <span class="font-mono text-cyanAccent font-bold">Panel 08 • Calibration Feedback Note</span>
+                    <p class="text-slate-300 mt-1">Log a short, clear fix note for contributors so the same mistake doesn't repeat tomorrow.</p>
+                </div>
+            </div>
+
+            <div class="pt-2 flex justify-end">
+                <button onclick="closeArtifactModal('workflowModal')" class="px-5 py-2.5 rounded-xl bg-indigoAccent text-white font-mono font-bold text-xs sm:text-sm hover:bg-indigo-500 transition-colors">
+                    Close Checklist
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Copy Toast -->
+    <div id="copyToast" role="status" aria-live="polite" class="fixed bottom-5 right-5 z-50 pointer-events-none opacity-0 translate-y-3 transition-all duration-300 bg-techCard border border-cyanAccent/50 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-2.5 text-xs sm:text-sm font-mono">
+        <i class="fa-solid fa-circle-check text-emerald-400"></i>
+        <span id="copyToastLabel">Copied to clipboard</span>
+    </div>
+
+    <script>
+        /* =====================================================================
+           UI CONTROLS: MOBILE NAV, CLIPBOARD COPY TOAST, FILTERS & MODALS
+           ===================================================================== */
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mobileNavPanel = document.getElementById('mobileNavPanel');
+
+        mobileMenuToggle.addEventListener('click', function () {
+            mobileNavPanel.classList.toggle('hidden');
+        });
+
+        document.querySelectorAll('.mobile-nav-item').forEach(function (link) {
+            link.addEventListener('click', function () {
+                mobileNavPanel.classList.add('hidden');
+            });
+        });
+
+        let toastTimeoutId = null;
+        function copyText(value, message) {
+            try {
+                const input = document.createElement('textarea');
+                input.value = value;
+                input.setAttribute('readonly', '');
+                input.style.position = 'fixed';
+                input.style.opacity = '0';
+                document.body.appendChild(input);
+                input.select();
+                document.execCommand('copy');
+                document.body.removeChild(input);
+                showToast(message);
+            } catch (e) {
+                showToast('Copy value: ' + value);
+            }
+        }
+
+        function showToast(text) {
+            const toast = document.getElementById('copyToast');
+            const label = document.getElementById('copyToastLabel');
+            label.textContent = text;
+            toast.classList.remove('opacity-0', 'translate-y-3');
+            toast.classList.add('opacity-100', 'translate-y-0');
+            if (toastTimeoutId) clearTimeout(toastTimeoutId);
+            toastTimeoutId = setTimeout(function () {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'translate-y-3');
+            }, 2400);
+        }
+
+        function filterRoles(category, button) {
+            document.querySelectorAll('.role-tab').forEach(function (tab) {
+                tab.classList.remove('tab-active');
+                tab.classList.add('tab-inactive');
+            });
+            button.classList.remove('tab-inactive');
+            button.classList.add('tab-active');
+
+            let shown = 0;
+            document.querySelectorAll('.role-card').forEach(function (card) {
+                const tags = card.getAttribute('data-role') || '';
+                if (category === 'all' || tags.indexOf(category) !== -1) {
+                    card.classList.remove('hidden');
+                    shown++;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+            const counter = document.getElementById('roleCounter');
+            if (counter) counter.textContent = String(shown);
+        }
+
+        function filterCerts(category, button) {
+            document.querySelectorAll('.cert-tab').forEach(function (tab) {
+                tab.classList.remove('tab-active');
+                tab.classList.add('tab-inactive');
+            });
+            button.classList.remove('tab-inactive');
+            button.classList.add('tab-active');
+
+            document.querySelectorAll('.cert-card').forEach(function (card) {
+                const group = card.getAttribute('data-cert') || '';
+                if (category === 'all' || group === category) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        function openArtifactModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeArtifactModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.body.style.overflow = '';
+            }
+        }
+
+        window.addEventListener('click', function (event) {
+            if (event.target === document.getElementById('blueprintModal')) closeArtifactModal('blueprintModal');
+            if (event.target === document.getElementById('workflowModal')) closeArtifactModal('workflowModal');
+        });
+
+        window.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                closeArtifactModal('blueprintModal');
+                closeArtifactModal('workflowModal');
+            }
+        });
+
+        /* =====================================================================
+           LAYER 1 & LAYER 2 CANVASES
+           Layer 1: Completely Static Connected Lines & 1.5px Dots (Drawn ONCE)
+           Layer 2: Single Ultra-Fine Slow-Gliding Cursor Line (Heavy Smoothing)
+           ===================================================================== */
+        window.onload = function () {
+            const staticCanvas = document.getElementById('staticNetworkCanvas');
+            const staticCtx = staticCanvas.getContext('2d');
+
+            const cursorCanvas = document.getElementById('cursorLineCanvas');
+            const cursorCtx = cursorCanvas.getContext('2d');
+
+            let viewW = window.innerWidth;
+            let viewH = window.innerHeight;
+            let dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+            // Deterministic pseudo-random helper so the static geometric mesh looks balanced
+            function seededValue(seed) {
+                const x = Math.sin(seed * 127.1 + 311.7) * 43758.5453;
+                return x - Math.floor(x);
+            }
+
+            // LAYER 1: Draw static connected lines ONCE on load and resize
+            function drawStaticNetwork() {
+                viewW = window.innerWidth;
+                viewH = window.innerHeight;
+                dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+                staticCanvas.width = Math.floor(viewW * dpr);
+                staticCanvas.height = Math.floor(viewH * dpr);
+                staticCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                staticCtx.clearRect(0, 0, viewW, viewH);
+
+                const cellSize = viewW < 640 ? 135 : 165;
+                const cols = Math.ceil(viewW / cellSize) + 1;
+                const rows = Math.ceil(viewH / cellSize) + 1;
+                const points = [];
+
+                let seed = 14;
+                for (let r = 0; r < rows; r++) {
+                    for (let c = 0; c < cols; c++) {
+                        seed++;
+                        const jitterX = (seededValue(seed) - 0.5) * cellSize * 0.72;
+                        const jitterY = (seededValue(seed + 97) - 0.5) * cellSize * 0.72;
+                        points.push({
+                            x: c * cellSize + jitterX,
+                            y: r * cellSize + jitterY
+                        });
+                    }
+                }
+
+                const maxDist = cellSize * 1.48;
+                staticCtx.lineWidth = 0.6;
+                staticCtx.strokeStyle = 'rgba(56, 189, 248, 0.08)';
+
+                staticCtx.beginPath();
+                for (let i = 0; i < points.length; i++) {
+                    for (let j = i + 1; j < points.length; j++) {
+                        const dx = points[i].x - points[j].x;
+                        const dy = points[i].y - points[j].y;
+                        const dist = Math.hypot(dx, dy);
+                        if (dist <= maxDist) {
+                            staticCtx.moveTo(points[i].x, points[i].y);
+                            staticCtx.lineTo(points[j].x, points[j].y);
+                        }
+                    }
+                }
+                staticCtx.stroke();
+
+                // Tiny 1.5px diameter node dots
+                staticCtx.fillStyle = 'rgba(56, 189, 248, 0.16)';
+                for (let i = 0; i < points.length; i++) {
+                    staticCtx.beginPath();
+                    staticCtx.arc(points[i].x, points[i].y, 1.5, 0, Math.PI * 2);
+                    staticCtx.fill();
+                }
+            }
+
+            // LAYER 2: Single ultra-fine slow-gliding cursor line
+            const TRAIL_COUNT = 32;
+            const HEAD_EASE = 0.055;
+            const CHAIN_EASE = 0.22;
+
+            const mouseTarget = {
+                x: viewW * 0.5,
+                y: viewH * 0.35,
+                initialized: false
+            };
+
+            const trail = [];
+            for (let i = 0; i < TRAIL_COUNT; i++) {
+                trail.push({ x: mouseTarget.x, y: mouseTarget.y });
+            }
+
+            function resizeCursorCanvas() {
+                cursorCanvas.width = Math.floor(window.innerWidth * dpr);
+                cursorCanvas.height = Math.floor(window.innerHeight * dpr);
+                cursorCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            }
+
+            drawStaticNetwork();
+            resizeCursorCanvas();
+
+            window.addEventListener('resize', function () {
+                drawStaticNetwork();
+                resizeCursorCanvas();
+            });
+
+            function setPointerPosition(x, y) {
+                mouseTarget.x = x;
+                mouseTarget.y = y;
+                if (!mouseTarget.initialized) {
+                    mouseTarget.initialized = true;
+                    for (let i = 0; i < TRAIL_COUNT; i++) {
+                        trail[i].x = x;
+                        trail[i].y = y;
+                    }
+                }
+            }
+
+            window.addEventListener('mousemove', function (event) {
+                setPointerPosition(event.clientX, event.clientY);
+            }, { passive: true });
+
+            window.addEventListener('touchmove', function (event) {
+                if (event.touches && event.touches.length > 0) {
+                    setPointerPosition(event.touches[0].clientX, event.touches[0].clientY);
+                }
+            }, { passive: true });
+
+            function renderCursorLine() {
+                cursorCtx.clearRect(0, 0, viewW, viewH);
+
+                if (mouseTarget.initialized) {
+                    // Calm exponential easing: zero bounce, slow liquid glide
+                    trail[0].x += (mouseTarget.x - trail[0].x) * HEAD_EASE;
+                    trail[0].y += (mouseTarget.y - trail[0].y) * HEAD_EASE;
+
+                    for (let i = 1; i < TRAIL_COUNT; i++) {
+                        trail[i].x += (trail[i - 1].x - trail[i].x) * CHAIN_EASE;
+                        trail[i].y += (trail[i - 1].y - trail[i].y) * CHAIN_EASE;
+                    }
+
+                    const head = trail[0];
+                    const tail = trail[TRAIL_COUNT - 1];
+                    const span = Math.hypot(head.x - tail.x, head.y - tail.y);
+
+                    if (span > 0.6) {
+                        const grad = cursorCtx.createLinearGradient(head.x, head.y, tail.x, tail.y);
+                        grad.addColorStop(0, 'rgba(56, 189, 248, 0.48)');
+                        grad.addColorStop(0.45, 'rgba(6, 182, 212, 0.24)');
+                        grad.addColorStop(1, 'rgba(56, 189, 248, 0)');
+
+                        cursorCtx.beginPath();
+                        cursorCtx.moveTo(head.x, head.y);
+                        for (let i = 1; i < TRAIL_COUNT - 1; i++) {
+                            const midX = (trail[i].x + trail[i + 1].x) * 0.5;
+                            const midY = (trail[i].y + trail[i + 1].y) * 0.5;
+                            cursorCtx.quadraticCurveTo(trail[i].x, trail[i].y, midX, midY);
+                        }
+                        cursorCtx.lineTo(tail.x, tail.y);
+
+                        cursorCtx.strokeStyle = grad;
+                        cursorCtx.lineWidth = 1;
+                        cursorCtx.lineCap = 'round';
+                        cursorCtx.lineJoin = 'round';
+                        cursorCtx.stroke();
+                    }
+                }
+
+                requestAnimationFrame(renderCursorLine);
+            }
+
+            requestAnimationFrame(renderCursorLine);
+        };
+    </script>
 </body>
 </html>
