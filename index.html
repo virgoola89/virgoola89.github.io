@@ -1,761 +1,1941 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="dark scroll-smooth">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Viola Aldila | AI Quality Assurance & Linguistic Lead</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Viola Aldila | AI Quality Assurance Specialist & Linguistic Team Lead</title>
+  <meta name="description" content="Portfolio of Viola Aldila — AI Quality Assurance Specialist & Linguistic Team Lead specializing in Audio, RLHF, LLM Agent Evaluation, AI Web Apps, and Indonesian & Javanese Linguistic Data QA." />
+
+  <!-- Google Fonts: Inter & DM Serif Display -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- FontAwesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
           fontFamily: {
-            sans: ['Plus Jakarta Sans', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace']
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            serif: ['"DM Serif Display"', 'Georgia', 'serif'],
           },
           colors: {
-            bgBase: '#060a12',
-            bgPanel: '#0d1422',
-            cyanTech: '#22d3ee',
-            blueTech: '#3b82f6'
+            navy: {
+              950: '#0b1121',
+              900: '#0f172a',
+              850: '#151e32',
+              800: '#1c2842',
+            },
           }
         }
       }
     };
   </script>
+
   <style>
-    body {
-      background-color: #060a12;
-      color: #cbd5e1;
-      overflow-x: hidden;
+    /* Theme variables & smooth transitions */
+    :root {
+      --bg-primary: #f8fafc;
+      --bg-card: rgba(255, 255, 255, 0.88);
+      --border-subtle: rgba(15, 23, 42, 0.08);
+      --grid-line: rgba(15, 23, 42, 0.045);
     }
-    #staticMesh,
-    #cursorLine {
-      position: fixed;
-      inset: 0;
-      width: 100vw;
-      height: 100vh;
+    html.dark {
+      --bg-primary: #0b1121;
+      --bg-card: rgba(21, 30, 50, 0.80);
+      --border-subtle: rgba(148, 163, 184, 0.14);
+      --grid-line: rgba(148, 163, 184, 0.06);
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    /* Subtle static geometric grid background */
+    .bg-geo-grid {
+      background-image:
+        linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+      background-size: 44px 44px;
+    }
+
+    .glass-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--border-subtle);
+    }
+
+    /* Custom Range Sliders */
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      background: transparent;
+      cursor: pointer;
+    }
+    input[type="range"]::-webkit-slider-runnable-track {
+      height: 6px;
+      border-radius: 9999px;
+      background: rgba(148, 163, 184, 0.3);
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      height: 18px;
+      width: 18px;
+      border-radius: 50%;
+      background: #3b82f6;
+      border: 2px solid #ffffff;
+      margin-top: -6px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+      transition: transform 0.15s ease;
+    }
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.12);
+    }
+    input[type="range"].rose-slider::-webkit-slider-thumb {
+      background: #f43f5e;
+    }
+
+    /* Weather animations inside RoseSync Phone Simulator */
+    @keyframes rainFall {
+      0% { transform: translateY(-20px); opacity: 0; }
+      25% { opacity: 0.78; }
+      100% { transform: translateY(260px); opacity: 0; }
+    }
+    .rain-drop {
+      position: absolute;
+      width: 1.5px;
+      height: 18px;
+      background: linear-gradient(to bottom, transparent, rgba(191, 219, 254, 0.85));
+      animation: rainFall 1.1s linear infinite;
       pointer-events: none;
     }
-    #staticMesh { z-index: 0; }
-    #cursorLine { z-index: 1; }
-    .content-layer {
-      position: relative;
-      z-index: 10;
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.25; transform: scale(0.85); }
+      50% { opacity: 1; transform: scale(1.2); }
     }
-    .tech-card {
-      background: rgba(13, 20, 34, 0.82);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(148, 163, 184, 0.12);
-      transition: border-color 0.25s ease, transform 0.25s ease;
-    }
-    .tech-card:hover {
-      border-color: rgba(34, 211, 238, 0.38);
-      transform: translateY(-2px);
-    }
-    .nda-pill {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.05em;
-      background: rgba(245, 158, 11, 0.1);
-      color: #fbbf24;
-      border: 1px solid rgba(245, 158, 11, 0.28);
-      padding: 2px 8px;
+    .star-dot {
+      position: absolute;
+      width: 2.5px;
+      height: 2.5px;
       border-radius: 9999px;
+      background: #fef9c3;
+      animation: twinkle 2.4s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-4px); }
+    }
+    .animate-float-slow {
+      animation: floatSlow 4s ease-in-out infinite;
     }
   </style>
 </head>
-<body class="antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
+<body class="font-sans text-slate-800 dark:text-slate-100 antialiased selection:bg-blue-500/30 selection:text-blue-200 overflow-x-hidden bg-geo-grid">
 
-  <!-- Layer 1: Static Connected Geometric Network (Zero Animation) -->
-  <canvas id="staticMesh"></canvas>
-
-  <!-- Layer 2: Single Ultra-Fine Slow Cursor Line -->
-  <canvas id="cursorLine"></canvas>
-
-  <div class="content-layer">
-    <!-- Top Navigation -->
-    <header class="sticky top-0 z-40 bg-[#060a12]/85 backdrop-blur-md border-b border-slate-800/80">
-      <div class="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
-        <div class="flex items-center gap-3">
-          <span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
-          <span class="font-mono text-sm font-semibold tracking-wider text-white">VIOLA.ALDILA</span>
-          <span class="nda-pill hidden sm:inline-block">NDA STRICT MODE</span>
-        </div>
-        <nav class="hidden md:flex items-center gap-6 text-xs font-mono uppercase tracking-wider text-slate-400">
-          <a href="#about" class="hover:text-cyan-400 transition-colors">Overview</a>
-          <a href="#blueprint" class="hover:text-cyan-400 transition-colors">QA Blueprint</a>
-          <a href="#experience" class="hover:text-cyan-400 transition-colors">Experience</a>
-          <a href="#badges" class="hover:text-cyan-400 transition-colors">Benchmarks</a>
-          <a href="#credentials" class="hover:text-cyan-400 transition-colors">Credentials</a>
-        </nav>
-        <a href="mailto:storecikar@gmail.com" class="font-mono text-xs px-3.5 py-2 rounded-lg bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/20 transition-colors">
-          Contact Me
-        </a>
-      </div>
-    </header>
-
-    <!-- Hero Section -->
-    <section id="about" class="max-w-6xl mx-auto px-5 pt-20 pb-16">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900/90 border border-slate-700/70 font-mono text-xs text-cyan-300 mb-6">
-        <span>Jakarta, Indonesia</span>
-        <span class="text-slate-600">•</span>
-        <span>Remote Worldwide</span>
-        <span class="text-slate-600">•</span>
-        <span>ID / JV / EN (C2)</span>
-      </div>
-
-      <h1 class="text-4xl sm:text-6xl font-extrabold text-white tracking-tight leading-tight max-w-4xl">
-        I keep AI training data clean, accurate, and grounded in real human speech.
-      </h1>
-
-      <p class="mt-6 text-lg text-slate-300 max-w-3xl leading-relaxed">
-        I'm Viola Aldila, an AI Quality Assurance Specialist and Linguistic Team Lead. For the past 3.5+ years, I've worked inside high-volume RLHF, voice evaluation, Vision-Language-Action (VLA), and safety red-teaming pipelines. Bad guidelines break good teams. When one of my Indonesian annotation queues got stuck at 62% accuracy, I stripped down the dense English rulebooks, built visual workflow guides, and coached the team up to a steady 95%.
-      </p>
-
-      <p class="mt-3 text-sm font-mono text-slate-400 max-w-3xl">
-        Note on client privacy: Every proprietary project codename, internal queue label, and wake-word trigger on this site stays redacted under active NDAs.
-      </p>
-
-      <!-- Action Links -->
-      <div class="mt-8 flex flex-wrap items-center gap-3">
-        <button onclick="copyEmail()" id="copyBtn" class="px-5 py-2.5 rounded-lg bg-cyan-400 text-slate-950 font-semibold text-sm hover:bg-cyan-300 transition-colors">
-          Copy Email: storecikar@gmail.com
-        </button>
-        <a href="https://www.linkedin.com/in/viola-aldila-b859b63a3/" target="_blank" rel="noopener" class="px-4 py-2.5 rounded-lg tech-card text-sm font-medium text-white hover:text-cyan-300">
-          LinkedIn Profile →
-        </a>
-        <a href="https://portfoliozoneola89.blogspot.com/" target="_blank" rel="noopener" class="px-4 py-2.5 rounded-lg tech-card text-sm font-medium text-white hover:text-cyan-300">
-          Personal Blog →
-        </a>
-        <a href="https://wa.me/6287748525874" target="_blank" rel="noopener" class="px-4 py-2.5 rounded-lg tech-card text-sm font-mono text-slate-300 hover:text-emerald-300">
-          +62 877-4852-5874
-        </a>
-      </div>
-
-      <!-- Key Metrics Grid -->
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-14">
-        <div class="tech-card p-5 rounded-xl">
-          <div class="font-mono text-3xl font-bold text-cyan-400">62% → 95%</div>
-          <p class="text-xs text-slate-400 mt-2 leading-relaxed">Team quality jump after I rebuilt complex English manuals into visual Indonesian job aids.</p>
-        </div>
-        <div class="tech-card p-5 rounded-xl">
-          <div class="font-mono text-3xl font-bold text-white">94% Pass</div>
-          <p class="text-xs text-slate-400 mt-2 leading-relaxed">94 studio-grade voice clips accepted across 6 languages, totaling 48+ minutes of pure VAD speech.</p>
-        </div>
-        <div class="tech-card p-5 rounded-xl">
-          <div class="font-mono text-3xl font-bold text-white">3.5+ Yrs</div>
-          <p class="text-xs text-slate-400 mt-2 leading-relaxed">Hands-on QA across audio segmentation, JSON tool-call logs, LLM rubrics, and red teaming.</p>
-        </div>
-        <div class="tech-card p-5 rounded-xl">
-          <div class="font-mono text-3xl font-bold text-emerald-400">3.85 GPA</div>
-          <p class="text-xs text-slate-400 mt-2 leading-relaxed">Audit-concentration accounting graduate. I treat every dataset batch like a financial audit.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Core Capabilities -->
-    <section class="max-w-6xl mx-auto px-5 py-12">
-      <div class="grid md:grid-cols-3 gap-5">
-        <div class="tech-card p-6 rounded-xl">
-          <p class="font-mono text-xs text-cyan-400 uppercase tracking-wider mb-2">01 / RLHF & Agent Eval</p>
-          <h3 class="text-lg font-bold text-white mb-2">Voice, Text & VLA Pipelines</h3>
-          <p class="text-sm text-slate-400 leading-relaxed">
-            I audit live AI agent calls, inspect backend JSON logs to verify tool execution, grade multi-step instruction handling, and run adversarial red-team prompts to catch bias or policy slips early.
-          </p>
-        </div>
-        <div class="tech-card p-6 rounded-xl">
-          <p class="font-mono text-xs text-cyan-400 uppercase tracking-wider mb-2">02 / Speech & Linguistic QA</p>
-          <h3 class="text-lg font-bold text-white mb-2">Indonesian, Javanese & English</h3>
-          <p class="text-sm text-slate-400 leading-relaxed">
-            Native Indonesian speaker with working Javanese fluency and C2 English. I handle time-aligned transcription, speaker diarization, acoustic noise tagging, ASR cleanup, and naturalness checks.
-          </p>
-        </div>
-        <div class="tech-card p-6 rounded-xl">
-          <p class="font-mono text-xs text-cyan-400 uppercase tracking-wider mb-2">03 / QA Operations & Tooling</p>
-          <h3 class="text-lg font-bold text-white mb-2">Root-Cause Fixes That Stick</h3>
-          <p class="text-sm text-slate-400 leading-relaxed">
-            Daily work in Audacity, Adobe Audition, JSON log viewers, Google Apps Script, Excel, and Canva. I spot recurring contributor errors fast and build clear visual checklists so batches pass client audits on the first try.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Highlight Artifact: QA Master Blueprint -->
-    <section id="blueprint" class="max-w-6xl mx-auto px-5 py-14">
-      <div class="tech-card rounded-2xl p-7 sm:p-10 border-cyan-500/25">
-        <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
-          <div>
-            <span class="nda-pill">SANITIZED OPERATIONAL FRAMEWORK</span>
-            <h2 class="text-2xl sm:text-3xl font-bold text-white mt-3">16-Page Audio QA Master Blueprint</h2>
-          </div>
-          <button onclick="toggleBlueprintModal(true)" class="px-4 py-2.5 rounded-lg bg-cyan-500/15 border border-cyan-400/40 text-cyan-300 font-mono text-xs hover:bg-cyan-500/25 transition-colors">
-            Inspect Scoring Matrix →
-          </button>
-        </div>
-
-        <p class="text-slate-300 text-sm sm:text-base max-w-3xl leading-relaxed mb-8">
-          Subjective audio reviews slow teams down. Reviewers argue over minor background hums while missing broken script rules. So I wrote a 16-page operational QA reference for English audio recording pipelines that turns vague opinions into an audit-ready 100-point scorecard.
-        </p>
-
-        <div class="grid sm:grid-cols-3 gap-4">
-          <div class="bg-slate-950/70 border border-slate-800 p-4 rounded-xl">
-            <div class="font-mono text-xs text-cyan-400 mb-1">LAYER 01</div>
-            <div class="font-semibold text-white text-sm">3-Layer Review Matrix</div>
-            <p class="text-xs text-slate-400 mt-1.5">Separates task compliance, spoken linguistic quality, and raw signal integrity so reviewers don't mix up error types.</p>
-          </div>
-          <div class="bg-slate-950/70 border border-slate-800 p-4 rounded-xl">
-            <div class="font-mono text-xs text-cyan-400 mb-1">LAYER 02</div>
-            <div class="font-semibold text-white text-sm">100-Point Master Scorecard</div>
-            <p class="text-xs text-slate-400 mt-1.5">Weights script accuracy, pronunciation clarity, noise floor, clipping checks, and natural pacing with clear point deductions.</p>
-          </div>
-          <div class="bg-slate-950/70 border border-slate-800 p-4 rounded-xl">
-            <div class="font-mono text-xs text-cyan-400 mb-1">LAYER 03</div>
-            <div class="font-semibold text-white text-sm">Severity Decision Gate</div>
-            <p class="text-xs text-slate-400 mt-1.5">Maps defects into Critical/Fatal, Major, Minor, and Cosmetic buckets for instant Pass, Review, or Reject calls.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Experience Section with Interactive Filter -->
-    <section id="experience" class="max-w-6xl mx-auto px-5 py-14">
-      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
-        <div>
-          <p class="font-mono text-xs text-cyan-400 uppercase tracking-wider">Career Track</p>
-          <h2 class="text-3xl font-bold text-white mt-1">Professional Experience</h2>
-          <p class="text-sm text-slate-400 mt-1">Client queue names and wake-word phrases are masked to honor partner confidentiality.</p>
-        </div>
-        <div class="flex flex-wrap gap-2 font-mono text-xs" id="expFilters">
-          <button onclick="filterExp('all', this)" class="px-3 py-1.5 rounded-lg bg-cyan-400 text-slate-950 font-semibold">All Roles</button>
-          <button onclick="filterExp('qa', this)" class="px-3 py-1.5 rounded-lg bg-slate-900 text-slate-300 border border-slate-700 hover:border-cyan-400">QA & Leadership</button>
-          <button onclick="filterExp('llm', this)" class="px-3 py-1.5 rounded-lg bg-slate-900 text-slate-300 border border-slate-700 hover:border-cyan-400">RLHF & Red Team</button>
-          <button onclick="filterExp('speech', this)" class="px-3 py-1.5 rounded-lg bg-slate-900 text-slate-300 border border-slate-700 hover:border-cyan-400">Speech & Linguistic</button>
-        </div>
-      </div>
-
-      <div class="space-y-4" id="expList">
-        <!-- Welo Data -->
-        <article data-cat="qa llm" class="exp-item tech-card p-6 rounded-xl">
-          <div class="flex flex-wrap items-center justify-between gap-2">
-            <div>
-              <h3 class="text-lg font-bold text-white">Quality Assurance Specialist (VLA)</h3>
-              <p class="text-sm text-cyan-300 font-medium">Welo Data • Full-Time (Jakarta / Remote)</p>
-            </div>
-            <span class="font-mono text-xs text-slate-400">Nov 2026 to Present</span>
-          </div>
-          <p class="text-sm text-slate-300 mt-3 leading-relaxed">
-            Run quality checks across Vision-Language-Action (VLA) multimodal training queues, verifying that visual grounding, action steps, and annotator labels match strict client specs before batch sign-off.
-          </p>
-        </article>
-
-        <!-- Silencio -->
-        <article data-cat="speech" class="exp-item tech-card p-6 rounded-xl">
-          <div class="flex flex-wrap items-center justify-between gap-2">
-            <div>
-              <h3 class="text-lg font-bold text-white">AI Voice Data Contributor</h3>
-              <p class="text-sm text-cyan-300 font-medium">Silencio Voice AI • Remote</p>
-            </div>
-            <span class="font-mono text-xs text-slate-400">Sep 2026 to Present</span>
-          </div>
-          <p class="text-sm text-slate-300 mt-3 leading-relaxed">
-            Recorded 94 clean voice datasets across 6 languages and held a 94% QC acceptance rate, delivering more than 48 minutes of pure Voice Activity Detection (VAD) audio with zero clipping or room echo.
-          </p>
-        </article>
-
-        <!-- Mercor -->
-        <article data-cat="llm" class="exp-item tech-card p-6 rounded-xl">
-          <div class="flex flex-wrap items-center justify-between gap-2">
-            <div>
-              <h3 class="text-lg font-bold text-white">AI Safety Red Teamer</h3>
-              <p class="text-sm text-cyan-300 font-medium">Mercor • Remote</p>
-            </div>
-            <span class="font-mono text-xs text-slate-400">2024 & Sep 2026 to Present</span>
-          </div>
-          <p class="text-sm text-slate-300 mt-3 leading-relaxed">
-            Probe large language models with adversarial prompts to expose bias, policy loopholes, and unsafe outputs. I write clear failure breakdowns so alignment engineers can reproduce and patch weak spots fast.
-          </p>
-        </article>
-
-        <!-- CrowdGen -->
-        <article data-cat="qa speech llm" class="exp-item tech-card p-6 rounded-xl">
-          <div class="flex flex-wrap items-center justify-between gap-2">
-            <div class="flex items-center gap-2.5 flex-wrap">
-              <h3 class="text-lg font-bold text-white">QA Specialist, Senior Final Validator & Javanese Expert</h3>
-              <span class="nda-pill">MULTI-PROGRAM NDA</span>
-            </div>
-            <span class="font-mono text-xs text-slate-400">Jun 2023 to Present</span>
-          </div>
-          <p class="text-sm text-cyan-300 font-medium mt-0.5">CrowdGen • Full-Time & Contract (Jakarta / Remote)</p>
-          <ul class="mt-3 space-y-2 text-sm text-slate-300 list-disc list-inside leading-relaxed">
-            <li>Audit daily audio segmentation, VoIP editing, transcription, and voice-recording batches so deliveries pass client checks on the first run (Jul 2026 to Present).</li>
-            <li>Reviewed Javanese regional datasets with a native speaker's ear, balancing strict technical rules against natural local phrasing (Jul 2026 to Oct 2026).</li>
-            <li>Served as final linguistic validator on confidential Indonesian and Javanese AI generation queues, resolving annotator disagreements on tone, intent, and edge cases (Jun 2023 to Oct 2026).</li>
-            <li>Rated search relevance, audited retrieval safety queues, tagged multi-speaker Indonesian audio (1 to 3+ speakers, overlap, noise), and reviewed AI-generated music and mobile visual assets.</li>
-          </ul>
-        </article>
-
-        <!-- Invisible Technologies -->
-        <article data-cat="llm speech qa" class="exp-item tech-card p-6 rounded-xl">
-          <div class="flex flex-wrap items-center justify-between gap-2">
-            <div>
-              <h3 class="text-lg font-bold text-white">Audio Agent Evaluation Specialist & Lead (RLHF)</h3>
-              <p class="text-sm text-cyan-300 font-medium">Invisible Technologies / Meridian • Remote</p>
-            </div>
-            <span class="font-mono text-xs text-slate-400">Jul 2026 to Oct 2026</span>
-          </div>
-          <p class="text-sm text-slate-300 mt-3 leading-relaxed">
-            Evaluated conversational voice AI agents inside RLHF training pipelines. I audited live AI-to-human call recordings alongside backend JSON logs to verify tool calls, grading models on Task Completion and Conversational Naturalness.
-          </p>
-        </article>
-
-        <!-- Appen -->
-        <article data-cat="qa speech llm" class="exp-item tech-card p-6 rounded-xl">
-          <div class="flex flex-wrap items-center justify-between gap-2">
-            <div class="flex items-center gap-2.5 flex-wrap">
-              <h3 class="text-lg font-bold text-white">AI Annotation Team Lead & VLA Data Annotator</h3>
-              <span class="nda-pill">NDA SPEECH & VLA QUEUES</span>
-            </div>
-            <span class="font-mono text-xs text-slate-400">Jun 2023 to Oct 2026</span>
-          </div>
-          <p class="text-sm text-cyan-300 font-medium mt-0.5">Appen • Remote</p>
-          <p class="text-sm text-slate-300 mt-3 leading-relaxed">
-            Led Indonesian speech annotation contributors across transcription, speaker labeling, segmentation, and VLA validation. Diagnosed root causes behind recurring errors, redesigned heavy English specs into visual Indonesian workflow posters and rating checklists, and lifted team accuracy from 62% to a sustained 95%.
-          </p>
-        </article>
-
-        <!-- Agents Only / ByteDance AO -->
-        <article data-cat="llm" class="exp-item tech-card p-6 rounded-xl">
-          <div class="flex flex-wrap items-center justify-between gap-2">
-            <div class="flex items-center gap-2.5 flex-wrap">
-              <h3 class="text-lg font-bold text-white">LLM Agent Rubric Evaluator (UK Regional Scope)</h3>
-              <span class="nda-pill">NDA LIVE BENCHMARK</span>
-            </div>
-            <span class="font-mono text-xs text-slate-400">Jun 2026 to Oct 2026</span>
-          </div>
-          <p class="text-sm text-cyan-300 font-medium mt-0.5">Agents Only Technologies • Full-Time Remote</p>
-          <p class="text-sm text-slate-300 mt-3 leading-relaxed">
-            Graded live LLM agent outputs on UK regional and blind arena benchmark queues using strict multi-criteria rubrics, checking instruction adherence, factual grounding, and multi-step reasoning.
-          </p>
-        </article>
-
-        <!-- RWS & Handshake -->
-        <div class="grid md:grid-cols-2 gap-4">
-          <article data-cat="speech" class="exp-item tech-card p-6 rounded-xl">
-            <div class="flex items-center justify-between gap-2 mb-1">
-              <h3 class="text-base font-bold text-white">Voice Eval & Wake-Word Annotator</h3>
-              <span class="font-mono text-xs text-slate-400">Jul to Oct 2026</span>
-            </div>
-            <p class="text-xs text-cyan-300 font-medium mb-2">RWS • Remote (NDA Wake-Word Queue)</p>
-            <p class="text-sm text-slate-300 leading-relaxed">
-              Judged side-by-side synthetic voice clip pairs and tagged confidential smart-assistant wake-word triggers under millisecond timing rules.
-            </p>
-          </article>
-
-          <article data-cat="speech llm" class="exp-item tech-card p-6 rounded-xl">
-            <div class="flex items-center justify-between gap-2 mb-1">
-              <h3 class="text-base font-bold text-white">Indonesian Language Evaluator</h3>
-              <span class="font-mono text-xs text-slate-400">Aug to Sep 2026</span>
-            </div>
-            <p class="text-xs text-cyan-300 font-medium mb-2">Handshake AI Fellowship • Freelance Remote</p>
-            <p class="text-sm text-slate-300 leading-relaxed">
-              Contributed native Indonesian linguistic evaluations and structured prompt-response grading on confidential fellowship datasets.
-            </p>
-          </article>
-        </div>
-
-        <!-- Alibaba & Babel Audio -->
-        <div class="grid md:grid-cols-2 gap-4">
-          <article data-cat="speech qa" class="exp-item tech-card p-6 rounded-xl">
-            <div class="flex items-center justify-between gap-2 mb-1">
-              <h3 class="text-base font-bold text-white">AI Speech Data Annotator (Indonesian)</h3>
-              <span class="font-mono text-xs text-slate-400">Mar to Oct 2026</span>
-            </div>
-            <p class="text-xs text-cyan-300 font-medium mb-2">Alibaba Group & Alibaba.com • Contract</p>
-            <p class="text-sm text-slate-300 leading-relaxed">
-              Built conversational Indonesian ASR and speech-translation datasets, handling timestamp alignment, noise/silence tags, and machine-transcript cleanup.
-            </p>
-          </article>
-
-          <article data-cat="speech qa" class="exp-item tech-card p-6 rounded-xl">
-            <div class="flex items-center justify-between gap-2 mb-1">
-              <h3 class="text-base font-bold text-white">Native Audio Contributor & Auditor</h3>
-              <span class="font-mono text-xs text-slate-400">Aug 2023 to Oct 2026</span>
-            </div>
-            <p class="text-xs text-cyan-300 font-medium mb-2">Babel Audio • Remote</p>
-            <p class="text-sm text-slate-300 leading-relaxed">
-              Audited Indonesian and Javanese audio-transcript pairs for speech synthesis models, catching subtle pronunciation and alignment drift.
-            </p>
-          </article>
-        </div>
-
-        <!-- Outlier, micro1, Alignerr & Earlier Audit Foundation -->
-        <article data-cat="qa llm" class="exp-item tech-card p-6 rounded-xl">
-          <h3 class="text-base font-bold text-white mb-2">Additional AI Pipelines & Financial Audit Foundation</h3>
-          <p class="text-sm text-slate-300 leading-relaxed">
-            Evaluated step-by-step model reasoning at <strong>Outlier</strong> (Jan to Oct 2026), verified high-speed structured data queues at <strong>micro1</strong> (Feb to Oct 2026), and annotated computer-vision datasets at <strong>Alignerr</strong> (Jun to Dec 2025). I also wrote the <em>Remote Jobs Playbook</em> e-book and worked earlier in accounting, tax administration, and field auditing at <strong>AirNav Indonesia / Angkasa Pura II</strong>, <strong>KPP Bangka (Ministry of Finance)</strong>, and <strong>PT. PELNI & DAMRI</strong> (2008 to 2016).
-          </p>
-        </article>
-      </div>
-    </section>
-
-    <!-- Verified Platform Benchmarks (Sanitized NDA Names) -->
-    <section id="badges" class="max-w-6xl mx-auto px-5 py-14">
-      <p class="font-mono text-xs text-cyan-400 uppercase tracking-wider">Standardized Testing</p>
-      <h2 class="text-3xl font-bold text-white mt-1 mb-2">Verified Platform Benchmarks</h2>
-      <p class="text-sm text-slate-400 mb-8">15 proctored skill badges verified across Mimir, Mettl, and Cornerstone (2026). Internal client codenames are replaced with functional descriptions.</p>
-
-      <div class="grid md:grid-cols-3 gap-5">
-        <div class="tech-card p-6 rounded-xl">
-          <h3 class="font-mono text-xs uppercase tracking-wider text-cyan-400 mb-4">QC & Rubric Design</h3>
-          <ul class="space-y-3 text-sm">
-            <li class="flex justify-between gap-2 border-b border-slate-800 pb-2">
-              <span class="text-slate-200">Enterprise Client QC Certification</span>
-              <span class="font-mono text-cyan-300">Score 78</span>
-            </li>
-            <li class="flex justify-between gap-2 border-b border-slate-800 pb-2">
-              <span class="text-slate-200">Annotation QC Workflow Training</span>
-              <span class="font-mono text-emerald-400">Cornerstone</span>
-            </li>
-            <li class="flex justify-between gap-2 border-b border-slate-800 pb-2">
-              <span class="text-slate-200">Prompting, Instructions & Rubrics</span>
-              <span class="font-mono text-emerald-400">Mimir Pass</span>
-            </li>
-            <li class="flex justify-between gap-2">
-              <span class="text-slate-200">LLM Capacity & Entrance Programs (x3)</span>
-              <span class="font-mono text-emerald-400">Verified</span>
-            </li>
-          </ul>
-        </div>
-
-        <div class="tech-card p-6 rounded-xl">
-          <h3 class="font-mono text-xs uppercase tracking-wider text-cyan-400 mb-4">Logic & Precision</h3>
-          <ul class="space-y-3 text-sm">
-            <li class="flex justify-between gap-2 border-b border-slate-800 pb-2">
-              <span class="text-slate-200">Causal Reasoning (enUS)</span>
-              <span class="font-mono text-cyan-300">Mimir 17</span>
-            </li>
-            <li class="flex justify-between gap-2 border-b border-slate-800 pb-2">
-              <span class="text-slate-200">Written Consistency Analysis</span>
-              <span class="font-mono text-cyan-300">Mettl 15</span>
-            </li>
-            <li class="flex justify-between gap-2 border-b border-slate-800 pb-2">
-              <span class="text-slate-200">Reading Comprehension (enUS)</span>
-              <span class="font-mono text-cyan-300">Mettl 14</span>
-            </li>
-            <li class="flex justify-between gap-2">
-              <span class="text-slate-200">Attention to Detail (enUS)</span>
-              <span class="font-mono text-cyan-300">Mimir 8</span>
-            </li>
-          </ul>
-        </div>
-
-        <div class="tech-card p-6 rounded-xl">
-          <h3 class="font-mono text-xs uppercase tracking-wider text-cyan-400 mb-4">Language & Localization</h3>
-          <ul class="space-y-3 text-sm">
-            <li class="flex justify-between gap-2 border-b border-slate-800 pb-2">
-              <span class="text-slate-200">Cultural Adaptation (idID / itIT)</span>
-              <span class="font-mono text-cyan-300">Mettl 38 / 29</span>
-            </li>
-            <li class="flex justify-between gap-2 border-b border-slate-800 pb-2">
-              <span class="text-slate-200">English Language Proficiency</span>
-              <span class="font-mono text-cyan-300">Mettl 34</span>
-            </li>
-            <li class="flex justify-between gap-2 border-b border-slate-800 pb-2">
-              <span class="text-slate-200">Cross-Market Proofreading (EN/IT/ID)</span>
-              <span class="font-mono text-cyan-300">17 / 13</span>
-            </li>
-            <li class="flex justify-between gap-2">
-              <span class="text-slate-200">English Written Proficiency</span>
-              <span class="font-mono text-cyan-300">Mimir 7</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- 2026 Certifications & Formal Degree -->
-    <section id="credentials" class="max-w-6xl mx-auto px-5 py-14">
-      <p class="font-mono text-xs text-cyan-400 uppercase tracking-wider">Verified Credentials</p>
-      <h2 class="text-3xl font-bold text-white mt-1 mb-8">2026 Certifications & Education</h2>
-
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-        <!-- Google & Google Cloud -->
-        <div class="tech-card p-6 rounded-xl">
-          <h3 class="text-base font-bold text-white mb-3">Google & Google Cloud</h3>
-          <ul class="space-y-2.5 text-sm text-slate-300">
-            <li class="flex items-start justify-between gap-2">
-              <span>Google AI Professional Certificate (7-Course)</span>
-              <a href="https://coursera.org/verify/professional-cert/D6MMOYTGSGK4" target="_blank" rel="noopener" class="font-mono text-xs text-cyan-400 hover:underline shrink-0">Verify ↗</a>
-            </li>
-            <li class="flex items-start justify-between gap-2">
-              <span>Introduction to Large Language Models</span>
-              <a href="https://coursera.org/verify/B39B6B2JB9WK" target="_blank" rel="noopener" class="font-mono text-xs text-cyan-400 hover:underline shrink-0">Verify ↗</a>
-            </li>
-            <li class="flex items-start justify-between gap-2">
-              <span>AI for Data Analysis</span>
-              <a href="https://coursera.org/verify/0BK3108PMOH8" target="_blank" rel="noopener" class="font-mono text-xs text-cyan-400 hover:underline shrink-0">Verify ↗</a>
-            </li>
-            <li class="flex items-start justify-between gap-2">
-              <span>Prepare Data for Exploration</span>
-              <a href="https://coursera.org/verify/50M9053CWBIX" target="_blank" rel="noopener" class="font-mono text-xs text-cyan-400 hover:underline shrink-0">Verify ↗</a>
-            </li>
-            <li class="flex items-start justify-between gap-2">
-              <span>Ask Questions for Data-Driven Decisions</span>
-              <a href="https://coursera.org/verify/TSFNQ1QU4RZ6" target="_blank" rel="noopener" class="font-mono text-xs text-cyan-400 hover:underline shrink-0">Verify ↗</a>
-            </li>
-            <li class="flex items-start justify-between gap-2">
-              <span>AI for Writing & Content Creation</span>
-              <a href="https://coursera.org/verify/DROA7D83BNET" target="_blank" rel="noopener" class="font-mono text-xs text-cyan-400 hover:underline shrink-0">Verify ↗</a>
-            </li>
-            <li class="text-slate-400 text-xs pt-1">Plus: AI Fundamentals & AI-Powered Performance Ads</li>
-          </ul>
-        </div>
-
-        <!-- IBM, AWS & OpenAI -->
-        <div class="tech-card p-6 rounded-xl">
-          <h3 class="text-base font-bold text-white mb-3">IBM, AWS & OpenAI Academy</h3>
-          <ul class="space-y-2.5 text-sm text-slate-300">
-            <li class="flex items-start justify-between gap-2">
-              <span>IBM: Agentic AI with LangChain & LangGraph</span>
-              <a href="https://coursera.org/verify/0NHPCW0KKDSS" target="_blank" rel="noopener" class="font-mono text-xs text-cyan-400 hover:underline shrink-0">Verify ↗</a>
-            </li>
-            <li>OpenAI Academy: AI Foundations <span class="font-mono text-xs text-cyan-300">(ID: prm1z8whur)</span></li>
-            <li>AWS: Foundations of Prompt Engineering</li>
-            <li>AWS: Introduction to Generative AI</li>
-            <li>AWS: Machine Learning Terminology & Process</li>
-          </ul>
-        </div>
-
-        <!-- Anthropic, HP Foundation & University -->
-        <div class="tech-card p-6 rounded-xl">
-          <h3 class="text-base font-bold text-white mb-3">Anthropic & HP Foundation</h3>
-          <ul class="space-y-2.5 text-sm text-slate-300">
-            <li>Anthropic: AI Fluency Framework & Foundations</li>
-            <li>Anthropic: Claude 101 & Claude Code 101</li>
-            <li>HP Foundation: Critical Thinking in the AI Era</li>
-            <li>HP LIFE: Financial Basics <span class="font-mono text-xs text-slate-400">(0047e19c-b0e9)</span></li>
-            <li>HP Foundation: Presenting Data</li>
-          </ul>
-          <div class="mt-5 pt-4 border-t border-slate-800">
-            <div class="font-mono text-xs text-cyan-400">BACHELOR'S DEGREE • 2014</div>
-            <div class="text-sm font-semibold text-white mt-0.5">B.Ec. in Accounting (Audit Focus)</div>
-            <div class="text-xs text-slate-400">Universitas Bangka Belitung • GPA 3.85 / 4.00</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Practical Footer -->
-    <footer class="max-w-6xl mx-auto px-5 pt-10 pb-20 border-t border-slate-800/80 mt-8">
-      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-        <div>
-          <h2 class="text-xl font-bold text-white">Need someone who catches bad data before it hits your model?</h2>
-          <p class="text-sm text-slate-400 mt-1">Send over your project scope, target language pair, or QA rubric requirements, and I'll reply within 24 hours.</p>
-        </div>
-        <div class="flex flex-wrap gap-3 font-mono text-xs">
-          <a href="mailto:storecikar@gmail.com" class="px-4 py-2.5 rounded-lg bg-cyan-400 text-slate-950 font-semibold hover:bg-cyan-300 transition-colors">storecikar@gmail.com</a>
-          <a href="https://www.linkedin.com/in/viola-aldila-b859b63a3/" target="_blank" rel="noopener" class="px-4 py-2.5 rounded-lg tech-card text-slate-200 hover:text-cyan-300">LinkedIn</a>
-          <a href="https://portfoliozoneola89.blogspot.com/" target="_blank" rel="noopener" class="px-4 py-2.5 rounded-lg tech-card text-slate-200 hover:text-cyan-300">Blog</a>
-        </div>
-      </div>
-      <p class="font-mono text-xs text-slate-600 mt-10">© 2026 Viola Aldila • Built for GitHub Pages with strict NDA compliance.</p>
-    </footer>
+  <!-- Ambient Soft Glows -->
+  <div class="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
+    <div class="absolute -top-32 -left-24 w-96 h-96 rounded-full bg-blue-600/15 blur-3xl"></div>
+    <div class="absolute top-1/3 -right-24 w-96 h-96 rounded-full bg-cyan-500/10 blur-3xl"></div>
+    <div class="absolute bottom-0 left-1/3 w-96 h-96 rounded-full bg-rose-500/10 blur-3xl"></div>
   </div>
 
-  <!-- QA Master Blueprint Modal -->
-  <div id="blueprintModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/85 backdrop-blur-sm p-4">
-    <div class="tech-card max-w-2xl w-full rounded-2xl p-6 sm:p-8 border-cyan-400/40 max-h-[85vh] overflow-y-auto">
-      <div class="flex items-center justify-between border-b border-slate-800 pb-4">
-        <div>
-          <span class="nda-pill">100-POINT SCORECARD SUMMARY</span>
-          <h3 class="text-xl font-bold text-white mt-2">Audio QA Master Blueprint</h3>
+  <!-- =====================================================================
+       1. NAVIGATION BAR (Sticky, Responsive, Light/Dark Toggle)
+       ===================================================================== -->
+  <header class="sticky top-0 z-50 border-b border-slate-200/80 dark:border-slate-800/80 bg-white/85 dark:bg-[#0b1121]/85 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <!-- Brand -->
+        <a href="#home" class="flex items-center gap-2.5 group">
+          <span class="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center text-white font-extrabold text-sm shadow-lg shadow-blue-500/25 group-hover:scale-105 transition-transform">
+            V
+          </span>
+          <span class="font-extrabold tracking-tight text-lg text-slate-900 dark:text-white">
+            VIOLA<span class="text-blue-500">.AI</span>
+          </span>
+        </a>
+
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center gap-1" aria-label="Primary Navigation">
+          <a href="#home" class="px-3.5 py-2 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-cyan-400 hover:bg-slate-100 dark:hover:bg-slate-800/70 transition">Home</a>
+          <a href="#projects" class="px-3.5 py-2 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-rose-600 dark:hover:text-rose-300 hover:bg-slate-100 dark:hover:bg-slate-800/70 transition flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>Projects
+          </a>
+          <a href="#blueprint" class="px-3.5 py-2 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-cyan-400 hover:bg-slate-100 dark:hover:bg-slate-800/70 transition">QA Blueprint</a>
+          <a href="#experience" class="px-3.5 py-2 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-cyan-400 hover:bg-slate-100 dark:hover:bg-slate-800/70 transition">Experience</a>
+          <a href="#credentials" class="px-3.5 py-2 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-cyan-400 hover:bg-slate-100 dark:hover:bg-slate-800/70 transition">Credentials</a>
+        </nav>
+
+        <!-- Actions: Theme Toggle & Mobile Menu -->
+        <div class="flex items-center gap-2">
+          <button
+            id="themeToggleBtn"
+            type="button"
+            aria-label="Toggle Light and Dark Mode"
+            class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-slate-100/80 dark:bg-[#151e32] text-slate-700 dark:text-amber-300 hover:border-blue-500/50 transition"
+          >
+            <i id="themeIcon" class="fa-solid fa-sun text-sm"></i>
+          </button>
+
+          <button
+            id="mobileMenuBtn"
+            type="button"
+            aria-label="Toggle Mobile Menu"
+            class="md:hidden p-2.5 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-slate-100/80 dark:bg-[#151e32] text-slate-700 dark:text-slate-200"
+          >
+            <i class="fa-solid fa-bars text-sm"></i>
+          </button>
         </div>
-        <button onclick="toggleBlueprintModal(false)" class="font-mono text-sm px-3 py-1 rounded bg-slate-800 text-slate-300 hover:text-white">✕</button>
       </div>
-      <div class="space-y-4 mt-5 text-sm text-slate-300">
-        <p>I built this 16-page standard operating guide so audio reviewers grade voice submissions using the exact same yardstick every single day.</p>
-        <div class="grid sm:grid-cols-2 gap-3">
-          <div class="p-3.5 rounded-lg bg-slate-950 border border-slate-800">
-            <div class="font-mono text-xs text-cyan-400">35 PTS • COMPLIANCE & SCRIPT</div>
-            <p class="text-xs text-slate-400 mt-1">Zero unprompted words, exact prompt match, and zero PII leakage.</p>
+    </div>
+
+    <!-- Mobile Menu Drawer -->
+    <div id="mobileMenu" class="hidden md:hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0b1121] px-4 py-3 space-y-1">
+      <a href="#home" class="mobile-nav-link block px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Home</a>
+      <a href="#projects" class="mobile-nav-link block px-3.5 py-2.5 rounded-xl text-sm font-medium text-emerald-600 dark:text-emerald-300 hover:bg-slate-100 dark:hover:bg-slate-800">Projects &amp; Live Apps</a>
+      <a href="#blueprint" class="mobile-nav-link block px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">QA Blueprint</a>
+      <a href="#experience" class="mobile-nav-link block px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Experience</a>
+      <a href="#credentials" class="mobile-nav-link block px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Credentials</a>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-24 pb-24">
+
+    <!-- =====================================================================
+         2. HERO SECTION (#home)
+         ===================================================================== -->
+    <section id="home" class="pt-12 sm:pt-16 lg:pt-20 space-y-10">
+      <div class="max-w-4xl space-y-6">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/25 text-blue-600 dark:text-cyan-300 text-xs sm:text-sm font-semibold">
+          <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+          Indonesian &amp; Javanese Linguistic Data Expert
+        </div>
+
+        <div class="space-y-3">
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+            Viola Aldila
+          </h1>
+          <p class="text-lg sm:text-xl lg:text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-300">
+            AI Quality Assurance Specialist &amp; Linguistic Team Lead — Audio &amp; LLM Agent Evaluation
+          </p>
+        </div>
+
+        <p class="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed max-w-3xl">
+          3.5+ years keeping AI training data clean, accurate, and grounded in natural human speech. Specializes in RLHF evaluation, transcription QA, backend JSON log auditing, AI safety red teaming, and turning complex guidelines into visual workflows that raised team accuracy from
+          <span class="font-semibold text-slate-900 dark:text-white">62% to 92%</span>
+          (<span class="font-semibold text-cyan-600 dark:text-cyan-400">95% sustained</span>).
+        </p>
+
+        <!-- Contact Bar -->
+        <div class="flex flex-wrap items-center gap-2.5 pt-1">
+          <span class="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-white/80 dark:bg-[#151e32] border border-slate-200 dark:border-slate-700/80 text-sm text-slate-700 dark:text-slate-200">
+            <i class="fa-solid fa-location-dot text-blue-500"></i>
+            Jakarta, Indonesia
+          </span>
+
+          <button
+            type="button"
+            onclick="copyEmail()"
+            class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold shadow-lg shadow-blue-600/25 transition active:scale-95"
+          >
+            <i class="fa-regular fa-copy"></i>
+            <span>storecikar@gmail.com</span>
+          </button>
+
+          <a
+            href="https://wa.me/6287748525874"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-700 dark:text-emerald-300 text-sm font-medium transition"
+          >
+            <i class="fa-brands fa-whatsapp text-base"></i>
+            <span>+62 87748525874</span>
+          </a>
+
+          <a
+            href="https://linkedin.com/in/viola-aldila-b859b63a3"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-white/80 dark:bg-[#151e32] hover:border-blue-500/50 border border-slate-200 dark:border-slate-700/80 text-slate-700 dark:text-slate-200 text-sm font-medium transition"
+          >
+            <i class="fa-brands fa-linkedin text-blue-500 text-base"></i>
+            <span>LinkedIn</span>
+          </a>
+
+          <a
+            href="https://portfoliozoneola89.blogspot.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-white/80 dark:bg-[#151e32] hover:border-cyan-500/50 border border-slate-200 dark:border-slate-700/80 text-slate-700 dark:text-slate-200 text-sm font-medium transition"
+          >
+            <i class="fa-solid fa-pen-nib text-cyan-500 text-sm"></i>
+            <span>Blog</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Key Impact Stat Strip -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="glass-card rounded-2xl p-5 shadow-sm hover:border-blue-500/40 transition">
+          <div class="flex items-center justify-between mb-2">
+            <span class="w-9 h-9 rounded-xl bg-blue-500/15 text-blue-500 flex items-center justify-center"><i class="fa-solid fa-shield-halved"></i></span>
+            <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Experience</span>
           </div>
-          <div class="p-3.5 rounded-lg bg-slate-950 border border-slate-800">
-            <div class="font-mono text-xs text-cyan-400">35 PTS • ACOUSTIC INTEGRITY</div>
-            <p class="text-xs text-slate-400 mt-1">Clean noise floor, zero peak clipping, clean lead-in/out silence, pure VAD signal.</p>
+          <p class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">3.5+ Years</p>
+          <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">AI Data QA &amp; Linguistic Leadership</p>
+        </div>
+
+        <div class="glass-card rounded-2xl p-5 shadow-sm hover:border-cyan-500/40 transition">
+          <div class="flex items-center justify-between mb-2">
+            <span class="w-9 h-9 rounded-xl bg-cyan-500/15 text-cyan-500 flex items-center justify-center"><i class="fa-solid fa-arrow-trend-up"></i></span>
+            <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Turnaround</span>
           </div>
-          <div class="p-3.5 rounded-lg bg-slate-950 border border-slate-800">
-            <div class="font-mono text-xs text-cyan-400">30 PTS • LINGUISTIC DELIVERY</div>
-            <p class="text-xs text-slate-400 mt-1">Natural cadence, clear articulation, and authentic regional pronunciation.</p>
+          <p class="text-2xl sm:text-3xl font-extrabold text-cyan-600 dark:text-cyan-400">62% → 95%</p>
+          <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">Team Accuracy Turnaround</p>
+        </div>
+
+        <div class="glass-card rounded-2xl p-5 shadow-sm hover:border-indigo-500/40 transition">
+          <div class="flex items-center justify-between mb-2">
+            <span class="w-9 h-9 rounded-xl bg-indigo-500/15 text-indigo-500 flex items-center justify-center"><i class="fa-solid fa-award"></i></span>
+            <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Verified</span>
           </div>
-          <div class="p-3.5 rounded-lg bg-slate-950 border border-slate-800">
-            <div class="font-mono text-xs text-amber-400">AUTO-FAIL TRIGGERS</div>
-            <p class="text-xs text-slate-400 mt-1">Cut-off words, wrong speaker profile, heavy room reverb, or script mismatch.</p>
+          <p class="text-2xl sm:text-3xl font-extrabold text-indigo-600 dark:text-indigo-400">15+ Badges</p>
+          <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">Verified Platform Assessments</p>
+        </div>
+
+        <div class="glass-card rounded-2xl p-5 shadow-sm hover:border-emerald-500/40 transition">
+          <div class="flex items-center justify-between mb-2">
+            <span class="w-9 h-9 rounded-xl bg-emerald-500/15 text-emerald-500 flex items-center justify-center"><i class="fa-solid fa-rocket"></i></span>
+            <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Shipped</span>
           </div>
+          <p class="text-2xl sm:text-3xl font-extrabold text-emerald-600 dark:text-emerald-400">3 Live Builds</p>
+          <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">AI Academy, CV Studio &amp; RoseSync</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         3. FEATURED PROJECTS & LIVE WEB APPS (#projects)
+         ===================================================================== -->
+    <section id="projects" class="scroll-mt-24 space-y-12">
+      <!-- Section Heading -->
+      <div class="space-y-2">
+        <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-700 dark:text-emerald-300 text-xs font-semibold">
+          <i class="fa-solid fa-cubes"></i>Live Web Apps &amp; Product Prototyping
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+          Featured Projects &amp; Live Web Apps
+        </h2>
+        <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-3xl">
+          Practical, human-centered AI web applications and interactive prototypes designed and built end-to-end—bridging AI literacy, privacy-first career tools, and calm productivity.
+        </p>
+      </div>
+
+      <!-- PART A: LIVE PRODUCT BUILDS GRID (2 Prominent Cards) -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Project 1: AI First Steps Academy -->
+        <article class="group relative rounded-3xl glass-card p-6 sm:p-8 shadow-xl border-emerald-500/25 dark:border-emerald-500/30 hover:border-emerald-400/70 transition-all duration-300 flex flex-col justify-between overflow-hidden">
+          <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-400"></div>
+
+          <div class="space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-700 dark:text-emerald-300 text-xs font-semibold">
+                <i class="fa-solid fa-graduation-cap"></i>
+                AI Education · Interactive Learning Space
+              </span>
+              <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                Live Web App
+              </span>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 text-xl">
+                <i class="fa-solid fa-book-open-reader"></i>
+              </div>
+              <div>
+                <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-300 transition">
+                  AI First Steps Academy
+                </h3>
+                <p class="text-xs font-mono text-slate-500 dark:text-slate-400 mt-0.5 break-all">
+                  ai-first-steps-academy.belovedbaron8.chatgpt.site
+                </p>
+              </div>
+            </div>
+
+            <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+              An open-access, self-paced AI Contributor Academy designed for curious beginners. Features source-grounded study cards (<span class="italic text-slate-800 dark:text-slate-100">"every study card stays connected to the material behind it"</span>), a Source &amp; Review notebook workflow, progress tracking, and frictionless guest access with no account required to explore.
+            </p>
+
+            <!-- Feature Pills -->
+            <div class="flex flex-wrap gap-2 pt-1">
+              <span class="px-3 py-1 rounded-xl text-xs font-semibold bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-300">Source-Grounded Cards</span>
+              <span class="px-3 py-1 rounded-xl text-xs font-semibold bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-300">Self-Paced Notebook</span>
+              <span class="px-3 py-1 rounded-xl text-xs font-semibold bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-300">Guest-Friendly Onboarding</span>
+              <span class="px-3 py-1 rounded-xl text-xs font-semibold bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-300">AI Contributor Literacy</span>
+            </div>
+          </div>
+
+          <div class="pt-6 mt-6 border-t border-slate-200 dark:border-slate-700/70 flex items-center justify-between gap-3">
+            <span class="text-xs text-slate-500 dark:text-slate-400">Open-access · No signup required</span>
+            <a
+              href="https://ai-first-steps-academy.belovedbaron8.chatgpt.site/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold shadow-lg shadow-emerald-600/25 transition active:scale-95"
+            >
+              <span>Launch Live App</span>
+              <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+            </a>
+          </div>
+        </article>
+
+        <!-- Project 2: Rapi CV Studio (Studio CV ATS) -->
+        <article class="group relative rounded-3xl glass-card p-6 sm:p-8 shadow-xl border-amber-500/25 dark:border-amber-500/30 hover:border-amber-400/70 transition-all duration-300 flex flex-col justify-between overflow-hidden">
+          <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-amber-500 via-orange-400 to-yellow-400"></div>
+
+          <div class="space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-700 dark:text-amber-300 text-xs font-semibold">
+                <i class="fa-solid fa-file-shield"></i>
+                Career Tech · Privacy-First Web App
+              </span>
+              <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-amber-600 dark:text-amber-400">
+                <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                Live Web App
+              </span>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-2xl bg-amber-500/15 border border-amber-500/30 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0 text-xl">
+                <i class="fa-solid fa-file-lines"></i>
+              </div>
+              <div>
+                <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-300 transition">
+                  Rapi CV Studio <span class="text-base font-semibold text-slate-500 dark:text-slate-400">(Studio CV ATS)</span>
+                </h3>
+                <p class="text-xs font-mono text-slate-500 dark:text-slate-400 mt-0.5 break-all">
+                  rapi-cv-studio.belovedbaron8.chatgpt.site
+                </p>
+              </div>
+            </div>
+
+            <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+              An ATS-friendly Indonesian resume workspace built to help job seekers clean up legacy CVs, tailor content to target job descriptions, and export recruiter-readable (ATS) resumes. Runs 100% client-side in the browser for complete privacy, with step-by-step guidance and a live CV completeness tracker.
+            </p>
+
+            <!-- Feature Pills -->
+            <div class="flex flex-wrap gap-2 pt-1">
+              <span class="px-3 py-1 rounded-xl text-xs font-semibold bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-300">100% Browser-Side Privacy</span>
+              <span class="px-3 py-1 rounded-xl text-xs font-semibold bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-300">ATS-Ready Export</span>
+              <span class="px-3 py-1 rounded-xl text-xs font-semibold bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-300">Job-Tailoring Workflow</span>
+              <span class="px-3 py-1 rounded-xl text-xs font-semibold bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-300">Live Completeness Tracker</span>
+            </div>
+          </div>
+
+          <div class="pt-6 mt-6 border-t border-slate-200 dark:border-slate-700/70 flex items-center justify-between gap-3">
+            <span class="text-xs text-slate-500 dark:text-slate-400">Zero server upload · Local browser state</span>
+            <a
+              href="https://rapi-cv-studio.belovedbaron8.chatgpt.site"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-sm font-semibold shadow-lg shadow-amber-600/25 transition active:scale-95"
+            >
+              <span>Launch Live App</span>
+              <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+            </a>
+          </div>
+        </article>
+      </div>
+
+      <!-- PART B: FLAGSHIP CASE STUDY — ROSESYNC -->
+      <div id="rosesync" class="rounded-3xl border border-rose-500/30 dark:border-rose-400/30 bg-gradient-to-br from-rose-50/90 via-white to-rose-50/70 dark:from-[#1a1322] dark:via-[#151e32] dark:to-[#1f1423] p-6 sm:p-8 lg:p-10 shadow-2xl space-y-10">
+
+        <!-- RoseSync Header -->
+        <div class="space-y-4">
+          <div class="inline-flex flex-wrap items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-500/15 border border-rose-500/30 text-rose-700 dark:text-rose-300 text-xs font-semibold tracking-wide">
+            <i class="fa-solid fa-spa"></i>
+            <span>Flagship Case Study · RoseSync (Handshake Lockscreen-Deadline) · 2026</span>
+          </div>
+
+          <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-5">
+            <div class="space-y-2">
+              <h3 class="font-serif text-3xl sm:text-4xl lg:text-5xl text-slate-900 dark:text-rose-50 leading-tight">
+                RoseSync — <span class="italic text-rose-500 dark:text-rose-400">I designed a deadline that could bloom.</span>
+              </h3>
+              <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-3xl">
+                An AI-assisted lock-screen deadline companion that turns static countdown timers into a living, 6-stage rose garden paired with tiny daily steps, weather atmospheres, and low-pressure Bloom Boost coaching.
+              </p>
+            </div>
+
+            <!-- GitHub Pages Action Buttons -->
+            <div class="flex flex-wrap items-center gap-2.5 shrink-0">
+              <a
+                href="./rosesync/index.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-sm font-semibold shadow-lg shadow-rose-600/25 transition active:scale-95"
+              >
+                <i class="fa-solid fa-up-right-from-square text-xs"></i>
+                <span>Open Full Prototype</span>
+              </a>
+              <a
+                href="./rosesync/RoseSync_Handshake_Presentation.pptx"
+                download
+                class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white dark:bg-[#0b1121]/80 hover:border-rose-400 border border-rose-500/35 text-rose-700 dark:text-rose-300 text-sm font-semibold transition"
+              >
+                <i class="fa-solid fa-file-powerpoint"></i>
+                <span>Download Presentation Deck</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive 8-Slide Presentation Carousel -->
+        <div class="space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <p class="text-xs uppercase tracking-wider font-semibold text-rose-600 dark:text-rose-400">Interactive Deck</p>
+              <h4 class="font-serif text-2xl sm:text-3xl text-slate-900 dark:text-rose-50">8-Slide Product Presentation</h4>
+            </div>
+            <div class="flex items-center gap-2">
+              <span id="slideCounter" class="px-3 py-1.5 rounded-xl bg-rose-500/15 text-rose-700 dark:text-rose-300 text-xs font-bold tracking-wider">
+                01 / 08
+              </span>
+              <button
+                type="button"
+                onclick="openLightbox()"
+                class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-semibold transition shadow-md"
+              >
+                <i class="fa-solid fa-expand"></i>
+                <span>Fullscreen</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Carousel Viewport -->
+          <div id="carouselContainer" class="relative rounded-2xl overflow-hidden border border-rose-500/30 shadow-2xl bg-rose-50 dark:bg-[#23121c]">
+            <div id="carouselStage" class="w-full min-h-[340px] sm:aspect-[16/9] relative select-none"></div>
+
+            <!-- Prev / Next Controls -->
+            <button
+              type="button"
+              onclick="prevSlide()"
+              aria-label="Previous Slide"
+              class="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-slate-900/75 hover:bg-rose-600 text-white flex items-center justify-center shadow-lg backdrop-blur-sm transition active:scale-95 z-10"
+            >
+              <i class="fa-solid fa-chevron-left text-sm"></i>
+            </button>
+            <button
+              type="button"
+              onclick="nextSlide()"
+              aria-label="Next Slide"
+              class="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-slate-900/75 hover:bg-rose-600 text-white flex items-center justify-center shadow-lg backdrop-blur-sm transition active:scale-95 z-10"
+            >
+              <i class="fa-solid fa-chevron-right text-sm"></i>
+            </button>
+          </div>
+
+          <!-- Caption & Indicators -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
+            <p id="slideCaption" class="text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300"></p>
+            <div id="slideIndicators" class="flex items-center gap-1.5 flex-wrap"></div>
+          </div>
+        </div>
+
+        <!-- Interactive Lock-Screen Bloom Simulator -->
+        <div class="pt-6 border-t border-rose-500/20 space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <p class="text-xs uppercase tracking-wider font-semibold text-rose-600 dark:text-rose-400">Live Interactive Prototype</p>
+              <h4 class="font-serif text-2xl sm:text-3xl text-slate-900 dark:text-rose-50">Lock-Screen Bloom Simulator &amp; Bloom Boost</h4>
+            </div>
+            <button
+              type="button"
+              onclick="openApiModal()"
+              class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/90 dark:bg-[#0b1121]/80 hover:border-rose-400 border border-rose-500/35 text-rose-700 dark:text-rose-300 text-xs sm:text-sm font-semibold transition self-start sm:self-auto"
+            >
+              <i class="fa-solid fa-code"></i>
+              <span>Backend API Contract</span>
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <!-- Simulator Controls -->
+            <div class="lg:col-span-7 space-y-5">
+              <!-- 1. Rose Variety -->
+              <div class="rounded-2xl bg-white/90 dark:bg-[#0b1121]/75 border border-rose-500/20 p-5 space-y-3">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="text-xs uppercase tracking-wider font-bold text-rose-600 dark:text-rose-400">1. Symbolic Rose Variety</span>
+                  <span id="roseMeaningText" class="text-xs font-medium text-slate-600 dark:text-slate-300 italic">Pink — Growth &amp; kindness</span>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+                  <button type="button" data-color="pink" onclick="setRoseColor('pink')" class="rose-color-btn px-3 py-2 rounded-xl text-xs font-semibold border transition flex items-center justify-center gap-1.5">
+                    <span class="w-3 h-3 rounded-full bg-pink-400"></span>Pink
+                  </button>
+                  <button type="button" data-color="red" onclick="setRoseColor('red')" class="rose-color-btn px-3 py-2 rounded-xl text-xs font-semibold border transition flex items-center justify-center gap-1.5">
+                    <span class="w-3 h-3 rounded-full bg-rose-600"></span>Red
+                  </button>
+                  <button type="button" data-color="white" onclick="setRoseColor('white')" class="rose-color-btn px-3 py-2 rounded-xl text-xs font-semibold border transition flex items-center justify-center gap-1.5">
+                    <span class="w-3 h-3 rounded-full bg-slate-100 border border-slate-300"></span>White
+                  </button>
+                  <button type="button" data-color="yellow" onclick="setRoseColor('yellow')" class="rose-color-btn px-3 py-2 rounded-xl text-xs font-semibold border transition flex items-center justify-center gap-1.5">
+                    <span class="w-3 h-3 rounded-full bg-yellow-400"></span>Yellow
+                  </button>
+                  <button type="button" data-color="lavender" onclick="setRoseColor('lavender')" class="rose-color-btn px-3 py-2 rounded-xl text-xs font-semibold border transition flex items-center justify-center gap-1.5 col-span-2 sm:col-span-1">
+                    <span class="w-3 h-3 rounded-full bg-purple-400"></span>Lavender
+                  </button>
+                </div>
+              </div>
+
+              <!-- 2. Goal Title & Journey Length -->
+              <div class="rounded-2xl bg-white/90 dark:bg-[#0b1121]/75 border border-rose-500/20 p-5 space-y-4">
+                <span class="text-xs uppercase tracking-wider font-bold text-rose-600 dark:text-rose-400">2. Goal Title &amp; Journey Presets</span>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label for="simProjectName" class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">Editable Goal Title</label>
+                    <input
+                      id="simProjectName"
+                      type="text"
+                      value="Launch Portfolio v2"
+                      maxlength="34"
+                      oninput="updateSimulator()"
+                      class="w-full px-3.5 py-2 rounded-xl bg-slate-50 dark:bg-[#151e32] border border-slate-300 dark:border-slate-700 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-rose-500"
+                    />
+                  </div>
+                  <div>
+                    <span class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">Journey Length</span>
+                    <div class="flex flex-wrap gap-1.5">
+                      <button type="button" data-days="14" onclick="setJourneyDays(14)" class="journey-btn px-2.5 py-2 rounded-lg text-xs font-semibold border transition">14d</button>
+                      <button type="button" data-days="30" onclick="setJourneyDays(30)" class="journey-btn px-2.5 py-2 rounded-lg text-xs font-semibold border transition">30d</button>
+                      <button type="button" data-days="90" onclick="setJourneyDays(90)" class="journey-btn px-2.5 py-2 rounded-lg text-xs font-semibold border transition">90d</button>
+                      <button type="button" data-days="180" onclick="setJourneyDays(180)" class="journey-btn px-2.5 py-2 rounded-lg text-xs font-semibold border transition">180d</button>
+                      <button type="button" data-days="365" onclick="setJourneyDays(365)" class="journey-btn px-2.5 py-2 rounded-lg text-xs font-semibold border transition">365d</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 3. Today's Focus & Weather -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="rounded-2xl bg-white/90 dark:bg-[#0b1121]/75 border border-rose-500/20 p-5 space-y-3">
+                  <span class="text-xs uppercase tracking-wider font-bold text-rose-600 dark:text-rose-400">3. Today's Focus (2 Steps)</span>
+                  <div class="space-y-2.5">
+                    <label class="flex items-start gap-2.5 cursor-pointer group">
+                      <input type="checkbox" id="task1" checked onchange="updateSimulator()" class="mt-0.5 w-4 h-4 rounded accent-rose-500" />
+                      <span class="text-xs sm:text-sm text-slate-700 dark:text-slate-200 group-hover:text-rose-500 transition">Refine case study narrative</span>
+                    </label>
+                    <label class="flex items-start gap-2.5 cursor-pointer group">
+                      <input type="checkbox" id="task2" onchange="updateSimulator()" class="mt-0.5 w-4 h-4 rounded accent-rose-500" />
+                      <span class="text-xs sm:text-sm text-slate-700 dark:text-slate-200 group-hover:text-rose-500 transition">Test mobile lock-screen layout</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="rounded-2xl bg-white/90 dark:bg-[#0b1121]/75 border border-rose-500/20 p-5 space-y-3">
+                  <span class="text-xs uppercase tracking-wider font-bold text-rose-600 dark:text-rose-400">4. Weather Atmosphere</span>
+                  <div class="grid grid-cols-2 gap-2">
+                    <button type="button" data-weather="sunny" onclick="setWeather('sunny')" class="weather-btn px-3 py-2 rounded-xl text-xs font-semibold border transition flex items-center justify-center gap-1.5">
+                      <i class="fa-solid fa-sun text-amber-400"></i>Sunny
+                    </button>
+                    <button type="button" data-weather="cloudy" onclick="setWeather('cloudy')" class="weather-btn px-3 py-2 rounded-xl text-xs font-semibold border transition flex items-center justify-center gap-1.5">
+                      <i class="fa-solid fa-cloud text-slate-400"></i>Cloudy
+                    </button>
+                    <button type="button" data-weather="rainy" onclick="setWeather('rainy')" class="weather-btn px-3 py-2 rounded-xl text-xs font-semibold border transition flex items-center justify-center gap-1.5">
+                      <i class="fa-solid fa-cloud-rain text-sky-400"></i>Rainy
+                    </button>
+                    <button type="button" data-weather="night" onclick="setWeather('night')" class="weather-btn px-3 py-2 rounded-xl text-xs font-semibold border transition flex items-center justify-center gap-1.5">
+                      <i class="fa-solid fa-moon text-indigo-400"></i>Night
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 4. Bloom Boost Coaching -->
+              <div class="rounded-2xl bg-white/90 dark:bg-[#0b1121]/75 border border-rose-500/20 p-5 space-y-3">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs uppercase tracking-wider font-bold text-rose-600 dark:text-rose-400">5. Bloom Boost Coaching Tip</span>
+                  <span class="text-[11px] px-2 py-0.5 rounded-full bg-rose-500/15 text-rose-700 dark:text-rose-300 font-medium">Calm AI Check-In</span>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                  <button type="button" data-mood="focused" onclick="setBloomMood('focused')" class="mood-btn px-3.5 py-2 rounded-xl text-xs font-semibold border transition">Focused</button>
+                  <button type="button" data-mood="stuck" onclick="setBloomMood('stuck')" class="mood-btn px-3.5 py-2 rounded-xl text-xs font-semibold border transition">I'm stuck</button>
+                  <button type="button" data-mood="tired" onclick="setBloomMood('tired')" class="mood-btn px-3.5 py-2 rounded-xl text-xs font-semibold border transition">Tired</button>
+                  <button type="button" data-mood="inspired" onclick="setBloomMood('inspired')" class="mood-btn px-3.5 py-2 rounded-xl text-xs font-semibold border transition">Inspired</button>
+                </div>
+                <div id="bloomBoostMessage" class="p-3.5 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-500/25 text-xs sm:text-sm text-slate-800 dark:text-rose-100 leading-relaxed"></div>
+              </div>
+            </div>
+
+            <!-- Phone Lock-Screen Preview -->
+            <div class="lg:col-span-5 flex flex-col items-center space-y-5">
+              <div class="relative w-full max-w-[305px] rounded-[42px] p-3 bg-slate-900 shadow-2xl ring-1 ring-white/15">
+                <div class="absolute top-5 left-1/2 -translate-x-1/2 w-24 h-5 rounded-full bg-black z-30 flex items-center justify-end pr-2">
+                  <span class="w-2 h-2 rounded-full bg-slate-800"></span>
+                </div>
+
+                <div id="phoneScreen" class="relative w-full h-[545px] rounded-[34px] overflow-hidden flex flex-col justify-between p-5 pt-12 text-white transition-all duration-500">
+                  <div id="weatherEffectsLayer" class="absolute inset-0 pointer-events-none overflow-hidden z-0"></div>
+
+                  <!-- OS Clock -->
+                  <div class="relative z-10 text-center space-y-0.5">
+                    <p class="text-[11px] font-medium tracking-wide opacity-85">Friday, Nov 20</p>
+                    <p class="text-5xl font-bold tracking-tight leading-none">09:41</p>
+                    <div class="inline-flex items-center gap-1.5 mt-2 px-2.5 py-0.5 rounded-full bg-black/25 backdrop-blur-md text-[10px] font-medium">
+                      <i id="phoneWeatherIcon" class="fa-solid fa-sun text-amber-300"></i>
+                      <span id="phoneWeatherLabel">Sunny · Warm Glow</span>
+                    </div>
+                  </div>
+
+                  <!-- 6-Stage Dynamic SVG Rose -->
+                  <div class="relative z-10 flex flex-col items-center justify-center my-auto py-2">
+                    <div id="roseSvgContainer" class="w-44 h-44 flex items-center justify-center animate-float-slow"></div>
+                    <span id="phoneStageBadge" class="mt-1 px-3 py-0.5 rounded-full bg-white/15 backdrop-blur-md text-[11px] font-semibold tracking-wide border border-white/20">
+                      Stage 4 · Bud
+                    </span>
+                  </div>
+
+                  <!-- Bottom Lock-Screen Widget -->
+                  <div class="relative z-10 rounded-2xl bg-black/35 backdrop-blur-md border border-white/15 p-3.5 space-y-2.5">
+                    <div class="flex items-center justify-between gap-2">
+                      <p id="phoneProjectName" class="text-xs font-bold truncate">Launch Portfolio v2</p>
+                      <span id="phoneDaysLeft" class="text-[11px] font-semibold text-rose-200 whitespace-nowrap">14 days left</span>
+                    </div>
+                    <div class="space-y-1">
+                      <div class="flex items-center justify-between text-[10px] opacity-90">
+                        <span id="phoneFocusStatus">Today's Focus: 1/2 done</span>
+                        <span id="phoneBloomPercent" class="font-bold">64% Bloom</span>
+                      </div>
+                      <div class="w-full h-1.5 rounded-full bg-white/20 overflow-hidden">
+                        <div id="phoneProgressBar" class="h-full rounded-full bg-gradient-to-r from-rose-400 to-white transition-all duration-300" style="width: 64%"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Journey Time-Travel Slider -->
+              <div class="w-full max-w-[305px] rounded-2xl bg-white/90 dark:bg-[#0b1121]/80 border border-rose-500/25 p-4 space-y-2">
+                <div class="flex items-center justify-between text-xs font-semibold">
+                  <span class="text-rose-600 dark:text-rose-400"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i>Journey Time-Travel</span>
+                  <span id="sliderPercentLabel" class="text-slate-700 dark:text-slate-200">55%</span>
+                </div>
+                <input
+                  id="timeTravelSlider"
+                  type="range"
+                  min="0"
+                  max="100"
+                  value="55"
+                  oninput="updateSimulator()"
+                  class="w-full rose-slider"
+                />
+                <div class="flex justify-between text-[10px] text-slate-500 dark:text-slate-400">
+                  <span>Seed (0%)</span>
+                  <span>Bud</span>
+                  <span>Full Bloom (100%)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         4. QA MASTER BLUEPRINT & 100-POINT SCORECARD (#blueprint)
+         ===================================================================== -->
+    <section id="blueprint" class="scroll-mt-24 space-y-8">
+      <div class="space-y-2">
+        <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/25 text-cyan-700 dark:text-cyan-300 text-xs font-semibold">
+          <i class="fa-solid fa-clipboard-check"></i>16-Page Operational QA Reference
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+          QA Master Blueprint: English Audio Record
+        </h2>
+        <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-3xl">
+          An audit-ready 3-Layer QA Matrix designed to standardize speech dataset reviews—eliminating subjectivity across compliance gates, linguistic accuracy, and acoustic signal integrity.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <!-- 3-Layer QA Matrix Cards -->
+        <div class="lg:col-span-6 space-y-4">
+          <div class="glass-card rounded-2xl p-5 space-y-2 border-l-4 border-l-blue-500">
+            <div class="flex items-center justify-between">
+              <h3 class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <i class="fa-solid fa-scale-balanced text-blue-500"></i>Layer 1: Compliance &amp; Safety Gate
+              </h3>
+              <span class="text-xs font-bold px-2.5 py-1 rounded-lg bg-blue-500/15 text-blue-600 dark:text-blue-300">0–30 Pts</span>
+            </div>
+            <p class="text-sm text-slate-600 dark:text-slate-300">
+              Audits PII redaction, recording consent, target locale adherence, and policy boundaries. Any fatal breach immediately triggers an Auto-Reject regardless of linguistic or audio scores.
+            </p>
+          </div>
+
+          <div class="glass-card rounded-2xl p-5 space-y-2 border-l-4 border-l-cyan-500">
+            <div class="flex items-center justify-between">
+              <h3 class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <i class="fa-solid fa-language text-cyan-500"></i>Layer 2: Linguistic Quality
+              </h3>
+              <span class="text-xs font-bold px-2.5 py-1 rounded-lg bg-cyan-500/15 text-cyan-700 dark:text-cyan-300">0–40 Pts</span>
+            </div>
+            <p class="text-sm text-slate-600 dark:text-slate-300">
+              Evaluates verbatim script accuracy, omission/substitution rates, speaker diarization, natural intelligibility, and fluency without penalizing acceptable regional accents.
+            </p>
+          </div>
+
+          <div class="glass-card rounded-2xl p-5 space-y-2 border-l-4 border-l-indigo-500">
+            <div class="flex items-center justify-between">
+              <h3 class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <i class="fa-solid fa-wave-square text-indigo-500"></i>Layer 3: Audio Technical Quality
+              </h3>
+              <span class="text-xs font-bold px-2.5 py-1 rounded-lg bg-indigo-500/15 text-indigo-700 dark:text-indigo-300">0–30 Pts</span>
+            </div>
+            <p class="text-sm text-slate-600 dark:text-slate-300">
+              Checks signal-to-noise ratio (SNR), clipping, room echo, microphone consistency, silence boundaries, and clean JSON metadata formatting.
+            </p>
+          </div>
+        </div>
+
+        <!-- Interactive 100-Point QA Scorecard Simulator -->
+        <div class="lg:col-span-6 glass-card rounded-3xl p-6 sm:p-7 shadow-xl space-y-6">
+          <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700/70 pb-4">
+            <div>
+              <p class="text-xs uppercase tracking-wider font-semibold text-blue-600 dark:text-cyan-400">Interactive Simulator</p>
+              <h3 class="text-xl font-bold text-slate-900 dark:text-white">100-Point QA Scorecard</h3>
+            </div>
+            <button
+              type="button"
+              onclick="resetQaSimulator()"
+              class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition"
+            >
+              Reset
+            </button>
+          </div>
+
+          <div class="space-y-5">
+            <div class="space-y-1.5">
+              <div class="flex justify-between text-sm font-semibold">
+                <label for="qaCompliance" class="text-slate-700 dark:text-slate-200">Compliance &amp; Policy Gate</label>
+                <span id="qaComplianceVal" class="text-blue-600 dark:text-blue-400">28 / 30</span>
+              </div>
+              <input id="qaCompliance" type="range" min="0" max="30" value="28" oninput="updateQaScore()" class="w-full" />
+            </div>
+
+            <div class="space-y-1.5">
+              <div class="flex justify-between text-sm font-semibold">
+                <label for="qaLinguistic" class="text-slate-700 dark:text-slate-200">Linguistic Quality</label>
+                <span id="qaLinguisticVal" class="text-cyan-600 dark:text-cyan-400">37 / 40</span>
+              </div>
+              <input id="qaLinguistic" type="range" min="0" max="40" value="37" oninput="updateQaScore()" class="w-full" />
+            </div>
+
+            <div class="space-y-1.5">
+              <div class="flex justify-between text-sm font-semibold">
+                <label for="qaAudio" class="text-slate-700 dark:text-slate-200">Audio Technical Quality</label>
+                <span id="qaAudioVal" class="text-indigo-600 dark:text-indigo-400">27 / 30</span>
+              </div>
+              <input id="qaAudio" type="range" min="0" max="30" value="27" oninput="updateQaScore()" class="w-full" />
+            </div>
+
+            <!-- Fatal Compliance Error Switch -->
+            <div class="flex items-center justify-between p-4 rounded-2xl bg-rose-500/10 border border-rose-500/25">
+              <div class="pr-3">
+                <p class="text-sm font-bold text-rose-700 dark:text-rose-300">Fatal Compliance Error</p>
+                <p class="text-xs text-rose-600/80 dark:text-rose-200/75">Unredacted PII, wrong locale, or policy breach overrides total score</p>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer shrink-0">
+                <input type="checkbox" id="qaFatalToggle" onchange="updateQaScore()" class="sr-only peer" />
+                <div class="w-11 h-6 bg-slate-300 dark:bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-rose-600"></div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Dynamic Verdict Banner -->
+          <div id="qaResultCard" class="rounded-2xl p-5 border transition-all duration-300 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <p class="text-xs uppercase tracking-wider font-semibold opacity-75">QA Decision Verdict</p>
+              <p id="qaVerdictBadge" class="text-xl font-extrabold mt-0.5">PASS — PRODUCTION READY</p>
+              <p id="qaVerdictNote" class="text-xs opacity-85 mt-1"></p>
+            </div>
+            <div class="text-left sm:text-right shrink-0">
+              <span id="qaTotalScore" class="text-4xl font-black">92</span>
+              <span class="text-sm font-semibold opacity-70">/ 100</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         5. NDA-SAFE PROFESSIONAL EXPERIENCE (#experience)
+         ===================================================================== -->
+    <section id="experience" class="scroll-mt-24 space-y-8">
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
+        <div class="space-y-2">
+          <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/25 text-blue-600 dark:text-blue-300 text-xs font-semibold">
+            <i class="fa-solid fa-briefcase"></i>100% NDA-Compliant Track Record
+          </span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+            Professional Experience
+          </h2>
+        </div>
+
+        <!-- Filter Buttons -->
+        <div class="flex flex-wrap gap-2">
+          <button type="button" data-filter="all" onclick="filterExperience('all')" class="exp-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border transition">All</button>
+          <button type="button" data-filter="qa" onclick="filterExperience('qa')" class="exp-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border transition">QA &amp; Leadership</button>
+          <button type="button" data-filter="rlhf" onclick="filterExperience('rlhf')" class="exp-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border transition">RLHF &amp; Agent Eval</button>
+          <button type="button" data-filter="speech" onclick="filterExperience('speech')" class="exp-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border transition">Red Teaming &amp; Speech</button>
+        </div>
+      </div>
+
+      <div id="experienceGrid" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
+    </section>
+
+    <!-- =====================================================================
+         6. VERIFIED PLATFORM BADGES & 2026 CERTIFICATIONS (#credentials)
+         ===================================================================== -->
+    <section id="credentials" class="scroll-mt-24 space-y-8">
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
+        <div class="space-y-2">
+          <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-700 dark:text-emerald-300 text-xs font-semibold">
+            <i class="fa-solid fa-certificate"></i>Verified Scores &amp; Industry Credentials
+          </span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+            Verified Platform Badges &amp; 2026 Certifications
+          </h2>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="flex flex-wrap gap-2">
+          <button type="button" data-filter="all" onclick="filterCredentials('all')" class="cred-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border transition">All</button>
+          <button type="button" data-filter="badges" onclick="filterCredentials('badges')" class="cred-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border transition">Platform Badges</button>
+          <button type="button" data-filter="certs" onclick="filterCredentials('certs')" class="cred-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border transition">2026 Certifications</button>
+        </div>
+      </div>
+
+      <div id="credentialsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    </section>
+  </main>
+
+  <!-- =====================================================================
+       7. FOOTER
+       ===================================================================== -->
+  <footer class="border-t border-slate-200 dark:border-slate-800/90 bg-white/80 dark:bg-[#080d1a]/90">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col sm:flex-row items-center justify-between gap-6">
+      <div class="text-center sm:text-left space-y-1">
+        <p class="font-extrabold text-slate-900 dark:text-white tracking-tight text-lg">
+          VIOLA<span class="text-blue-500">.AI</span>
+        </p>
+        <p class="text-xs text-slate-500 dark:text-slate-400">
+          © 2026 Viola Aldila. All Rights Reserved.
+        </p>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-center gap-2.5">
+        <a href="https://wa.me/6287748525874" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-[#151e32] hover:text-emerald-500 border border-slate-200 dark:border-slate-800 text-xs font-semibold transition">
+          <i class="fa-brands fa-whatsapp text-sm"></i>WhatsApp
+        </a>
+        <button type="button" onclick="copyEmail()" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-[#151e32] hover:text-blue-500 border border-slate-200 dark:border-slate-800 text-xs font-semibold transition">
+          <i class="fa-regular fa-envelope text-sm"></i>Email
+        </button>
+        <a href="https://linkedin.com/in/viola-aldila-b859b63a3" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-[#151e32] hover:text-blue-500 border border-slate-200 dark:border-slate-800 text-xs font-semibold transition">
+          <i class="fa-brands fa-linkedin text-sm"></i>LinkedIn
+        </a>
+        <a href="https://portfoliozoneola89.blogspot.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-[#151e32] hover:text-cyan-500 border border-slate-200 dark:border-slate-800 text-xs font-semibold transition">
+          <i class="fa-solid fa-pen-nib text-sm"></i>Blog
+        </a>
+        <a href="https://github.com/virgoola89" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-[#151e32] hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-800 text-xs font-semibold transition">
+          <i class="fa-brands fa-github text-sm"></i>GitHub
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =====================================================================
+       MODALS & TOAST NOTIFICATION
+       ===================================================================== -->
+
+  <!-- Fullscreen Slide Lightbox Modal -->
+  <div id="slideLightbox" class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-8">
+    <div class="relative w-full max-w-6xl space-y-4">
+      <div class="flex items-center justify-between text-white">
+        <span id="lightboxCounter" class="text-sm font-bold tracking-wider text-rose-300">01 / 08</span>
+        <button type="button" onclick="closeLightbox()" aria-label="Close Fullscreen" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <div class="relative rounded-2xl overflow-hidden border border-rose-500/40 shadow-2xl">
+        <div id="lightboxStage" class="w-full min-h-[360px] sm:aspect-[16/9] bg-rose-50"></div>
+        <button type="button" onclick="prevSlide()" aria-label="Previous Slide" class="absolute left-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-slate-900/80 hover:bg-rose-600 text-white flex items-center justify-center shadow-lg transition">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button type="button" onclick="nextSlide()" aria-label="Next Slide" class="absolute right-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-slate-900/80 hover:bg-rose-600 text-white flex items-center justify-center shadow-lg transition">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Backend API Contract Modal -->
+  <div id="apiModal" class="fixed inset-0 z-50 hidden bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="w-full max-w-2xl rounded-3xl bg-white dark:bg-[#151e32] border border-rose-500/35 shadow-2xl overflow-hidden">
+      <div class="px-6 py-4 bg-rose-700 text-white flex items-center justify-between">
+        <div>
+          <p class="text-[11px] uppercase tracking-wider text-rose-200 font-semibold">RoseSync Express Backend Architecture</p>
+          <h3 class="font-serif text-xl">Backend API Contract (7 Endpoints)</h3>
+        </div>
+        <button type="button" onclick="closeApiModal()" aria-label="Close API Modal" class="w-9 h-9 rounded-full bg-white/15 hover:bg-white/25 flex items-center justify-center transition">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="p-6 space-y-3 max-h-[75vh] overflow-y-auto text-sm">
+        <div class="p-3 rounded-xl bg-slate-50 dark:bg-[#0b1121] border border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <code class="text-xs font-mono text-rose-700 dark:text-rose-300"><span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 font-bold mr-2">POST</span>/api/projects</code>
+          <span class="text-xs text-slate-500 dark:text-slate-400">Create goal, rose variety &amp; deadline</span>
+        </div>
+        <div class="p-3 rounded-xl bg-slate-50 dark:bg-[#0b1121] border border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <code class="text-xs font-mono text-rose-700 dark:text-rose-300"><span class="px-2 py-0.5 rounded bg-blue-500/20 text-blue-700 dark:text-blue-300 font-bold mr-2">GET</span>/api/projects/:id/progress</code>
+          <span class="text-xs text-slate-500 dark:text-slate-400">Compute 6-stage bloom state &amp; countdown</span>
+        </div>
+        <div class="p-3 rounded-xl bg-slate-50 dark:bg-[#0b1121] border border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <code class="text-xs font-mono text-rose-700 dark:text-rose-300"><span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 font-bold mr-2">POST</span>/api/projects/:id/tasks</code>
+          <span class="text-xs text-slate-500 dark:text-slate-400">Add concise Today's Focus micro-steps</span>
+        </div>
+        <div class="p-3 rounded-xl bg-slate-50 dark:bg-[#0b1121] border border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <code class="text-xs font-mono text-rose-700 dark:text-rose-300"><span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-700 dark:text-amber-300 font-bold mr-2">PATCH</span>/api/projects/:id/tasks/:taskId</code>
+          <span class="text-xs text-slate-500 dark:text-slate-400">Toggle completion &amp; trigger bloom update</span>
+        </div>
+        <div class="p-3 rounded-xl bg-slate-50 dark:bg-[#0b1121] border border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <code class="text-xs font-mono text-rose-700 dark:text-rose-300"><span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 font-bold mr-2">POST</span>/api/projects/:id/ai-plan</code>
+          <span class="text-xs text-slate-500 dark:text-slate-400">Generate calm 2–3 step daily plan via Gemini</span>
+        </div>
+        <div class="p-3 rounded-xl bg-slate-50 dark:bg-[#0b1121] border border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <code class="text-xs font-mono text-rose-700 dark:text-rose-300"><span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 font-bold mr-2">POST</span>/api/projects/:id/bloom-boost</code>
+          <span class="text-xs text-slate-500 dark:text-slate-400">Low-pressure coaching by user energy mood</span>
+        </div>
+        <div class="p-3 rounded-xl bg-slate-50 dark:bg-[#0b1121] border border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <code class="text-xs font-mono text-rose-700 dark:text-rose-300"><span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 font-bold mr-2">POST</span>/api/projects/:id/live-weather</code>
+          <span class="text-xs text-slate-500 dark:text-slate-400">Sync Open-Meteo atmosphere to lock screen</span>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- Toast Notification -->
+  <div
+    id="toastNotification"
+    class="fixed bottom-6 right-6 z-50 translate-y-20 opacity-0 pointer-events-none transition-all duration-300 px-4 py-3 rounded-2xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-2xl flex items-center gap-2.5 text-sm font-semibold"
+  >
+    <i class="fa-solid fa-circle-check text-emerald-400 dark:text-emerald-600"></i>
+    <span id="toastMessage">Email copied to clipboard!</span>
+  </div>
+
+  <!-- =====================================================================
+       JAVASCRIPT LOGIC (Self-contained, Zero Console Errors)
+       ===================================================================== -->
   <script>
-    // Copy email helper
-    function copyEmail() {
-      navigator.clipboard.writeText('storecikar@gmail.com');
-      const btn = document.getElementById('copyBtn');
-      btn.textContent = 'Copied to Clipboard!';
-      setTimeout(() => { btn.textContent = 'Copy Email: storecikar@gmail.com'; }, 2000);
+    /* =========================================================================
+       1. THEME TOGGLE & MOBILE NAVIGATION
+       ========================================================================= */
+    const htmlEl = document.documentElement;
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    const themeIcon = document.getElementById('themeIcon');
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    function syncThemeIcon() {
+      const isDark = htmlEl.classList.contains('dark');
+      themeIcon.className = isDark ? 'fa-solid fa-sun text-sm' : 'fa-solid fa-moon text-sm text-slate-700';
     }
 
-    // Modal helper
-    function toggleBlueprintModal(show) {
-      const modal = document.getElementById('blueprintModal');
-      modal.classList.toggle('hidden', !show);
-      modal.classList.toggle('flex', show);
-    }
-
-    // Experience category filter
-    function filterExp(cat, btn) {
-      document.querySelectorAll('#expFilters button').forEach(b => {
-        b.className = 'px-3 py-1.5 rounded-lg bg-slate-900 text-slate-300 border border-slate-700 hover:border-cyan-400';
-      });
-      btn.className = 'px-3 py-1.5 rounded-lg bg-cyan-400 text-slate-950 font-semibold';
-
-      document.querySelectorAll('.exp-item').forEach(item => {
-        const cats = item.getAttribute('data-cat') || '';
-        item.style.display = (cat === 'all' || cats.includes(cat)) ? '' : 'none';
-      });
-    }
-
-    // 1. STATIC CONNECTED LINE NETWORK (Draws once, never animates)
-    const meshCanvas = document.getElementById('staticMesh');
-    const meshCtx = meshCanvas.getContext('2d');
-
-    function drawStaticNetwork() {
-      const dpr = window.devicePixelRatio || 1;
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-      meshCanvas.width = w * dpr;
-      meshCanvas.height = h * dpr;
-      meshCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      meshCtx.clearRect(0, 0, w, h);
-
-      // Deterministic pseudo-random layout so the static geometric lines always look balanced
-      let seed = 42;
-      const rand = () => {
-        seed = (seed * 1664525 + 1013904223) % 4294967296;
-        return seed / 4294967296;
-      };
-
-      const count = Math.min(75, Math.max(36, Math.floor((w * h) / 24000)));
-      const nodes = [];
-      for (let i = 0; i < count; i++) {
-        nodes.push({ x: rand() * w, y: rand() * h });
-      }
-
-      const maxDist = 190;
-      meshCtx.lineWidth = 0.75;
-
-      for (let i = 0; i < nodes.length; i++) {
-        for (let j = i + 1; j < nodes.length; j++) {
-          const dx = nodes[i].x - nodes[j].x;
-          const dy = nodes[i].y - nodes[j].y;
-          const dist = Math.hypot(dx, dy);
-          if (dist < maxDist) {
-            const alpha = (1 - dist / maxDist) * 0.16;
-            meshCtx.strokeStyle = `rgba(56, 189, 248, ${alpha})`;
-            meshCtx.beginPath();
-            meshCtx.moveTo(nodes[i].x, nodes[i].y);
-            meshCtx.lineTo(nodes[j].x, nodes[j].y);
-            meshCtx.stroke();
-          }
-        }
-      }
-
-      for (const n of nodes) {
-        meshCtx.fillStyle = 'rgba(148, 163, 184, 0.24)';
-        meshCtx.beginPath();
-        meshCtx.arc(n.x, n.y, 1.4, 0, Math.PI * 2);
-        meshCtx.fill();
-      }
-    }
-
-    drawStaticNetwork();
-    window.addEventListener('resize', drawStaticNetwork);
-
-    // 2. FINE SLOW LINE FOLLOWING CURSOR
-    const lineCanvas = document.getElementById('cursorLine');
-    const lineCtx = lineCanvas.getContext('2d');
-    let cw = window.innerWidth;
-    let ch = window.innerHeight;
-
-    function resizeCursorCanvas() {
-      const dpr = window.devicePixelRatio || 1;
-      cw = window.innerWidth;
-      ch = window.innerHeight;
-      lineCanvas.width = cw * dpr;
-      lineCanvas.height = ch * dpr;
-      lineCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    }
-    resizeCursorCanvas();
-    window.addEventListener('resize', resizeCursorCanvas);
-
-    const target = { x: cw * 0.5, y: ch * 0.35, active: false };
-    const segments = 26;
-    const points = Array.from({ length: segments }, () => ({ x: target.x, y: target.y }));
-
-    window.addEventListener('mousemove', (e) => {
-      target.x = e.clientX;
-      target.y = e.clientY;
-      target.active = true;
+    themeToggleBtn.addEventListener('click', () => {
+      htmlEl.classList.toggle('dark');
+      syncThemeIcon();
     });
 
-    function renderCursorLine() {
-      lineCtx.clearRect(0, 0, cw, ch);
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
 
-      if (target.active) {
-        // Head glides slowly toward pointer
-        points[0].x += (target.x - points[0].x) * 0.065;
-        points[0].y += (target.y - points[0].y) * 0.065;
+    document.querySelectorAll('.mobile-nav-link').forEach((link) => {
+      link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+    });
 
-        // Tail points follow smoothly behind
-        for (let i = 1; i < segments; i++) {
-          points[i].x += (points[i - 1].x - points[i].x) * 0.18;
-          points[i].y += (points[i - 1].y - points[i].y) * 0.18;
-        }
+    /* =========================================================================
+       2. ONE-CLICK EMAIL COPY + TOAST (iFrame-safe document.execCommand)
+       ========================================================================= */
+    let toastTimer = null;
 
-        lineCtx.beginPath();
-        lineCtx.moveTo(points[0].x, points[0].y);
-        for (let i = 1; i < segments - 1; i++) {
-          const xc = (points[i].x + points[i + 1].x) * 0.5;
-          const yc = (points[i].y + points[i + 1].y) * 0.5;
-          lineCtx.quadraticCurveTo(points[i].x, points[i].y, xc, yc);
-        }
+    function showToast(msg) {
+      const toast = document.getElementById('toastNotification');
+      const toastMsg = document.getElementById('toastMessage');
+      toastMsg.textContent = msg;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
 
-        const grad = lineCtx.createLinearGradient(
-          points[0].x, points[0].y,
-          points[segments - 1].x, points[segments - 1].y
-        );
-        grad.addColorStop(0, 'rgba(34, 211, 238, 0.72)');
-        grad.addColorStop(1, 'rgba(34, 211, 238, 0)');
-
-        lineCtx.strokeStyle = grad;
-        lineCtx.lineWidth = 1;
-        lineCtx.lineCap = 'round';
-        lineCtx.stroke();
-
-        // Subtle 2px tip dot at the leading end of the line
-        lineCtx.fillStyle = 'rgba(34, 211, 238, 0.8)';
-        lineCtx.beginPath();
-        lineCtx.arc(points[0].x, points[0].y, 1.8, 0, Math.PI * 2);
-        lineCtx.fill();
-      }
-
-      requestAnimationFrame(renderCursorLine);
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 2600);
     }
-    requestAnimationFrame(renderCursorLine);
+
+    function copyEmail() {
+      const email = 'storecikar@gmail.com';
+      try {
+        const tempInput = document.createElement('textarea');
+        tempInput.value = email;
+        tempInput.setAttribute('readonly', '');
+        tempInput.style.position = 'absolute';
+        tempInput.style.left = '-9999px';
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempInput);
+        showToast('Copied storecikar@gmail.com to clipboard!');
+      } catch (err) {
+        showToast('Email: storecikar@gmail.com');
+      }
+    }
+
+    /* =========================================================================
+       3. ROSESYNC 8-SLIDE PRESENTATION CAROUSEL (PNG + Rich HTML Fallbacks)
+       ========================================================================= */
+    const roseSyncSlides = [
+      {
+        num: '01',
+        img: './rosesync/slides/RoseSync_Slide_01.png',
+        caption: 'Slide 01 — RoseSync: Watch your goal bloom, one meaningful step at a time.',
+        fallbackHtml: `
+          <div class="w-full h-full bg-gradient-to-br from-[#3f1426] via-[#881337] to-[#280d18] text-rose-50 p-6 sm:p-12 flex flex-col justify-between">
+            <div class="flex items-center justify-between text-[11px] sm:text-xs tracking-widest uppercase text-rose-200">
+              <span>Handshake Lockscreen-Deadline Concept</span>
+              <span>2026</span>
+            </div>
+            <div class="my-auto py-4 max-w-2xl space-y-4">
+              <span class="inline-block px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-semibold text-rose-100">Flagship Product Case Study</span>
+              <h4 class="font-serif text-4xl sm:text-6xl leading-tight">RoseSync</h4>
+              <p class="font-serif italic text-xl sm:text-3xl text-rose-200">"Watch your goal bloom, one meaningful step at a time."</p>
+              <p class="text-xs sm:text-base text-rose-100/85 leading-relaxed">An AI-assisted deadline companion that transforms your lock screen into a calm, living garden.</p>
+            </div>
+            <div class="flex items-center justify-between text-xs text-rose-200/80 border-t border-white/15 pt-4">
+              <span>Product Concept &amp; Prototype · Viola Aldila</span>
+              <span>Slide 01 / 08</span>
+            </div>
+          </div>
+        `
+      },
+      {
+        num: '02',
+        img: './rosesync/slides/RoseSync_Slide_02.png',
+        caption: 'Slide 02 — 01 / THE PROBLEM: Deadlines are visible. Progress often isn\'t.',
+        fallbackHtml: `
+          <div class="w-full h-full bg-rose-50 text-slate-900 p-6 sm:p-10 flex flex-col justify-between">
+            <div class="space-y-1">
+              <p class="text-[11px] font-bold tracking-widest uppercase text-rose-600">01 / THE PROBLEM</p>
+              <h4 class="font-serif text-2xl sm:text-4xl text-slate-900">Deadlines are visible. Progress often isn't.</h4>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 my-4">
+              <div class="rounded-2xl bg-white border border-rose-200 p-4 shadow-sm">
+                <p class="text-xs font-bold text-rose-500">01</p>
+                <p class="font-serif text-lg text-rose-900 mt-1">Static Countdowns</p>
+                <p class="text-xs text-slate-600 mt-1">Timers create anxiety without reflecting the real progress you've already made.</p>
+              </div>
+              <div class="rounded-2xl bg-white border border-rose-200 p-4 shadow-sm">
+                <p class="text-xs font-bold text-rose-500">02</p>
+                <p class="font-serif text-lg text-rose-900 mt-1">Cluttered Task Lists</p>
+                <p class="text-xs text-slate-600 mt-1">Heavy planners bury today's single most important step under dozens of overdue items.</p>
+              </div>
+              <div class="rounded-2xl bg-white border border-rose-200 p-4 shadow-sm">
+                <p class="text-xs font-bold text-rose-500">03</p>
+                <p class="font-serif text-lg text-rose-900 mt-1">Zero Momentum Support</p>
+                <p class="text-xs text-slate-600 mt-1">When energy dips, static clocks offer pressure instead of a gentle next micro-step.</p>
+              </div>
+            </div>
+            <div class="rounded-2xl bg-rose-800 text-rose-50 px-5 py-3.5 text-center font-serif italic text-sm sm:text-lg">
+              "We don't need another giant planner. We need a gentler way to keep going."
+            </div>
+          </div>
+        `
+      },
+      {
+        num: '03',
+        img: './rosesync/slides/RoseSync_Slide_03.png',
+        caption: 'Slide 03 — 02 / THE PRODUCT CONCEPT: A visual act of moving forward.',
+        fallbackHtml: `
+          <div class="w-full h-full bg-rose-50 text-slate-900 p-6 sm:p-10 flex flex-col justify-between">
+            <div class="space-y-1">
+              <p class="text-[11px] font-bold tracking-widest uppercase text-rose-600">02 / THE PRODUCT CONCEPT</p>
+              <h4 class="font-serif text-2xl sm:text-4xl text-slate-900">A visual act of moving forward.</h4>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 my-auto py-3 items-center">
+              <div class="sm:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div class="rounded-xl bg-white border border-rose-200 p-3.5">
+                  <p class="text-xs font-bold text-rose-600">01 Choose a Rose</p>
+                  <p class="text-xs text-slate-600 mt-1">Pink, Red, White, Yellow, or Lavender—each paired with personal symbolism.</p>
+                </div>
+                <div class="rounded-xl bg-white border border-rose-200 p-3.5">
+                  <p class="text-xs font-bold text-rose-600">02 Set Today's Focus</p>
+                  <p class="text-xs text-slate-600 mt-1">Keep daily focus calm and achievable with 2 clear micro-steps.</p>
+                </div>
+                <div class="rounded-xl bg-white border border-rose-200 p-3.5">
+                  <p class="text-xs font-bold text-rose-600">03 Watch It Bloom</p>
+                  <p class="text-xs text-slate-600 mt-1">6 botanical growth stages synced to elapsed time and completed steps.</p>
+                </div>
+                <div class="rounded-xl bg-white border border-rose-200 p-3.5">
+                  <p class="text-xs font-bold text-rose-600">04 Bloom Boost AI</p>
+                  <p class="text-xs text-slate-600 mt-1">Supportive, low-pressure coaching adapted to your current energy level.</p>
+                </div>
+              </div>
+              <div class="sm:col-span-4 hidden sm:flex flex-col items-center justify-center rounded-2xl bg-gradient-to-b from-rose-700 to-rose-950 text-white p-4 h-full">
+                <span class="text-[10px] opacity-75">09:41</span>
+                <i class="fa-solid fa-spa text-4xl text-rose-300 my-3"></i>
+                <p class="text-xs font-semibold">Portfolio Launch</p>
+                <p class="text-[10px] text-rose-200 mt-0.5">64% Bloom · 14d left</p>
+              </div>
+            </div>
+            <div class="text-xs text-rose-800 font-medium">RoseSync Core Loop · Calm Accountability</div>
+          </div>
+        `
+      },
+      {
+        num: '04',
+        img: './rosesync/slides/RoseSync_Slide_04.png',
+        caption: 'Slide 04 — 03 / LOCK-SCREEN CONSTRAINTS: Built to work as a real lock screen.',
+        fallbackHtml: `
+          <div class="w-full h-full bg-gradient-to-br from-rose-50 to-pink-100/70 text-slate-900 p-6 sm:p-10 flex flex-col justify-between">
+            <div class="space-y-1">
+              <p class="text-[11px] font-bold tracking-widest uppercase text-rose-600">03 / LOCK-SCREEN CONSTRAINTS</p>
+              <h4 class="font-serif text-2xl sm:text-4xl text-slate-900">Built to work as a real lock screen.</h4>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 my-auto py-4">
+              <div class="rounded-2xl bg-white/95 border border-rose-200 p-5 space-y-2 shadow-sm">
+                <div class="w-9 h-9 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center"><i class="fa-regular fa-clock"></i></div>
+                <p class="font-serif text-lg text-rose-900">Respect the Clock</p>
+                <p class="text-xs text-slate-600 leading-relaxed">Reserve top breathing room for the native OS clock and date without visual overlap.</p>
+              </div>
+              <div class="rounded-2xl bg-white/95 border border-rose-200 p-5 space-y-2 shadow-sm">
+                <div class="w-9 h-9 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center"><i class="fa-solid fa-list-check"></i></div>
+                <p class="font-serif text-lg text-rose-900">Micro-Focus Over Noise</p>
+                <p class="text-xs text-slate-600 leading-relaxed">Cap visible actions to 2 concise lines so the screen stays glanceable in under 2 seconds.</p>
+              </div>
+              <div class="rounded-2xl bg-white/95 border border-rose-200 p-5 space-y-2 shadow-sm">
+                <div class="w-9 h-9 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center"><i class="fa-solid fa-cloud-sun"></i></div>
+                <p class="font-serif text-lg text-rose-900">Calm Atmosphere</p>
+                <p class="text-xs text-slate-600 leading-relaxed">Subtle Sunny, Cloudy, Rainy, and Night moods frame the rose while preserving high contrast.</p>
+              </div>
+            </div>
+            <div class="text-xs text-rose-800 font-semibold">Glanceable · Scannable · Rose-Anchored Composition</div>
+          </div>
+        `
+      },
+      {
+        num: '05',
+        img: './rosesync/slides/RoseSync_Slide_05.png',
+        caption: 'Slide 05 — 04 / SYSTEM ARCHITECTURE: A pretty rose. A real system behind it.',
+        fallbackHtml: `
+          <div class="w-full h-full bg-[#2a121d] text-rose-50 p-6 sm:p-10 flex flex-col justify-between">
+            <div class="space-y-1">
+              <p class="text-[11px] font-bold tracking-widest uppercase text-rose-300">04 / SYSTEM ARCHITECTURE</p>
+              <h4 class="font-serif text-2xl sm:text-4xl">A pretty rose. A real system behind it.</h4>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 my-3">
+              <div class="rounded-xl bg-white/10 border border-white/15 p-3">
+                <p class="text-[10px] font-bold text-rose-300">01 INPUT</p>
+                <p class="text-sm font-semibold mt-0.5">Personal Setup</p>
+                <p class="text-[11px] opacity-80 mt-1">Goal, rose variety, deadline, daily tasks</p>
+              </div>
+              <div class="rounded-xl bg-white/10 border border-white/15 p-3">
+                <p class="text-[10px] font-bold text-rose-300">02 LOGIC</p>
+                <p class="text-sm font-semibold mt-0.5">Progress Engine</p>
+                <p class="text-[11px] opacity-80 mt-1">Blends elapsed time + task completion %</p>
+              </div>
+              <div class="rounded-xl bg-white/10 border border-white/15 p-3">
+                <p class="text-[10px] font-bold text-rose-300">03 SUPPORT</p>
+                <p class="text-sm font-semibold mt-0.5">AI Companion</p>
+                <p class="text-[11px] opacity-80 mt-1">Bloom Boost coaching &amp; micro-step plans</p>
+              </div>
+              <div class="rounded-xl bg-white/10 border border-white/15 p-3">
+                <p class="text-[10px] font-bold text-rose-300">04 DISPLAY</p>
+                <p class="text-sm font-semibold mt-0.5">Visual Renderer</p>
+                <p class="text-[11px] opacity-80 mt-1">6-stage rose + 4 weather atmospheres</p>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-2 border-t border-white/15 text-xs">
+              <div class="rounded-xl bg-rose-900/70 p-3"><span class="font-bold text-rose-200">Now:</span> Live Interactive Web Prototype</div>
+              <div class="rounded-xl bg-rose-900/70 p-3"><span class="font-bold text-rose-200">Services:</span> Express API + Open-Meteo</div>
+              <div class="rounded-xl bg-rose-900/70 p-3"><span class="font-bold text-rose-200">Next:</span> Native Android Lock-Screen App</div>
+            </div>
+          </div>
+        `
+      },
+      {
+        num: '06',
+        img: './rosesync/slides/RoseSync_Slide_06.png',
+        caption: 'Slide 06 — 05 / PRODUCT DECISIONS & TRADE-OFFS: Design with restraint and honesty.',
+        fallbackHtml: `
+          <div class="w-full h-full bg-rose-50 text-slate-900 p-6 sm:p-10 flex flex-col justify-between">
+            <div class="space-y-1">
+              <p class="text-[11px] font-bold tracking-widest uppercase text-rose-600">05 / PRODUCT DECISIONS &amp; TRADE-OFFS</p>
+              <h4 class="font-serif text-2xl sm:text-4xl text-slate-900">Design with restraint and honesty.</h4>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 my-auto py-3">
+              <div class="rounded-2xl bg-white border border-rose-200 p-4">
+                <p class="text-xs font-bold text-rose-600">01 Visuals Must Mean Something</p>
+                <p class="text-xs text-slate-600 mt-1">Every bloom stage maps directly to measurable progress—never empty decoration.</p>
+              </div>
+              <div class="rounded-2xl bg-white border border-rose-200 p-4">
+                <p class="text-xs font-bold text-rose-600">02 Two Clear Steps Beat Ten Reminders</p>
+                <p class="text-xs text-slate-600 mt-1">Intentional cap on daily focus prevents lock-screen clutter and decision fatigue.</p>
+              </div>
+              <div class="rounded-2xl bg-white border border-rose-200 p-4">
+                <p class="text-xs font-bold text-rose-600">03 AI Needs Clear Boundaries</p>
+                <p class="text-xs text-slate-600 mt-1">Bloom Boost stays supportive, concise, and grounded—never intrusive.</p>
+              </div>
+              <div class="rounded-2xl bg-white border border-rose-200 p-4">
+                <p class="text-xs font-bold text-rose-600">04 Prototype vs. Production Honesty</p>
+                <p class="text-xs text-slate-600 mt-1">Clear separation between client-side demo state and backend API roadmap.</p>
+              </div>
+            </div>
+            <div class="text-xs text-rose-800 font-medium">Intentional Scope · High Signal-to-Noise UX</div>
+          </div>
+        `
+      },
+      {
+        num: '07',
+        img: './rosesync/slides/RoseSync_Slide_07.png',
+        caption: 'Slide 07 — 06 / ENGINEERING & PROTOTYPING: From concept to working interactions.',
+        fallbackHtml: `
+          <div class="w-full h-full bg-[#24101a] text-rose-50 p-6 sm:p-10 flex flex-col justify-between">
+            <div class="space-y-1">
+              <p class="text-[11px] font-bold tracking-widest uppercase text-rose-300">06 / ENGINEERING &amp; PROTOTYPING</p>
+              <h4 class="font-serif text-2xl sm:text-4xl">From concept to working interactions.</h4>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 my-auto py-3">
+              <div class="sm:col-span-5 space-y-2 text-xs">
+                <p class="font-bold text-rose-300 uppercase tracking-wider">Prototype Stack</p>
+                <ul class="space-y-1.5 text-rose-100/90">
+                  <li>• HTML5 / CSS3 / Vanilla JS (30 staged visuals)</li>
+                  <li>• Node.js / Express backend prototype</li>
+                  <li>• Gemini &amp; Open-Meteo integration path</li>
+                  <li>• GitHub Pages + Google Apps Script</li>
+                </ul>
+              </div>
+              <div class="sm:col-span-7 rounded-2xl bg-black/35 border border-rose-500/35 p-4 font-mono text-[10px] sm:text-xs space-y-1 text-rose-200">
+                <p class="text-white font-sans font-bold text-xs mb-1.5">Backend API Contract</p>
+                <p>POST  /api/projects</p>
+                <p>GET   /api/projects/:id/progress</p>
+                <p>POST  /api/projects/:id/tasks</p>
+                <p>PATCH /api/projects/:id/tasks/:taskId</p>
+                <p>POST  /api/projects/:id/ai-plan</p>
+                <p>POST  /api/projects/:id/bloom-boost</p>
+                <p>POST  /api/projects/:id/live-weather</p>
+              </div>
+            </div>
+            <div class="text-xs text-rose-200/80">Modular Frontend + RESTful Expansion Ready</div>
+          </div>
+        `
+      },
+      {
+        num: '08',
+        img: './rosesync/slides/RoseSync_Slide_08.png',
+        caption: 'Slide 08 — 07 / NEXT MILESTONE: Big things begin with one small step.',
+        fallbackHtml: `
+          <div class="w-full h-full bg-gradient-to-br from-rose-800 via-[#3f1426] to-[#1e0b14] text-rose-50 p-6 sm:p-10 flex flex-col justify-between">
+            <div class="space-y-1">
+              <p class="text-[11px] font-bold tracking-widest uppercase text-rose-200">07 / NEXT MILESTONE</p>
+              <h4 class="font-serif text-2xl sm:text-4xl">Big things begin with one small step.</h4>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 my-auto py-4">
+              <div class="rounded-2xl bg-white/10 border border-white/15 p-4 space-y-1.5">
+                <span class="text-xs font-bold text-rose-200">Phase 01</span>
+                <p class="font-serif text-xl">Secure Cloud Sync</p>
+                <p class="text-xs opacity-85">Persistent user accounts, encrypted goal history, and cross-device sync.</p>
+              </div>
+              <div class="rounded-2xl bg-white/10 border border-white/15 p-4 space-y-1.5">
+                <span class="text-xs font-bold text-rose-200">Phase 02</span>
+                <p class="font-serif text-xl">Live AI &amp; Weather</p>
+                <p class="text-xs opacity-85">Real-time Gemini Bloom Boost coaching paired with Open-Meteo ambient weather.</p>
+              </div>
+              <div class="rounded-2xl bg-white/10 border border-white/15 p-4 space-y-1.5">
+                <span class="text-xs font-bold text-rose-200">Phase 03</span>
+                <p class="font-serif text-xl">Native Mobile Widget</p>
+                <p class="text-xs opacity-85">True live lock-screen wallpaper &amp; glanceable widget built for everyday calm.</p>
+              </div>
+            </div>
+            <div class="flex items-center justify-between text-xs text-rose-200 border-t border-white/15 pt-3">
+              <span>RoseSync Case Study · Viola Aldila</span>
+              <span>Thank You</span>
+            </div>
+          </div>
+        `
+      }
+    ];
+
+    let currentSlideIdx = 0;
+
+    function buildSlideMarkup(slide) {
+      return `
+        <div class="w-full h-full relative">
+          <img
+            src="${slide.img}"
+            alt="${slide.caption}"
+            class="w-full h-full object-contain bg-rose-50 dark:bg-[#23121c]"
+            onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden');"
+          />
+          <div class="hidden w-full h-full">
+            ${slide.fallbackHtml}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderCarousel() {
+      const slide = roseSyncSlides[currentSlideIdx];
+      const markup = buildSlideMarkup(slide);
+
+      document.getElementById('carouselStage').innerHTML = markup;
+      document.getElementById('lightboxStage').innerHTML = markup;
+
+      const counterText = `${slide.num} / 08`;
+      document.getElementById('slideCounter').textContent = counterText;
+      document.getElementById('lightboxCounter').textContent = counterText;
+      document.getElementById('slideCaption').textContent = slide.caption;
+
+      document.getElementById('slideIndicators').innerHTML = roseSyncSlides.map((s, idx) => {
+        const active = idx === currentSlideIdx;
+        return `
+          <button
+            type="button"
+            onclick="goToSlide(${idx})"
+            aria-label="Go to slide ${s.num}"
+            class="h-2.5 rounded-full transition-all ${active ? 'w-7 bg-rose-500' : 'w-2.5 bg-rose-500/30 hover:bg-rose-500/60'}"
+          ></button>
+        `;
+      }).join('');
+    }
+
+    function nextSlide() {
+      currentSlideIdx = (currentSlideIdx + 1) % roseSyncSlides.length;
+      renderCarousel();
+    }
+
+    function prevSlide() {
+      currentSlideIdx = (currentSlideIdx - 1 + roseSyncSlides.length) % roseSyncSlides.length;
+      renderCarousel();
+    }
+
+    function goToSlide(idx) {
+      currentSlideIdx = idx;
+      renderCarousel();
+    }
+
+    function openLightbox() {
+      document.getElementById('slideLightbox').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      document.getElementById('slideLightbox').classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    function openApiModal() {
+      document.getElementById('apiModal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeApiModal() {
+      document.getElementById('apiModal').classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', (e) => {
+      const activeTag = document.activeElement.tagName;
+      if (activeTag === 'INPUT' || activeTag === 'TEXTAREA') return;
+      if (e.key === 'ArrowRight') nextSlide();
+      if (e.key === 'ArrowLeft') prevSlide();
+      if (e.key === 'Escape') {
+        closeLightbox();
+        closeApiModal();
+      }
+    });
+
+    // Touch swipe on carousel
+    let touchStartX = 0;
+    const carouselContainer = document.getElementById('carouselContainer');
+    carouselContainer.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    carouselContainer.addEventListener('touchend', (e) => {
+      const diff = e.changedTouches[0].screenX - touchStartX;
+      if (Math.abs(diff) > 45) {
+        if (diff < 0) nextSlide();
+        else prevSlide();
+      }
+    }, { passive: true });
+
+    /* =========================================================================
+       4. ROSESYNC LOCK-SCREEN BLOOM SIMULATOR
+       ========================================================================= */
+    const rosePalette = {
+      pink:     { label: 'Pink — Growth & kindness',       outer: '#f472b6', mid: '#ec4899', inner: '#be185d', glow: 'rgba(244,114,182,0.45)' },
+      red:      { label: 'Red — Courage & bold goals',     outer: '#fb7185', mid: '#e11d48', inner: '#881337', glow: 'rgba(225,29,72,0.45)' },
+      white:    { label: 'White — Clarity & fresh starts', outer: '#ffffff', mid: '#f1f5f9', inner: '#cbd5e1', glow: 'rgba(255,255,255,0.45)' },
+      yellow:   { label: 'Yellow — Warmth & optimism',     outer: '#fde047', mid: '#facc15', inner: '#ca8a04', glow: 'rgba(250,204,21,0.45)' },
+      lavender: { label: 'Lavender — Calm & quiet wonder', outer: '#d8b4fe', mid: '#a855f7', inner: '#6b21a8', glow: 'rgba(168,85,247,0.45)' }
+    };
+
+    const weatherThemes = {
+      sunny: {
+        bg: 'linear-gradient(165deg, #6b1d3a 0%, #9f2d52 45%, #e29578 100%)',
+        icon: 'fa-solid fa-sun text-amber-300',
+        label: 'Sunny · Warm Glow'
+      },
+      cloudy: {
+        bg: 'linear-gradient(165deg, #334155 0%, #475569 50%, #64748b 100%)',
+        icon: 'fa-solid fa-cloud text-slate-200',
+        label: 'Cloudy · Soft Focus'
+      },
+      rainy: {
+        bg: 'linear-gradient(165deg, #1e293b 0%, #273c57 50%, #3b4f6b 100%)',
+        icon: 'fa-solid fa-cloud-rain text-sky-300',
+        label: 'Rainy · Gentle Rhythm'
+      },
+      night: {
+        bg: 'linear-gradient(165deg, #0b1121 0%, #1e1b38 55%, #3b1d36 100%)',
+        icon: 'fa-solid fa-moon text-indigo-200',
+        label: 'Night · Quiet Rest'
+      }
+    };
+
+    const bloomBoostCopy = {
+      focused:  '✨ <strong>Focused:</strong> You are in a clean flow state. Lock in one 25-minute sprint on your top step, then pause to let your rose breathe.',
+      stuck:    '🌿 <strong>Feeling stuck?</strong> Shrink the next step until it feels almost too easy—open the draft and write just 2 rough lines. Motion creates clarity.',
+      tired:    '🌙 <strong>Low energy today:</strong> Growth still happens in quiet soil. Pick one 5-minute micro-action or treat today as a gentle maintenance check-in.',
+      inspired: '🌹 <strong>Inspired:</strong> Capture that momentum right now! Sketch your boldest idea first before polishing the details.'
+    };
+
+    let simState = { color: 'pink', days: 30, weather: 'sunny', mood: 'focused' };
+
+    function setRoseColor(color) {
+      simState.color = color;
+      document.getElementById('roseMeaningText').textContent = rosePalette[color].label;
+      document.querySelectorAll('.rose-color-btn').forEach((btn) => {
+        const active = btn.dataset.color === color;
+        btn.className = `rose-color-btn px-3 py-2 rounded-xl text-xs font-semibold border transition flex items-center justify-center gap-1.5 ${
+          btn.dataset.color === 'lavender' ? 'col-span-2 sm:col-span-1 ' : ''
+        }${
+          active
+            ? 'bg-rose-600 text-white border-rose-600 shadow-md'
+            : 'bg-slate-50 dark:bg-[#151e32] text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700 hover:border-rose-400'
+        }`;
+      });
+      updateSimulator();
+    }
+
+    function setJourneyDays(days) {
+      simState.days = days;
+      document.querySelectorAll('.journey-btn').forEach((btn) => {
+        const active = Number(btn.dataset.days) === days;
+        btn.className = `journey-btn px-2.5 py-2 rounded-lg text-xs font-semibold border transition ${
+          active
+            ? 'bg-rose-500 text-white border-rose-500'
+            : 'bg-slate-50 dark:bg-[#151e32] text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-rose-400'
+        }`;
+      });
+      updateSimulator();
+    }
+
+    function setWeather(weather) {
+      simState.weather = weather;
+      document.querySelectorAll('.weather-btn').forEach((btn) => {
+        const active = btn.dataset.weather === weather;
+        btn.className = `weather-btn px-3 py-2 rounded-xl text-xs font-semibold border transition flex items-center justify-center gap-1.5 ${
+          active
+            ? 'bg-rose-600 text-white border-rose-600'
+            : 'bg-slate-50 dark:bg-[#151e32] text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700 hover:border-rose-400'
+        }`;
+      });
+      renderWeatherEffects(weather);
+      updateSimulator();
+    }
+
+    function renderWeatherEffects(weather) {
+      const layer = document.getElementById('weatherEffectsLayer');
+      layer.innerHTML = '';
+
+      if (weather === 'sunny') {
+        layer.innerHTML = `<div class="absolute -top-12 -right-12 w-48 h-48 rounded-full bg-amber-300/30 blur-2xl"></div>`;
+      } else if (weather === 'cloudy') {
+        layer.innerHTML = `
+          <div class="absolute top-12 -left-10 w-44 h-20 rounded-full bg-white/15 blur-xl"></div>
+          <div class="absolute top-28 right-0 w-40 h-16 rounded-full bg-white/10 blur-xl"></div>
+        `;
+      } else if (weather === 'rainy') {
+        let drops = '';
+        for (let i = 0; i < 18; i++) {
+          const left = Math.floor((i * 19 + 7) % 96);
+          const delay = ((i % 7) * 0.16).toFixed(2);
+          drops += `<div class="rain-drop" style="left:${left}%; animation-delay:${delay}s;"></div>`;
+        }
+        layer.innerHTML = drops;
+      } else if (weather === 'night') {
+        const coords = [[14,12],[28,22],[75,15],[86,28],[42,10],[63,24],[18,38],[82,42],[50,30],[32,46]];
+        layer.innerHTML = coords.map(([x, y], idx) =>
+          `<div class="star-dot" style="left:${x}%; top:${y}%; animation-delay:${(idx*0.25).toFixed(2)}s;"></div>`
+        ).join('');
+      }
+    }
+
+    function setBloomMood(mood) {
+      simState.mood = mood;
+      document.querySelectorAll('.mood-btn').forEach((btn) => {
+        const active = btn.dataset.mood === mood;
+        btn.className = `mood-btn px-3.5 py-2 rounded-xl text-xs font-semibold border transition ${
+          active
+            ? 'bg-rose-500 text-white border-rose-500'
+            : 'bg-slate-50 dark:bg-[#151e32] text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700 hover:border-rose-400'
+        }`;
+      });
+      document.getElementById('bloomBoostMessage').innerHTML = bloomBoostCopy[mood];
+    }
+
+    function generateRoseSvg(stage, palette) {
+      const stem = '#4ade80';
+      const leaf = '#22c55e';
+      const soil = `<ellipse cx="100" cy="176" rx="46" ry="10" fill="rgba(0,0,0,0.28)" />`;
+
+      if (stage === 1) {
+        return `<svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-lg">${soil}<path d="M92 172 C92 156, 108 156, 108 172 C108 178, 92 178, 92 172 Z" fill="#d6a97a" stroke="#78350f" stroke-width="2"/><path d="M100 158 C100 152, 104 148, 107 146" stroke="${stem}" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>`;
+      }
+      if (stage === 2) {
+        return `<svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-lg">${soil}<path d="M100 174 Q98 148 100 128" stroke="${stem}" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M100 134 C82 126, 78 112, 95 118 C98 120, 100 128, 100 134 Z" fill="${leaf}"/><path d="M100 130 C118 122, 124 108, 106 114 C102 116, 100 124, 100 130 Z" fill="${stem}"/></svg>`;
+      }
+      if (stage === 3) {
+        return `<svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-lg">${soil}<path d="M100 175 Q94 135 100 92" stroke="${stem}" stroke-width="4.5" fill="none" stroke-linecap="round"/><path d="M98 145 C74 140, 68 122, 92 128 Z" fill="${leaf}"/><path d="M100 124 C126 118, 132 100, 104 108 Z" fill="${stem}"/><path d="M99 102 C82 96, 80 82, 98 88 Z" fill="${leaf}"/><ellipse cx="100" cy="88" rx="6" ry="9" fill="${leaf}"/></svg>`;
+      }
+      if (stage === 4) {
+        return `<svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-xl"><circle cx="100" cy="76" r="28" fill="${palette.glow}" />${soil}<path d="M100 175 Q95 130 100 84" stroke="${stem}" stroke-width="4.5" fill="none" stroke-linecap="round"/><path d="M98 144 C72 138, 68 120, 94 128 Z" fill="${leaf}"/><path d="M100 122 C128 116, 132 98, 104 106 Z" fill="${stem}"/><path d="M86 84 C84 62, 100 50, 100 50 C100 50, 116 62, 114 84 C112 94, 88 94, 86 84 Z" fill="${palette.mid}"/><path d="M92 82 C92 66, 100 56, 100 56 C100 56, 108 66, 108 82 Z" fill="${palette.outer}"/><path d="M86 84 Q100 96 114 84 Q106 94 100 96 Q94 94 86 84 Z" fill="${leaf}"/></svg>`;
+      }
+      if (stage === 5) {
+        return `<svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-xl"><circle cx="100" cy="72" r="40" fill="${palette.glow}" />${soil}<path d="M100 175 Q94 132 100 86" stroke="${stem}" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M97 145 C70 138, 66 118, 94 128 Z" fill="${leaf}"/><path d="M100 122 C130 115, 134 96, 104 106 Z" fill="${stem}"/><circle cx="84" cy="76" r="18" fill="${palette.outer}"/><circle cx="116" cy="76" r="18" fill="${palette.outer}"/><circle cx="100" cy="64" r="20" fill="${palette.mid}"/><circle cx="100" cy="78" r="16" fill="${palette.mid}"/><circle cx="100" cy="72" r="11" fill="${palette.inner}"/><path d="M94 72 C94 66, 106 66, 106 72 C106 76, 97 78, 97 73" stroke="${palette.outer}" stroke-width="2" fill="none" stroke-linecap="round"/></svg>`;
+      }
+      return `<svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-2xl"><circle cx="100" cy="72" r="52" fill="${palette.glow}" />${soil}<path d="M100 176 Q94 134 100 92" stroke="${stem}" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M97 148 C68 140, 64 118, 94 128 Z" fill="${leaf}"/><path d="M100 124 C132 116, 136 96, 104 108 Z" fill="${stem}"/><circle cx="76" cy="76" r="22" fill="${palette.outer}"/><circle cx="124" cy="76" r="22" fill="${palette.outer}"/><circle cx="86" cy="54" r="22" fill="${palette.outer}"/><circle cx="114" cy="54" r="22" fill="${palette.outer}"/><circle cx="100" cy="86" r="22" fill="${palette.outer}"/><circle cx="88" cy="70" r="17" fill="${palette.mid}"/><circle cx="112" cy="70" r="17" fill="${palette.mid}"/><circle cx="100" cy="58" r="17" fill="${palette.mid}"/><circle cx="100" cy="78" r="16" fill="${palette.mid}"/><circle cx="100" cy="69" r="12" fill="${palette.inner}"/><path d="M93 69 C93 61, 107 61, 107 69 C107 75, 96 76, 96 70 C96 67, 103 66, 103 70" stroke="${palette.outer}" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg>`;
+    }
+
+    function updateSimulator() {
+      const sliderVal = Number(document.getElementById('timeTravelSlider').value);
+      const t1 = document.getElementById('task1').checked ? 1 : 0;
+      const t2 = document.getElementById('task2').checked ? 1 : 0;
+      const completedTasks = t1 + t2;
+
+      const bloomPct = Math.min(100, Math.round(sliderVal * 0.85 + completedTasks * 7.5));
+
+      let stage = 1;
+      let stageName = 'Stage 1 · Seed';
+      if (bloomPct >= 90) { stage = 6; stageName = 'Stage 6 · Full Bloom'; }
+      else if (bloomPct >= 72) { stage = 5; stageName = 'Stage 5 · Opening'; }
+      else if (bloomPct >= 52) { stage = 4; stageName = 'Stage 4 · Bud'; }
+      else if (bloomPct >= 32) { stage = 3; stageName = 'Stage 3 · Stem'; }
+      else if (bloomPct >= 14) { stage = 2; stageName = 'Stage 2 · Sprout'; }
+
+      const projectName = document.getElementById('simProjectName').value.trim() || 'My Goal';
+      const daysLeft = Math.max(0, Math.round(simState.days * (1 - sliderVal / 100)));
+
+      const theme = weatherThemes[simState.weather];
+      document.getElementById('phoneScreen').style.background = theme.bg;
+      document.getElementById('phoneWeatherIcon').className = theme.icon;
+      document.getElementById('phoneWeatherLabel').textContent = theme.label;
+
+      document.getElementById('roseSvgContainer').innerHTML = generateRoseSvg(stage, rosePalette[simState.color]);
+      document.getElementById('phoneStageBadge').textContent = stageName;
+      document.getElementById('phoneProjectName').textContent = projectName;
+      document.getElementById('phoneDaysLeft').textContent = daysLeft === 0 ? 'Deadline Today!' : `${daysLeft} days left`;
+      document.getElementById('phoneFocusStatus').textContent = `Today's Focus: ${completedTasks}/2 done`;
+      document.getElementById('phoneBloomPercent').textContent = `${bloomPct}% Bloom`;
+      document.getElementById('phoneProgressBar').style.width = `${bloomPct}%`;
+      document.getElementById('sliderPercentLabel').textContent = `${sliderVal}%`;
+    }
+
+    /* =========================================================================
+       5. 100-POINT QA SCORECARD SIMULATOR
+       ========================================================================= */
+    function updateQaScore() {
+      const comp = Number(document.getElementById('qaCompliance').value);
+      const ling = Number(document.getElementById('qaLinguistic').value);
+      const audio = Number(document.getElementById('qaAudio').value);
+      const isFatal = document.getElementById('qaFatalToggle').checked;
+
+      document.getElementById('qaComplianceVal').textContent = `${comp} / 30`;
+      document.getElementById('qaLinguisticVal').textContent = `${ling} / 40`;
+      document.getElementById('qaAudioVal').textContent = `${audio} / 30`;
+
+      const total = comp + ling + audio;
+      const resultCard = document.getElementById('qaResultCard');
+      const verdictBadge = document.getElementById('qaVerdictBadge');
+      const verdictNote = document.getElementById('qaVerdictNote');
+      const totalScoreEl = document.getElementById('qaTotalScore');
+
+      if (isFatal) {
+        totalScoreEl.textContent = '0';
+        verdictBadge.textContent = 'AUTO-REJECT (FATAL ERROR)';
+        verdictNote.textContent = 'Hard compliance gate triggered. Asset quarantined immediately regardless of audio/text score.';
+        resultCard.className = 'rounded-2xl p-5 border transition-all duration-300 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-rose-500/15 border-rose-500/40 text-rose-700 dark:text-rose-200';
+      } else if (total >= 90) {
+        totalScoreEl.textContent = total;
+        verdictBadge.textContent = 'PASS — PRODUCTION READY';
+        verdictNote.textContent = 'Score 90+: Ready for direct model training & benchmark ingestion.';
+        resultCard.className = 'rounded-2xl p-5 border transition-all duration-300 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-emerald-500/15 border-emerald-500/40 text-emerald-800 dark:text-emerald-200';
+      } else if (total >= 75) {
+        totalScoreEl.textContent = total;
+        verdictBadge.textContent = 'REVIEW — MINOR REVISION';
+        verdictNote.textContent = 'Score 75–89: Return to contributor with targeted timestamp & rubric feedback.';
+        resultCard.className = 'rounded-2xl p-5 border transition-all duration-300 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-amber-500/15 border-amber-500/40 text-amber-800 dark:text-amber-200';
+      } else {
+        totalScoreEl.textContent = total;
+        verdictBadge.textContent = 'REJECT — REWORK NEEDED';
+        verdictNote.textContent = 'Score below 75: Does not meet linguistic or acoustic quality standards.';
+        resultCard.className = 'rounded-2xl p-5 border transition-all duration-300 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-rose-500/15 border-rose-500/40 text-rose-700 dark:text-rose-200';
+      }
+    }
+
+    function resetQaSimulator() {
+      document.getElementById('qaCompliance').value = 28;
+      document.getElementById('qaLinguistic').value = 37;
+      document.getElementById('qaAudio').value = 27;
+      document.getElementById('qaFatalToggle').checked = false;
+      updateQaScore();
+    }
+
+    /* =========================================================================
+       6. NDA-SAFE PROFESSIONAL EXPERIENCE (FILTERABLE)
+       ========================================================================= */
+    const experienceData = [
+      {
+        role: 'Quality Assurance VLA',
+        company: 'Welo Data',
+        period: 'Nov 2026 – Present',
+        tag: 'Contract',
+        categories: ['qa'],
+        highlights: [
+          'Auditing multimodal Vision-Language-Action (VLA) annotation queues for semantic alignment, temporal precision, and edge-case compliance.',
+          'Tracking recurring error patterns and delivering concise calibration feedback to keep datasets production-ready.'
+        ]
+      },
+      {
+        role: 'Quality Assurance Specialist & Senior Linguistic Validator',
+        company: 'CrowdGen',
+        period: 'Jun 2023 – Present',
+        tag: 'Contract',
+        categories: ['qa', 'speech'],
+        highlights: [
+          'Serving as final linguistic validator for Indonesian and Javanese datasets across audio segmentation, transcription QA, and voice recording queues.',
+          'Auditing search relevance rankings and security-related retrieval data to maintain consistent, policy-compliant training batches.'
+        ]
+      },
+      {
+        role: 'AI Safety Red Teamer',
+        company: 'Mercor',
+        period: 'Sep 2026 – Present & 2024',
+        tag: 'Contract',
+        categories: ['speech', 'rlhf'],
+        highlights: [
+          'Executing adversarial LLM tests to uncover bias risks, safety loopholes, policy gaps, and unsafe generations.',
+          'Documenting reproducible failure reports with clear root-cause breakdowns for model alignment teams.'
+        ]
+      },
+      {
+        role: 'Audio Agent Evals Lead (RLHF)',
+        company: 'Invisible Technologies',
+        period: 'Jul 2026 – Oct 2026',
+        tag: 'Contract',
+        categories: ['qa', 'rlhf', 'speech'],
+        highlights: [
+          'Audited AI-to-human voice calls alongside backend JSON logs to verify accurate tool calls and function parameters.',
+          'Scored conversational audio agents on Task Completion (TC) and Conversational Naturalness (CN) with detailed RLHF reasoning.'
+        ]
+      },
+      {
+        role: 'Indonesian Annotation Team Lead & QA',
+        company: 'Appen',
+        period: 'Jun 2023 – Oct 2026',
+        tag: 'Freelance',
+        categories: ['qa', 'speech'],
+        highlights: [
+          'Lifted contributor accuracy from 62% to 92% (95% sustained) by converting dense written guidelines into visual workflow posters and checklists.',
+          'Coached Indonesian contributors across audio segmentation, transcription, speaker labeling, and Vision-Language-Action (VLA) validation.'
+        ]
+      },
+      {
+        role: 'Voice Evaluation & Audio Tagging Contributor',
+        company: 'RWS',
+        period: 'Jul 2026 – Oct 2026',
+        tag: 'Contract',
+        categories: ['speech', 'rlhf'],
+        highlights: [
+          'Performed side-by-side (SxS) AI voice quality evaluations based on structured acoustic and naturalness criteria.',
+          'Completed strict timing-based audio event tagging and acoustic boundary verification across multilingual speech queues.'
+        ]
+      },
+      {
+        role: 'LLM Agent Rubric Evaluator',
+        company: 'Agents Only Technologies',
+        period: 'Jun 2026 – Oct 2026',
+        tag: 'Contract',
+        categories: ['rlhf', 'qa'],
+        highlights: [
+          'Evaluated live LLM agent responses on UK regional and benchmark queues using structured multi-step rubrics.',
+          'Audited instruction-following precision, tool execution traces, and factual grounding.'
+        ]
+      },
+      {
+        role: 'Indonesian AI Speech Data Annotator',
+        company: 'Alibaba Group',
+        period: 'Mar 2026 – Oct 2026',
+        tag: 'Contract',
+        categories: ['speech'],
+        highlights: [
+          'Delivered high-precision Indonesian ASR and speech-to-speech transcription, time alignment, and noise/silence tagging.',
+          'Executed QA cleanup on machine-generated transcripts to improve model recognition of natural conversational speech.'
+        ]
+      },
+      {
+        role: 'Additional AI & Voice Engagements',
+        company: 'Babel Audio · Handshake AI Fellowship · Outlier · micro1 · Alignerr · Silencio Voice AI / Voices / Voice123',
+        period: '2023 – 2026',
+        tag: 'Freelance / Contract',
+        categories: ['qa', 'rlhf', 'speech'],
+        fullWidth: true,
+        highlights: [
+          'Babel Audio: Native Indonesian & Javanese audio-transcript alignment auditing and studio-grade speech recording.',
+          'Handshake AI Fellowship, Outlier, micro1 & Alignerr: Indonesian language evaluation, LLM reasoning feedback, structured data verification, and multimodal annotation.',
+          'Silencio Voice AI / Voices / Voice123: Multilingual voiceover & speech dataset recording with a verified 94% first-pass acceptance rate.'
+        ]
+      }
+    ];
+
+    function filterExperience(category) {
+      document.querySelectorAll('.exp-tab').forEach((btn) => {
+        const active = btn.dataset.filter === category;
+        btn.className = `exp-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border transition ${
+          active
+            ? 'bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-600/20'
+            : 'bg-white/80 dark:bg-[#151e32] text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-blue-500'
+        }`;
+      });
+
+      const filtered = category === 'all'
+        ? experienceData
+        : experienceData.filter((item) => item.categories.includes(category));
+
+      document.getElementById('experienceGrid').innerHTML = filtered.map((item) => `
+        <article class="glass-card rounded-2xl p-6 space-y-3 hover:border-blue-500/40 transition ${item.fullWidth ? 'md:col-span-2' : ''}">
+          <div class="flex flex-wrap items-start justify-between gap-2">
+            <div>
+              <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">${item.role}</h3>
+              <p class="text-sm font-semibold text-blue-600 dark:text-cyan-400">${item.company}</p>
+            </div>
+            <div class="flex flex-col items-start sm:items-end gap-1">
+              <span class="text-xs font-medium text-slate-500 dark:text-slate-400">${item.period}</span>
+              <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-blue-500/10 text-blue-700 dark:text-blue-300 border border-blue-500/20">${item.tag}</span>
+            </div>
+          </div>
+          <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-300 leading-relaxed pt-1">
+            ${item.highlights.map((h) => `<li class="flex items-start gap-2"><i class="fa-solid fa-angle-right text-cyan-500 mt-1 text-xs shrink-0"></i><span>${h}</span></li>`).join('')}
+          </ul>
+        </article>
+      `).join('');
+    }
+
+    /* =========================================================================
+       7. VERIFIED PLATFORM BADGES & 2026 CERTIFICATIONS (FILTERABLE)
+       ========================================================================= */
+    const credentialsData = [
+      // Platform Badges (Mimir / Mettl / Cornerstone)
+      { title: 'Cursa QC Client Certification', issuer: 'Internal Client · QC Suite', meta: 'Score: 78', type: 'badges', icon: 'fa-solid fa-check-double text-cyan-500' },
+      { title: 'Lyra Prompting, Instructions & Rubrics', issuer: 'Mimir', meta: 'Verified Badge', type: 'badges', icon: 'fa-solid fa-wand-magic-sparkles text-blue-500' },
+      { title: 'Cursa Annotation Training', issuer: 'Cornerstone', meta: 'Verified Badge', type: 'badges', icon: 'fa-solid fa-layer-group text-indigo-500' },
+      { title: 'Causal Reasoning (enUS-enUS)', issuer: 'Mimir', meta: 'Score: 17', type: 'badges', icon: 'fa-solid fa-brain text-purple-500' },
+      { title: 'Written Consistency Analysis', issuer: 'Mettl', meta: 'Score: 15', type: 'badges', icon: 'fa-solid fa-pen-fancy text-cyan-500' },
+      { title: 'Reading Comprehension (enUS)', issuer: 'Mettl', meta: 'Score: 14', type: 'badges', icon: 'fa-solid fa-book-open text-blue-500' },
+      { title: 'Attention to Detail (enUS-AG)', issuer: 'Mimir', meta: 'Score: 8', type: 'badges', icon: 'fa-solid fa-magnifying-glass text-indigo-500' },
+      { title: 'Culture Adaptation (idID / itIT)', issuer: 'Mettl', meta: 'idID: 38 · itIT: 29', type: 'badges', icon: 'fa-solid fa-globe text-emerald-500' },
+      { title: 'Language Proficiency (enUS-AG)', issuer: 'Mettl', meta: 'Score: 34', type: 'badges', icon: 'fa-solid fa-comments text-blue-500' },
+      { title: 'Marketing Proofreading (idID / itIT)', issuer: 'Mettl & Mimir', meta: 'idID: 13 · itIT: 17', type: 'badges', icon: 'fa-solid fa-spell-check text-cyan-500' },
+
+      // 2026 Certifications
+      { title: 'Google AI Professional Certificate', issuer: 'Google · Coursera (2026)', meta: 'ID: D6MM0YTGSGK4', type: 'certs', icon: 'fa-brands fa-google text-blue-500' },
+      { title: 'Agentic AI with LangChain & LangGraph', issuer: 'IBM · Coursera (2026)', meta: 'ID: 0NHPCW0KKDSS', type: 'certs', icon: 'fa-solid fa-microchip text-cyan-500' },
+      { title: 'AI Foundations', issuer: 'OpenAI Academy (2026)', meta: 'ID: prm1z8whur', type: 'certs', icon: 'fa-solid fa-robot text-emerald-500' },
+      { title: 'Introduction to Agents', issuer: 'Mercor (2026)', meta: 'ID: MRC-2026-27ARXXCS', type: 'certs', icon: 'fa-solid fa-user-shield text-indigo-500' },
+      { title: 'Intro to LLMs & AI for Data Analysis', issuer: 'Google Cloud · Coursera (2026)', meta: 'IDs: B39B6B2JB9WK · 0BK31O8PMOH8', type: 'certs', icon: 'fa-solid fa-cloud text-blue-500' },
+      { title: 'AI-Powered Performance Ads', issuer: 'Google (2026)', meta: 'ID: 183953890', type: 'certs', icon: 'fa-solid fa-chart-line text-cyan-500' },
+      { title: 'Claude 101 & Claude Code 101', issuer: 'Anthropic (2026)', meta: '2026 Certified', type: 'certs', icon: 'fa-solid fa-shield-heart text-rose-500' },
+      { title: 'Foundations of Prompt Engineering & Gen AI', issuer: 'AWS Training & Certification (2026)', meta: '2026 Certified', type: 'certs', icon: 'fa-brands fa-aws text-amber-500' },
+      { title: 'Critical Thinking in AI, Presenting Data & Financial Basics', issuer: 'HP Foundation · HP LIFE (2026)', meta: '3 Verified Certificates', type: 'certs', icon: 'fa-solid fa-certificate text-blue-500' },
+      { title: 'Applied AI QA & Digital Operations', issuer: 'Ioda Academy (2026)', meta: '2026 Certified', type: 'certs', icon: 'fa-solid fa-award text-emerald-500' }
+    ];
+
+    function filterCredentials(type) {
+      document.querySelectorAll('.cred-tab').forEach((btn) => {
+        const active = btn.dataset.filter === type;
+        btn.className = `cred-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border transition ${
+          active
+            ? 'bg-emerald-600 text-white border-emerald-600 shadow-md shadow-emerald-600/20'
+            : 'bg-white/80 dark:bg-[#151e32] text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-emerald-500'
+        }`;
+      });
+
+      const filtered = type === 'all'
+        ? credentialsData
+        : credentialsData.filter((c) => c.type === type);
+
+      document.getElementById('credentialsGrid').innerHTML = filtered.map((c) => `
+        <div class="glass-card rounded-2xl p-4 flex items-start gap-3.5 hover:border-cyan-500/40 transition">
+          <div class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-[#0b1121] border border-slate-200 dark:border-slate-800 flex items-center justify-center shrink-0">
+            <i class="${c.icon} text-base"></i>
+          </div>
+          <div class="min-w-0 flex-1">
+            <h3 class="text-sm font-bold text-slate-900 dark:text-white leading-snug">${c.title}</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">${c.issuer}</p>
+            <span class="inline-block mt-2 px-2.5 py-0.5 rounded-lg text-[11px] font-semibold ${
+              c.type === 'badges'
+                ? 'bg-blue-500/10 text-blue-700 dark:text-cyan-300'
+                : 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300'
+            }">${c.meta}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    /* =========================================================================
+       8. INITIALIZE ON DOM LOAD
+       ========================================================================= */
+    window.addEventListener('DOMContentLoaded', () => {
+      syncThemeIcon();
+      renderCarousel();
+      setRoseColor('pink');
+      setJourneyDays(30);
+      setWeather('sunny');
+      setBloomMood('focused');
+      updateQaScore();
+      filterExperience('all');
+      filterCredentials('all');
+    });
   </script>
 </body>
 </html>
